@@ -2,7 +2,14 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    fontFamily: {
+      sans: ['Paperozi', 'system-ui', 'sans-serif'],
+    },
     extend: {
+      // fontFamily: {
+      //   paperozi: ['Paperozi', 'sans-serif'],
+      //   sans: ['Paperozi', 'system-ui', 'sans-serif'],
+      // },
       animation: {
         'spin-slow': 'spin 3s linear infinite',
         'bounce-slow': 'bounce 2s infinite',
