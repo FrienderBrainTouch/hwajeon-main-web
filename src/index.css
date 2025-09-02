@@ -50,10 +50,7 @@
 body {
   font-family: 'Paperozi', system-ui, sans-serif;
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
-  min-height: 100vh;
 }
 
 h1 {
@@ -92,8 +89,6 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
-
-
 
 @layer base {
   :root {
@@ -150,8 +145,6 @@ button:focus-visible {
     --chart-5: 340 75% 55%;
   }
 }
-
-
 
 @layer base {
   * {
