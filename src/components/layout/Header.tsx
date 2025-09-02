@@ -5,11 +5,14 @@ import { Menu, X, Bell } from 'lucide-react';
 import logo from '@/assets/logo.svg';
 
 interface HeaderProps {
-  variant?: 'light' | 'dark';
+  solid?: boolean; // true면 흰 배경 + 그림자
+  variant?: 'overlay' | 'default';
 }
 
-export default function Header({ variant = 'light' }: HeaderProps) {
+export default function Header({ solid = false }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const location = useLocation();
 
   const navigationItems = [
@@ -22,144 +25,138 @@ export default function Header({ variant = 'light' }: HeaderProps) {
 
   const isActive = (path: string) => location.pathname === path;
 
+  // 메인 페이지 여부 확인
+  const isMainPage = location.pathname === '/';
+
   return (
     <header
-      className={`sticky top-0 z-50 ${
-        variant === 'dark'
-          ? 'bg-gradient-to-b from-blue-900 via-purple-900 to-blue-950 text-white'
-          : 'bg-white shadow-sm border-b border-gray-100 text-gray-900'
+      className={`sticky top-0 z-[9999] w-full ${
+        isMainPage
+          ? 'bg-white border-b border-gray-100 text-gray-900' // 메인 페이지: 흰색 배경
+          : 'bg-white border-b border-gray-100 text-gray-900' // 기타 페이지: 흰색 배경
       }`}
     >
-      <div className="mx-auto w-full max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl px-4 xs:px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
-        <div className="flex items-center justify-between h-16 xs:h-18 sm:h-20">
-          {/* 로고 */}
-          <Link to="/" className="flex items-center space-x-2">
-            {variant === 'dark' ? (
-              <>
-                <img src={logo} alt="화전마을 로고" className="w-8 h-8 xs:w-10 xs:h-10" />
-                <div className="flex flex-col">
-                  <span className="text-lg xs:text-xl sm:text-2xl font-bold text-white">
-                    화전마을
-                  </span>
-                  <span className="text-xs xs:text-sm text-blue-200">관리 사회적협동조합</span>
-                </div>
-              </>
-            ) : (
-              <>
-                <img src={logo} alt="화전마을 로고" className="w-8 h-8 xs:w-10 xs:h-10" />
-                <span className="text-lg xs:text-xl sm:text-2xl font-bold text-gray-900">
-                  화전마을
-                </span>
-              </>
-            )}
-          </Link>
+      {/* 직사각형 헤더 */}
+      <div
+        className={`mx-auto w-full px-4 xs:px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 flex items-center justify-between ${
+          isMainPage ? 'relative z-[9999] h-16 xs:h-18 sm:h-20' : 'h-16 xs:h-18 sm:h-20'
+        }`}
+      >
+        {/* 로고 */}
+        <Link to="/" className="flex items-center space-x-2">
+          {isMainPage ? (
+            // 메인 페이지: 로고 + 텍스트
+            <>
+              <img src={logo} alt="화전마을 로고" className="w-8 h-8 xs:w-10 xs:h-10" />
+              <span className="text-lg xs:text-xl sm:text-2xl font-bold text-gray-900">
+                화전마을
+              </span>
+            </>
+          ) : (
+            // 기타 페이지: 로고 + 텍스트
+            <>
+              <img src={logo} alt="화전마을 로고" className="w-8 h-8 xs:w-10 xs:h-10" />
+              <span className="text-lg xs:text-xl sm:text-2xl font-bold text-gray-900">
+                화전마을
+              </span>
+            </>
+          )}
+        </Link>
 
-          {/* 데스크톱 네비게이션 */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {navigationItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`text-sm font-medium transition-colors ${
-                  variant === 'dark'
-                    ? `hover:text-blue-300 ${
-                        isActive(item.path)
-                          ? 'text-blue-300 border-b-2 border-blue-300'
-                          : 'text-white'
-                      }`
-                    : `hover:text-[#2B2A4C] ${
-                        isActive(item.path)
-                          ? 'text-[#2B2A4C] border-b-2 border-[#2B2A4C]'
-                          : 'text-gray-600'
-                      }`
-                }`}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-
-          {/* 데스크톱 CTA 버튼 */}
-          <div className="hidden md:flex items-center space-x-4">
-            {variant === 'dark' ? (
-              <>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  className="border-white text-white hover:bg-white hover:text-blue-900"
-                >
-                  로그인
-                </Button>
-                <Button size="sm" className="bg-blue-500 hover:bg-blue-600">
-                  회원가입
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button variant="outline" size="sm">
-                  로그인
-                </Button>
-                <Button size="sm" className="bg-[#2B2A4C] hover:bg-[#262544]">
-                  회원가입
-                </Button>
-              </>
-            )}
-          </div>
-
-          {/* 우측 영역 */}
-          <div className="flex items-center space-x-4">
-            {/* 알림 아이콘 (다크 테마에서만)
-            {variant === 'dark' && (
-              <div className="relative">
-                <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
-                  1
-                </div>
-              </div>
-            )} */}
-
-            {/* 모바일 메뉴 버튼 */}
+        {/* 네비게이션 메뉴 */}
+        <nav className="flex items-center space-x-8">
+          {navigationItems.map((item) => (
             <button
-              className={`md:hidden p-2 rounded-lg transition-colors ${
-                variant === 'dark'
-                  ? 'hover:bg-white/10 text-white'
-                  : 'hover:bg-gray-100 text-gray-600'
-              }`}
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              key={item.path}
+              onClick={() => {
+                setSelectedCategory(item.label);
+                setIsCategoryOpen(true);
+              }}
+              className={`text-sm font-medium transition-colors ${`hover:text-[#2B2A4C] ${
+                isActive(item.path) ? 'text-[#2B2A4C] border-b-2 border-[#2B2A4C]' : 'text-gray-600'
+              }`}`}
             >
-              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {item.label}
             </button>
-          </div>
+          ))}
+        </nav>
+
+        {/* 우측 영역 */}
+        <div className="flex items-center space-x-4">
+          {/* 모바일 메뉴 버튼 */}
+          <button
+            className={`p-2 rounded-lg transition-colors ${
+              isMainPage ? 'hover:bg-white/10 text-white' : 'hover:bg-gray-100 text-gray-900'
+            }`}
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? (
+              <X className={`w-6 h-6 ${isMainPage ? 'text-white' : 'text-gray-900'}`} />
+            ) : (
+              <Menu className={`w-6 h-6 ${isMainPage ? 'text-white' : 'text-gray-900'}`} />
+            )}
+          </button>
         </div>
 
-        {/* 하단 구분선 (다크 테마에서만) */}
-        {variant === 'dark' && (
-          <div className="h-px bg-gradient-to-r from-transparent via-purple-400 to-transparent"></div>
-        )}
-
-        {/* 모바일 메뉴 */}
+        {/* 햄버거 메뉴 */}
         {isMenuOpen && (
-          <div className="md:hidden border-t border-gray-100 bg-white">
-            <nav className="py-4 space-y-2">
+          <div className="absolute top-full left-0 right-0 border-t border-gray-100 bg-white">
+            <nav className="py-4 space-y-2 px-4 xs:px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
               {navigationItems.map((item) => (
-                <Link
+                <button
                   key={item.path}
-                  to={item.path}
-                  className={`block px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
-                    isActive(item.path)
-                      ? 'text-[#2B2A4C] bg-[#2B2A4C]/10'
-                      : 'text-gray-600 hover:bg-gray-50'
-                  }`}
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => {
+                    setSelectedCategory(item.label);
+                    setIsCategoryOpen(true);
+                    setIsMenuOpen(false);
+                  }}
+                  className="block w-full text-left px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-lg transition-colors"
                 >
                   {item.label}
-                </Link>
+                </button>
               ))}
             </nav>
-            <div className="px-4 py-4 border-t border-gray-100 space-y-3">
-              <Button variant="outline" className="w-full">
-                로그인
-              </Button>
-              <Button className="w-full bg-[#2B2A4C] hover:bg-[#262544]">회원가입</Button>
+            {!isMainPage && (
+              <div className="px-4 xs:px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 py-4 border-t border-gray-100 space-y-3">
+                <Button variant="outline" className="w-full">
+                  로그인
+                </Button>
+                <Button className="w-full bg-[#2B2A4C] hover:bg-[#262544]">회원가입</Button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* 카테고리 드롭다운 모달 */}
+        {isCategoryOpen && selectedCategory && (
+          <div
+            className="fixed inset-0 z-[9998] bg-black/20"
+            onClick={() => setIsCategoryOpen(false)}
+          >
+            <div className="absolute top-20 left-1/2 transform -translate-x-1/2 bg-white rounded-xl shadow-2xl p-6 min-w-[300px] max-w-md">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-semibold text-gray-900">{selectedCategory}</h3>
+                <button
+                  onClick={() => setIsCategoryOpen(false)}
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                >
+                  <X className="w-5 h-5 text-gray-500" />
+                </button>
+              </div>
+              <div className="space-y-3">
+                <div className="p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors">
+                  <h4 className="font-medium text-gray-900">협동조합 소식</h4>
+                  <p className="text-sm text-gray-500">행사·모집·알림 등 최신 소식 모아보기</p>
+                </div>
+                <div className="p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors">
+                  <h4 className="font-medium text-gray-900">사업 안내</h4>
+                  <p className="text-sm text-gray-500">화전마을의 주요 사업과 활동 소개</p>
+                </div>
+                <div className="p-3 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors">
+                  <h4 className="font-medium text-gray-900">참여 방법</h4>
+                  <p className="text-sm text-gray-500">회원가입 및 참여 방법 안내</p>
+                </div>
+              </div>
             </div>
           </div>
         )}
