@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 function GlanceCards() {
-  const [active, setActive] = useState(0);
+  const [_active, setActive] = useState(0);
 
   const glanceCards = [
     { title: '대표 키워드', lines: ['간단한 설명', '간단한 설명'], key: 'A' },
@@ -35,7 +35,9 @@ function GlanceCards() {
                 ].join(' ')}
               >
                 <Avatar className="h-12 w-12 shrink-0 rounded-xl bg-white">
-                  <AvatarFallback className="rounded-xl text-xs text-gray-600">아이콘</AvatarFallback>
+                  <AvatarFallback className="rounded-xl text-xs text-gray-600">
+                    아이콘
+                  </AvatarFallback>
                 </Avatar>
                 <div>
                   <div className="text-sm font-semibold text-gray-900">{c.title}</div>

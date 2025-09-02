@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { AspectRatio } from '@/components/ui/aspect-ratio';
 import { Button } from '@/components/ui/button';
 
 function HeroCarousel() {

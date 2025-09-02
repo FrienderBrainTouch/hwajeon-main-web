@@ -68,7 +68,7 @@ function AppContent() {
   }, [route]);
 
   // 헤더 전환 / 히어로 진행도 상태
-  const [solid, setSolid] = useState(false);
+  const [_solid, setSolid] = useState(false);
   const [progress, setProgress] = useState(0); // 0~1
   const heroRef = useRef<HTMLDivElement>(null!);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
@@ -102,7 +102,7 @@ function AppContent() {
   return (
     <div>
       {/* 고정 헤더 */}
-      <Header solid={solid} variant="overlay" />
+      <Header variant="overlay" />
 
       {/* 히어로 (모든 페이지 공통) */}
       <Hero

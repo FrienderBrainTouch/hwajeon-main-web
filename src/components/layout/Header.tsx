@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Bell } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import logo from '@/assets/logo.svg';
 
 interface HeaderProps {
-  solid?: boolean; // true면 흰 배경 + 그림자
+  // solid?: boolean; // true면 흰 배경 + 그림자
   variant?: 'overlay' | 'default';
 }
 
-export default function Header({ solid = false }: HeaderProps) {
+export default function Header({}: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
