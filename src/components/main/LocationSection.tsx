@@ -1,7 +1,41 @@
+import { useEffect, useRef } from 'react';
 import { MapPin, Phone, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
+// 카카오맵 타입 선언
+declare global {
+  interface Window {
+    kakao: any;
+  }
+}
+
 export default function LocationSection() {
+  const mapRef = useRef(null);
+
+  useEffect(() => {
+    if (!mapRef.current) return; // container가 없으면 리턴
+
+    const kakao = window.kakao;
+    const container = mapRef.current;
+
+    const options = {
+      center: new kakao.maps.LatLng(37.6584, 126.832), // 경기 고양시 덕양구 화랑로 31층
+      level: 3,
+    };
+
+    const map = new kakao.maps.Map(container, options);
+
+    // 마커 생성
+    const markerPosition = new kakao.maps.LatLng(37.6584, 126.832);
+    const marker = new kakao.maps.Marker({
+      position: markerPosition,
+      // title: '화전마을', // 마커에 마우스 올리면 표시되는 제목
+    });
+
+    // 마커를 지도에 표시
+    marker.setMap(map);
+  }, []);
+
   return (
     <section
       className="mt-10 xs:mt-12 sm:mt-14 md:mt-16 lg:mt-18 xl:mt-20 2xl:mt-24 bg-[#F6F5FA] -mx-4 xs:-mx-5 sm:-mx-6 md:-mx-8 lg:-mx-10 xl:-mx-12 2xl:-mx-16 px-4 xs:px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 py-10 xs:py-12 sm:py-14 md:py-16 lg:py-18 xl:py-20 2xl:py-24"
@@ -17,11 +51,8 @@ export default function LocationSection() {
 
         <div className="mt-6 xs:mt-7 sm:mt-8 md:mt-8 lg:mt-9 xl:mt-10 2xl:mt-12 grid grid-cols-1 lg:grid-cols-2 gap-6 xs:gap-7 sm:gap-8 md:gap-8 lg:gap-10 xl:gap-12 2xl:gap-16 max-w-4xl mx-auto">
           {/* 왼쪽: 지도 */}
-          <div className="bg-gray-200 rounded-xl aspect-[16/9] flex items-center justify-center">
-            <div className="text-center text-gray-500">
-              <div className="text-lg font-medium mb-2">지도</div>
-              <div className="text-sm">1920 × 1106</div>
-            </div>
+          <div className="rounded-xl aspect-[16/9] flex items-center justify-center overflow-hidden border border-gray-200 relative">
+            <div ref={mapRef} style={{ width: '100%', height: '100%' }} className="rounded-xl" />
           </div>
 
           {/* 오른쪽: 연락처 정보 */}
