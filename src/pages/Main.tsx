@@ -1,36 +1,34 @@
-import { useNavigate } from 'react-router-dom';
+import {
+  QuickLinks,
+  GlanceCards,
+  HeroCarousel,
+  NewsSection,
+  NoticeSection,
+  EventSchedule,
+  LocationSection,
+  CTABanner,
+} from '@/components/main';
 
 function Main() {
-  const navigate = useNavigate();
-
-  const pages = [
-    { path: '/combination', label: '조합 소개' },
-    { path: '/business', label: '사업 안내' },
-    { path: '/news', label: '소식과 자료' },
-    { path: '/participate', label: '참여하기' },
-    { path: '/contact', label: '문의하기' },
-  ];
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full text-center">
-        <h1 className="text-4xl font-normal text-gray-800 mb-8">화전 메인</h1>
+    <div className="min-h-screen bg-[#F6F5FA]">
+      <div className="mx-auto w-full max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl px-4 xs:px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 py-6 xs:py-8 sm:py-10 md:py-12 lg:py-14 xl:py-16 2xl:py-20">
+        <QuickLinks />
+        <GlanceCards />
+      </div>
 
-        <div className="space-y-4">
-          {pages.map((page) => (
-            <button
-              key={page.path}
-              onClick={() => navigate(page.path)}
-              className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 font-semibold"
-            >
-              {page.label} 페이지로 이동
-            </button>
-          ))}
-        </div>
+      <HeroCarousel />
 
-        <p className="text-gray-500 text-sm mt-6">
-          각 버튼을 클릭하여 라우팅이 정상 작동하는지 테스트해보세요!
-        </p>
+      <div className="mx-auto w-full max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl px-4 xs:px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 py-6 xs:py-8 sm:py-10 md:py-12 lg:py-14 xl:py-16 2xl:py-20">
+        <NewsSection />
+        <NoticeSection />
+      </div>
+
+      <EventSchedule />
+      <LocationSection />
+
+      <div className="mx-auto w-full max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl px-4 xs:px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
+        <CTABanner />
       </div>
     </div>
   );
