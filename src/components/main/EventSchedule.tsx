@@ -4,7 +4,7 @@ function EventSchedule() {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   // 현재 월의 첫 날과 마지막 날 계산
-  const { firstDay, lastDay, daysInMonth } = useMemo(() => {
+  const { firstDay, daysInMonth } = useMemo(() => {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
     const firstDay = new Date(year, month, 1);
