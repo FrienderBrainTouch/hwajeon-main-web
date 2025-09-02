@@ -6,6 +6,7 @@ import NoticeSection from './NoticeSection';
 import EventSchedule from './EventSchedule';
 import LocationSection from './LocationSection';
 import CTABanner from './CTABanner';
+import Hero from './Hero';
 
 export {
   QuickLinks,
@@ -16,4 +17,5 @@ export {
   EventSchedule,
   LocationSection,
   CTABanner,
+  Hero,
 };

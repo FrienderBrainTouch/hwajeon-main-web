@@ -29,8 +29,8 @@ function HeroCarousel() {
   ];
 
   return (
-    <section className="relative mt-10 xs:mt-12 sm:mt-14 md:mt-16 lg:mt-18 xl:mt-20 2xl:mt-24 bg-[#EEEAF4] p-3 xs:p-4 sm:p-5 md:p-6 lg:p-7 xl:p-8 2xl:p-10 -mx-4 xs:-mx-5 sm:-mx-6 md:-mx-8 lg:-mx-10 xl:-mx-12 2xl:-mx-16">
-      <div className="mx-auto w-full max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl">
+    <section className="relative mt-10 xs:mt-12 sm:mt-14 md:mt-16 lg:mt-18 xl:mt-20 2xl:mt-24 bg-[#EEEAF4]">
+      <div className="mx-auto w-full max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl px-4 xs:px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 py-5 xs:py-6 sm:py-7 md:py-8 lg:py-9 xl:py-10 2xl:py-11">
         <h3 className="text-base xs:text-lg sm:text-lg md:text-lg lg:text-xl xl:text-xl 2xl:text-2xl font-semibold text-gray-900">
           제목 -
         </h3>
@@ -43,8 +43,8 @@ function HeroCarousel() {
             {/* 캐러셀 컨테이너 */}
             <div className="relative flex items-center justify-center">
               {/* 이전 이미지 (왼쪽에 살짝 보임) */}
-              <div className="absolute left-0 z-10 w-1/2 opacity-40">
-                <div className="aspect-[16/6] w-full overflow-hidden rounded-xl">
+              <div className="absolute left-0 z-10 w-[60%] opacity-40">
+                <div className="aspect-[16/9] w-full overflow-hidden rounded-xl">
                   <img
                     src={slides[(idx - 1 + slides.length) % slides.length].src}
                     alt="이전 슬라이드"
@@ -55,7 +55,7 @@ function HeroCarousel() {
 
               {/* 현재 이미지 (메인) */}
               <div className="relative z-20 w-full max-w-4xl">
-                <div className="aspect-[16/6] w-full overflow-hidden rounded-xl">
+                <div className="aspect-[16/9] w-full overflow-hidden rounded-xl">
                   <img
                     src={slides[idx].src}
                     alt="현재 슬라이드"
@@ -65,8 +65,8 @@ function HeroCarousel() {
               </div>
 
               {/* 다음 이미지 (오른쪽에 살짝 보임) */}
-              <div className="absolute right-0 z-10 w-1/2 opacity-40">
-                <div className="aspect-[16/6] w-full overflow-hidden rounded-xl">
+              <div className="absolute right-0 z-10 w-[60%] opacity-40">
+                <div className="aspect-[16/9] w-full overflow-hidden rounded-xl">
                   <img
                     src={slides[(idx + 1) % slides.length].src}
                     alt="다음 슬라이드"
@@ -99,7 +99,7 @@ function HeroCarousel() {
 
       {/* 오버레이 카드 - 이미지 위에 표시 */}
       <div
-        className="absolute left-1/3 bottom-3 transform -translate-x-1/2 w-80 bg-white p-6 shadow-lg z-50"
+        className="absolute left-[40%] bottom-3 transform -translate-x-1/2 w-80 bg-white p-6 shadow-lg z-50"
         style={{ borderRadius: '4px 48px 4px 48px' }}
       >
         <div className="text-lg font-semibold text-gray-900">{slides[idx].title}</div>
