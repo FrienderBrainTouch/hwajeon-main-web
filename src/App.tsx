@@ -8,43 +8,44 @@ import News from './pages/News';
 import Participate from './pages/Participate';
 import Contact from './pages/Contact';
 import { Hero } from '@/components/main';
+import HeaderImg from '@/assets/header.png';
 
 const HERO_BY_ROUTE: Record<
   string,
   { src: string; title: string; subtitle?: string; heightVh?: number }
 > = {
   '/': {
-    src: 'src/assets/header.png',
+    src: HeaderImg,
     title: '화전의 전환, 도시 그 이상의 가능성',
     subtitle: '변화의 궤도 위에 선 플랫폼 도시, 화전',
     heightVh: 56,
   },
   '/combination': {
-    src: 'src/assets/header.png',
+    src: HeaderImg,
     title: '조합 소개',
     subtitle: '우리가 함께 만드는 지역의 힘',
     heightVh: 40,
   },
   '/business': {
-    src: 'src/assets/header.png',
+    src: HeaderImg,
     title: '사업 안내',
     subtitle: '마을과 함께 성장하는 비즈니스',
     heightVh: 40,
   },
   '/news': {
-    src: 'src/assets/header.png',
+    src: HeaderImg,
     title: '소식과 자료',
     subtitle: '최신 이야기와 아카이브',
     heightVh: 40,
   },
   '/participate': {
-    src: 'src/assets/header.png',
+    src: HeaderImg,
     title: '참여하기',
     subtitle: '작은 참여가 큰 변화를 만듭니다',
     heightVh: 40,
   },
   '/contact': {
-    src: 'src/assets/header.png',
+    src: HeaderImg,
     title: '문의하기',
     subtitle: '무엇이든 편하게 물어보세요',
     heightVh: 40,
@@ -107,7 +108,7 @@ function AppContent() {
       {/* 히어로 (모든 페이지 공통) */}
       <Hero
         refEl={heroRef}
-        src={heroConf.src}
+        src={HeaderImg}
         title={heroConf.title}
         subtitle={heroConf.subtitle}
         heightVh={heroConf.heightVh ?? 40}
