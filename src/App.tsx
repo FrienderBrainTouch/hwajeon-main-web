@@ -9,6 +9,7 @@ import Participate from './pages/Participate';
 import Contact from './pages/Contact';
 import { Hero } from '@/components/main';
 import HeaderImg from '@/assets/header.png';
+// import HeaderTextImg from '@/assets/header_text.png';
 
 const HERO_BY_ROUTE: Record<
   string,
@@ -24,31 +25,31 @@ const HERO_BY_ROUTE: Record<
     src: HeaderImg,
     title: '조합 소개',
     subtitle: '우리가 함께 만드는 지역의 힘',
-    heightVh: 40,
+    heightVh: 56,
   },
   '/business': {
     src: HeaderImg,
     title: '사업 안내',
     subtitle: '마을과 함께 성장하는 비즈니스',
-    heightVh: 40,
+    heightVh: 56,
   },
   '/news': {
     src: HeaderImg,
     title: '소식과 자료',
     subtitle: '최신 이야기와 아카이브',
-    heightVh: 40,
+    heightVh: 56,
   },
   '/participate': {
     src: HeaderImg,
     title: '참여하기',
     subtitle: '작은 참여가 큰 변화를 만듭니다',
-    heightVh: 40,
+    heightVh: 56,
   },
   '/contact': {
     src: HeaderImg,
     title: '문의하기',
     subtitle: '무엇이든 편하게 물어보세요',
-    heightVh: 40,
+    heightVh: 56,
   },
 };
 
@@ -60,31 +61,31 @@ function AppContent() {
     // 매칭되는 설정이 없으면 기본값 사용
     return (
       HERO_BY_ROUTE[route] ?? {
-        src: '/images/hero/default.jpg',
+        src: HeaderImg,
         title: '화전',
         subtitle: '도시 그 이상의 가능성',
-        heightVh: 40,
+        heightVh: 56,
       }
     );
   }, [route]);
 
-  // 헤더 전환 / 히어로 진행도 상태
-  const [_solid, setSolid] = useState(false);
+  // 헤더 전환 / 히어로 진행도 상태 (Header 컴포넌트로 이동하여 더 이상 사용되지 않음)
+  // const [_solid, setSolid] = useState(false);
   const [progress, setProgress] = useState(0); // 0~1
   const heroRef = useRef<HTMLDivElement>(null!);
-  const sentinelRef = useRef<HTMLDivElement | null>(null);
+  // const sentinelRef = useRef<HTMLDivElement | null>(null);
 
-  // 교차 관찰: 히어로가 지나가면 헤더 솔리드로
-  useEffect(() => {
-    const target = sentinelRef.current;
-    if (!target) return;
-    const io = new IntersectionObserver(
-      ([e]) => setSolid(!e.isIntersecting),
-      { rootMargin: '-72px 0px 0px 0px', threshold: 0 } // 헤더 높이 보정
-    );
-    io.observe(target);
-    return () => io.disconnect();
-  }, [route]);
+  // 교차 관찰: 히어로가 지나가면 헤더 솔리드로 (Header 컴포넌트로 이동하여 더 이상 사용되지 않음)
+  // useEffect(() => {
+  //   const target = sentinelRef.current;
+  //   if (!target) return;
+  //   const io = new IntersectionObserver(
+  //     ([e]) => setSolid(!e.isIntersecting),
+  //     { rootMargin: '-72px 0px 0px 0px', threshold: 0 } // 헤더 높이 보정
+  //   );
+  //   io.observe(target);
+  //   return () => io.disconnect();
+  // }, [route]);
 
   // 스크롤 진행도(히어로 페이드/패럴랙스에 사용)
   useEffect(() => {
@@ -103,7 +104,8 @@ function AppContent() {
   return (
     <div>
       {/* 고정 헤더 */}
-      <Header variant="overlay" />
+      <Header />
+      {/* <Header variant="overlay" /> - variant prop이 더 이상 사용되지 않음 */}
 
       {/* 히어로 (모든 페이지 공통) */}
       <Hero
@@ -115,8 +117,8 @@ function AppContent() {
         progress={progress}
       />
 
-      {/* 히어로가 끝나는 지점에 센티넬(헤더 전환 트리거) */}
-      <div ref={sentinelRef} className="h-px w-full" />
+      {/* 히어로가 끝나는 지점에 센티넬(헤더 전환 트리거) - Header 컴포넌트로 이동하여 더 이상 사용되지 않음 */}
+      {/* <div ref={sentinelRef} className="h-px w-full" /> */}
       <main>
         <Routes>
           <Route path="/" element={<Main />} />
