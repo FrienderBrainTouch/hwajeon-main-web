@@ -15,25 +15,42 @@ export default function LocationSection() {
   useEffect(() => {
     if (!mapRef.current) return; // container가 없으면 리턴
 
-    const kakao = window.kakao;
-    const container = mapRef.current;
+    // script 태그 로드 시점 제어
+    const script = document.createElement('script');
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${
+      import.meta.env.VITE_KAKAO_API
+    }&autoload=false`;
+    script.onload = () => {
+      window.kakao.maps.load(() => {
+        const container = mapRef.current;
+        if (!container) return;
 
-    const options = {
-      center: new kakao.maps.LatLng(37.6584, 126.832), // 경기 고양시 덕양구 화랑로 31층
-      level: 3,
+        const options = {
+          center: new window.kakao.maps.LatLng(37.6584, 126.832), // 경기 고양시 덕양구 화랑로 31층
+          level: 3,
+        };
+
+        const map = new window.kakao.maps.Map(container, options);
+
+        // 마커 생성
+        const markerPosition = new window.kakao.maps.LatLng(37.6584, 126.832);
+        const marker = new window.kakao.maps.Marker({
+          position: markerPosition,
+          // title: '화전마을', // 마커에 마우스 올리면 표시되는 제목
+        });
+
+        // 마커를 지도에 표시
+        marker.setMap(map);
+      });
     };
+    document.head.appendChild(script);
 
-    const map = new kakao.maps.Map(container, options);
-
-    // 마커 생성
-    const markerPosition = new kakao.maps.LatLng(37.6584, 126.832);
-    const marker = new kakao.maps.Marker({
-      position: markerPosition,
-      // title: '화전마을', // 마커에 마우스 올리면 표시되는 제목
-    });
-
-    // 마커를 지도에 표시
-    marker.setMap(map);
+    // cleanup
+    return () => {
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+    };
   }, []);
 
   return (
@@ -86,7 +103,7 @@ export default function LocationSection() {
           ↑
         </button>
         <button className="w-12 h-12 bg-[#2B2A4C] rounded-full flex flex-col items-center justify-center text-white hover:bg-[#262544] transition-colors text-xs">
-          <span className="text-lg">🌐</span>
+          <span className="text-lg">��</span>
           <span>문의하기</span>
         </button>
       </div>
