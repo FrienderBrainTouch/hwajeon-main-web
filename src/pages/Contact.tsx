@@ -1,13 +1,13 @@
-import { useState } from 'react';
 import { TabNavigation, type TabItem } from '@/components/ui/TabNavigation';
+import { useTabState } from '@/hooks/useTabState';
 
 function Contact() {
-  const [activeTab, setActiveTab] = useState('inquiry');
-
   const tabs: TabItem[] = [
     { id: 'inquiry', label: '간편 문의', value: 'inquiry' },
     { id: 'location', label: '오시는 길', value: 'location' },
   ];
+
+  const { activeTab, handleTabChange } = useTabState(tabs, 'inquiry');
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -226,7 +226,7 @@ function Contact() {
         <TabNavigation
           tabs={tabs}
           value={activeTab}
-          onValueChange={setActiveTab}
+          onValueChange={handleTabChange}
           className="mb-8"
         />
         {renderTabContent()}
