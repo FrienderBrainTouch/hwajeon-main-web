@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { TabNavigation, type TabItem } from '@/components/ui/TabNavigation';
-import { Greeting, MissionVision } from '@/components/combination';
+import { Greeting, MissionVision, History, OrganizationChart } from '@/components/combination';
 
 function Combination() {
   const [activeTab, setActiveTab] = useState('greeting');
@@ -24,32 +24,20 @@ function Combination() {
       case 'mission':
         return <MissionVision />;
       case 'history':
-        return (
-          <div className="max-w-5xl mx-auto">
-            <div className="py-8">
-              <h2 className="text-2xl font-bold mb-4">연혁</h2>
-              <div className="space-y-3">
-                <div className="border-l-4 border-blue-500 pl-4">
-                  <p className="font-semibold">2024년</p>
-                  <p className="text-gray-600">화전 조합 설립</p>
-                </div>
-                <div className="border-l-4 border-gray-300 pl-4">
-                  <p className="font-semibold">2023년</p>
-                  <p className="text-gray-600">조합 설립 준비</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
+        return <History />;
       case 'organization':
         return (
           <div className="max-w-5xl mx-auto">
-            <div className="py-8">
-              <h2 className="text-2xl font-bold mb-4">조직도</h2>
-              <div className="bg-gray-50 p-6 rounded-lg">
-                <p className="text-gray-600">조직도 내용이 여기에 표시됩니다.</p>
-              </div>
-            </div>
+            <OrganizationChart
+              top={{ label: '조합장' }}
+              second={[{ label: '이사회' }, { label: '사무국' }, { label: '감사' }]}
+              teams={[
+                { label: '기획행정팀' },
+                { label: '지역사회팀' },
+                { label: '교육문화팀' },
+                { label: '카페27b운영팀' },
+              ]}
+            />
           </div>
         );
       case 'story':
