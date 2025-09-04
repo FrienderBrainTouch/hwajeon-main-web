@@ -100,9 +100,9 @@ export default function OrganizationChart({ top, second, teams, className }: Org
           <Pill node={{ ...left, variant: 'outline' }} className="text-base px-6 py-3" />
           {/* 짧은 선 */}
           <div className="h-5 w-px bg-[#9aa0ad]" />
-          <Pill node={{ ...mid, variant: 'filled' }} className="text-base px-6 py-3" />
-          <div className="h-5 w-px bg-[#9aa0ad]" />
           <Pill node={{ ...right, variant: 'outline' }} className="text-base px-6 py-3" />
+          <div className="h-5 w-px bg-[#9aa0ad]" />
+          <Pill node={{ ...mid, variant: 'filled' }} className="text-base px-6 py-3" />
         </div>
 
         <div className="mx-auto h-5 w-px bg-[#9aa0ad]" />

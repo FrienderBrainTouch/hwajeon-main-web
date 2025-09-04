@@ -76,13 +76,13 @@ const History: React.FC = () => {
       </div>
 
       {/* 콘텐츠 */}
-      <div className="relative z-10 py-16 px-4">
+      <div className="relative z-10 py-12 sm:py-16 px-4">
         <div className="max-w-6xl mx-auto">
           {/* 헤더 */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">연혁</h2>
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-4">연혁</h2>
             <div className="w-16 h-1 bg-white mx-auto mb-6"></div>
-            <p className="text-white text-lg max-w-3xl mx-auto leading-relaxed">
+            <p className="text-white text-sm sm:text-base lg:text-lg max-w-3xl mx-auto leading-relaxed">
               화전의 변화는 단절이 아닌 연결의 역사입니다. 지금까지 걸어온 주요 흐름을 시간의 궤도로
               담았습니다.
             </p>
