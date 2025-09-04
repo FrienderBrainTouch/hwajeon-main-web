@@ -6,6 +6,7 @@ import {
   History,
   OrganizationChart,
   OrganizationDetails,
+  HwajeonStory,
 } from '@/components/combination';
 
 function Combination() {
@@ -48,17 +49,7 @@ function Combination() {
           </div>
         );
       case 'story':
-        return (
-          <div className="max-w-5xl mx-auto">
-            <div className="py-8">
-              <h2 className="text-2xl font-bold mb-4">화전 이야기</h2>
-              <p className="text-gray-600 leading-relaxed">
-                화전의 역사와 이야기를 소개합니다. 지역의 전통과 현대가 만나는 특별한 공간, 화전의
-                매력을 발견해보세요.
-              </p>
-            </div>
-          </div>
-        );
+        return <HwajeonStory />;
       default:
         return null;
     }
