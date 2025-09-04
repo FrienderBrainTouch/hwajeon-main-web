@@ -7,6 +7,8 @@ import Business from './pages/Business';
 import News from './pages/News';
 import Participate from './pages/Participate';
 import Contact from './pages/Contact';
+import MemberLayout from './routes/MemberLayout';
+import AdminLayout from './routes/AdminLayout';
 import { Hero } from '@/components/main';
 import HeaderImg from '@/assets/header.png';
 // import HeaderTextImg from '@/assets/header_text.png';
@@ -21,31 +23,31 @@ const HERO_BY_ROUTE: Record<
     subtitle: '변화의 궤도 위에 선 플랫폼 도시, 화전',
     heightVh: 56,
   },
-  '/combination': {
+  '/member/combination': {
     src: HeaderImg,
     title: '조합 소개',
     subtitle: '우리가 함께 만드는 지역의 힘',
     heightVh: 56,
   },
-  '/business': {
+  '/member/business': {
     src: HeaderImg,
     title: '사업 안내',
     subtitle: '마을과 함께 성장하는 비즈니스',
     heightVh: 56,
   },
-  '/news': {
+  '/member/news': {
     src: HeaderImg,
     title: '소식과 자료',
     subtitle: '최신 이야기와 아카이브',
     heightVh: 56,
   },
-  '/participate': {
+  '/member/participate': {
     src: HeaderImg,
     title: '참여하기',
     subtitle: '작은 참여가 큰 변화를 만듭니다',
     heightVh: 56,
   },
-  '/contact': {
+  '/member/contact': {
     src: HeaderImg,
     title: '문의하기',
     subtitle: '무엇이든 편하게 물어보세요',
@@ -122,11 +124,16 @@ function AppContent() {
       <main>
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/combination" element={<Combination />} />
-          <Route path="/business" element={<Business />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/participate" element={<Participate />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/member" element={<MemberLayout />}>
+            <Route path="combination" element={<Combination />} />
+            <Route path="business" element={<Business />} />
+            <Route path="news" element={<News />} />
+            <Route path="participate" element={<Participate />} />
+            <Route path="contact" element={<Contact />} />
+          </Route>
+          <Route path="/admin" element={<AdminLayout />}>
+            {/* Admin routes will be added here later */}
+          </Route>
         </Routes>
       </main>
       <Footer />
