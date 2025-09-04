@@ -1,6 +1,12 @@
 import { useState } from 'react';
 import { TabNavigation, type TabItem } from '@/components/ui/TabNavigation';
-import { Greeting, MissionVision, History, OrganizationChart } from '@/components/combination';
+import {
+  Greeting,
+  MissionVision,
+  History,
+  OrganizationChart,
+  OrganizationDetails,
+} from '@/components/combination';
 
 function Combination() {
   const [activeTab, setActiveTab] = useState('greeting');
@@ -27,7 +33,7 @@ function Combination() {
         return <History />;
       case 'organization':
         return (
-          <div className="max-w-5xl mx-auto">
+          <div className="max-w-5xl mx-auto space-y-8">
             <OrganizationChart
               top={{ label: '조합장' }}
               second={[{ label: '이사회' }, { label: '사무국' }, { label: '감사' }]}
@@ -38,6 +44,7 @@ function Combination() {
                 { label: '카페27b운영팀' },
               ]}
             />
+            <OrganizationDetails />
           </div>
         );
       case 'story':
