@@ -9,6 +9,9 @@ import Participate from './pages/Participate';
 import Contact from './pages/Contact';
 import MemberLayout from './routes/MemberLayout';
 import AdminLayout from './routes/AdminLayout';
+import { AuthProvider } from '@/contexts/AuthContext';
+import { ToastProvider } from '@/components/ui/toast';
+import { AdminLogin, AdminDashboard, UserManagement, AdminSettings } from './pages/admin';
 import { Hero } from '@/components/main';
 import HeaderImg from '@/assets/header.png';
 // import HeaderTextImg from '@/assets/header_text.png';
@@ -103,24 +106,32 @@ function AppContent() {
     return () => window.removeEventListener('scroll', onScroll);
   }, [route]);
 
+  // 어드민 페이지인지 확인
+  const isAdminPage = route.startsWith('/admin');
+
   return (
     <div>
-      {/* 고정 헤더 */}
-      <Header />
-      {/* <Header variant="overlay" /> - variant prop이 더 이상 사용되지 않음 */}
+      {!isAdminPage && (
+        <>
+          {/* 고정 헤더 */}
+          <Header />
+          {/* <Header variant="overlay" /> - variant prop이 더 이상 사용되지 않음 */}
 
-      {/* 히어로 (모든 페이지 공통) */}
-      <Hero
-        refEl={heroRef}
-        src={HeaderImg}
-        title={heroConf.title}
-        subtitle={heroConf.subtitle}
-        heightVh={heroConf.heightVh ?? 40}
-        progress={progress}
-      />
+          {/* 히어로 (일반 페이지만) */}
+          <Hero
+            refEl={heroRef}
+            src={HeaderImg}
+            title={heroConf.title}
+            subtitle={heroConf.subtitle}
+            heightVh={heroConf.heightVh ?? 40}
+            progress={progress}
+          />
 
-      {/* 히어로가 끝나는 지점에 센티넬(헤더 전환 트리거) - Header 컴포넌트로 이동하여 더 이상 사용되지 않음 */}
-      {/* <div ref={sentinelRef} className="h-px w-full" /> */}
+          {/* 히어로가 끝나는 지점에 센티넬(헤더 전환 트리거) - Header 컴포넌트로 이동하여 더 이상 사용되지 않음 */}
+          {/* <div ref={sentinelRef} className="h-px w-full" /> */}
+        </>
+      )}
+      
       <main>
         <Routes>
           <Route path="/" element={<Main />} />
@@ -131,21 +142,30 @@ function AppContent() {
             <Route path="participate" element={<Participate />} />
             <Route path="contact" element={<Contact />} />
           </Route>
+          <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminLayout />}>
-            {/* Admin routes will be added here later */}
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="users" element={<UserManagement />} />
+            <Route path="settings" element={<AdminSettings />} />
+            <Route index element={<AdminDashboard />} />
           </Route>
         </Routes>
       </main>
-      <Footer />
+      {/* admin 페이지는 헤더와 푸터를 표시하지 않음 */}
+      {!isAdminPage && <Footer />}
     </div>
   );
 }
 
 function App() {
   return (
-    <BrowserRouter>
-      <AppContent />
-    </BrowserRouter>
+    <ToastProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </AuthProvider>
+    </ToastProvider>
   );
 }
 
