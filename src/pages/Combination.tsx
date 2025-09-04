@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import { TabNavigation, type TabItem } from '@/components/ui/TabNavigation';
+import { useTabState } from '@/hooks/useTabState';
 import {
   Greeting,
   MissionVision,
@@ -9,8 +9,6 @@ import {
 } from '@/components/combination';
 
 function Combination() {
-  const [activeTab, setActiveTab] = useState('greeting');
-
   const tabs: TabItem[] = [
     { id: 'greeting', label: '인사말', value: 'greeting' },
     { id: 'mission', label: '미션 & 비전', value: 'mission' },
@@ -18,6 +16,8 @@ function Combination() {
     { id: 'organization', label: '조직도', value: 'organization' },
     { id: 'story', label: '화전 이야기', value: 'story' },
   ];
+
+  const { activeTab, handleTabChange } = useTabState(tabs, 'greeting');
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -71,7 +71,7 @@ function Combination() {
           <TabNavigation
             tabs={tabs}
             value={activeTab}
-            onValueChange={setActiveTab}
+            onValueChange={handleTabChange}
             className="mb-8"
           />
         </div>

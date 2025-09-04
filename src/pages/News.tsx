@@ -1,9 +1,7 @@
-import { useState } from 'react';
 import { TabNavigation, type TabItem } from '@/components/ui/TabNavigation';
+import { useTabState } from '@/hooks/useTabState';
 
 function News() {
-  const [activeTab, setActiveTab] = useState('announcements');
-
   const tabs: TabItem[] = [
     { id: 'announcements', label: '공지사항', value: 'announcements' },
     { id: 'news', label: '회전 소식', value: 'news' },
@@ -11,6 +9,8 @@ function News() {
     { id: 'calendar', label: '행사 캘린더', value: 'calendar' },
     { id: 'archive', label: '자료실', value: 'archive' },
   ];
+
+  const { activeTab, handleTabChange } = useTabState(tabs, 'announcements');
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -240,7 +240,7 @@ function News() {
         <TabNavigation
           tabs={tabs}
           value={activeTab}
-          onValueChange={setActiveTab}
+          onValueChange={handleTabChange}
           className="mb-8"
         />
         {renderTabContent()}
