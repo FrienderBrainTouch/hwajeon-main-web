@@ -3,6 +3,11 @@ import React from 'react';
 const Greeting: React.FC = () => {
   return (
     <div className="py-8">
+      <div className="text-center mb-16">
+        <h2 className="text-4xl font-bold mb-4">인사말</h2>
+        <div className="w-16 h-1 bg-black mx-auto mb-6"></div>
+      </div>
+
       <div className="grid md:grid-cols-2 gap-8 items-center">
         {/* 이미지 영역 */}
         <div className="bg-gray-200 rounded-lg flex items-center justify-center aspect-[620/600] w-full max-w-[620px] mx-auto">

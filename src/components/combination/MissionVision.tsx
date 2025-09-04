@@ -3,6 +3,10 @@ import React from 'react';
 const MissionVision: React.FC = () => {
   return (
     <div className="py-8">
+      <div className="text-center mb-16">
+        <h2 className="text-4xl font-bold mb-4">미션 & 비전</h2>
+        <div className="w-16 h-1 bg-black mx-auto mb-6"></div>
+      </div>
       {/* 헤더 섹션 */}
       <div className="text-center mb-12 max-w-5xl mx-auto">
         <h2 className="text-xl font-normal mb-1">화전마을사회적협동조합은</h2>

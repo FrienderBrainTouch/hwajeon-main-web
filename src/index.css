@@ -157,3 +157,9 @@ button:focus-visible {
     display: none;
   }
 }
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
