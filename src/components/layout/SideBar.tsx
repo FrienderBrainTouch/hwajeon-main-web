@@ -39,13 +39,13 @@ const MenuLink = ({
 const menuData = [
   {
     title: '조합 소개',
-    path: '/combination',
+    path: '/member/combination',
     width: 'w-[100px] xl:w-[120px]',
     items: ['인사말', '미션 &비전', '연혁', '조직도', '화전 이야기'],
   },
   {
     title: '사업 안내',
-    path: '/business',
+    path: '/member/business',
     width: 'w-[240px] xl:w-[288px]',
     hasBorder: true,
     items: [
@@ -57,21 +57,21 @@ const menuData = [
   },
   {
     title: '소식과 자료',
-    path: '/news',
+    path: '/member/news',
     width: 'w-[140px] xl:w-[168px]',
     hasBorder: true,
     items: ['공지사항', '화전 소식', '활동 갤러리', '행사 캘린더', '자료실'],
   },
   {
     title: '참여하기',
-    path: '/participate',
+    path: '/member/participate',
     width: 'w-[160px] xl:w-[196px]',
     hasBorder: true,
     items: ['조합원 가입 안내', '자원봉사 신청', '정기회의 자료', '후원 & 기부 안내'],
   },
   {
     title: '문의하기',
-    path: '/contact',
+    path: '/member/contact',
     width: 'w-[120px] xl:w-[140px]',
     hasBorder: true,
     items: ['간편 문의', '오시는 길'],
@@ -249,7 +249,7 @@ const HorizontalModal = ({ isOpen, onClose }: SideBarProps) => (
               </div>
 
               {/* 문의하기 섹션에만 이미지 추가 */}
-              {section.path === '/contact' && (
+              {section.path === '/member/contact' && (
                 <div className="mb-6 xl:mb-8 ml-12 xl:ml-16 w-[160px] h-[160px] xl:w-[200px] xl:h-[200px] bg-transparent rounded-lg">
                   <img src={CharacterImg} />
                 </div>

@@ -12,11 +12,11 @@ interface HeaderProps {
 }
 
 const navigationItems = [
-  { label: '조합 소개', path: '/combination' },
-  { label: '사업 안내', path: '/business' },
-  { label: '소식과 자료', path: '/news' },
-  { label: '참여하기', path: '/participate' },
-  { label: '문의하기', path: '/contact' },
+  { label: '조합 소개', path: '/member/combination' },
+  { label: '사업 안내', path: '/member/business' },
+  { label: '소식과 자료', path: '/member/news' },
+  { label: '참여하기', path: '/member/participate' },
+  { label: '문의하기', path: '/member/contact' },
 ];
 
 export default function Header({}: HeaderProps) {

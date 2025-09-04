@@ -17,7 +17,7 @@ interface HeaderDropdownProps {
 const menuData = [
   {
     title: '조합 소개',
-    path: '/combination',
+    path: '/member/combination',
     description: '다양한 생각이 하나로 모이는 우리 조합의 이야기',
     items: ['인사말', '미션 &비전', '연혁', '조직도', '화전 이야기'],
     hasImage: true,
@@ -26,7 +26,7 @@ const menuData = [
   },
   {
     title: '사업 안내',
-    path: '/business',
+    path: '/member/business',
     description: '지역의 공간, 사람, 문화를 연결하는 실천 사업을 운영합니다',
     items: [
       '행사 기획 및 교육 체험 사업',
@@ -40,7 +40,7 @@ const menuData = [
   },
   {
     title: '소식과 자료',
-    path: '/news',
+    path: '/member/news',
     description: '화전마을의 최신 소식과 유용한 자료를 확인하세요',
     items: ['공지사항', '화전 소식', '활동 갤러리', '행사 캘린더', '자료실'],
     hasImage: true,
@@ -49,7 +49,7 @@ const menuData = [
   },
   {
     title: '참여하기',
-    path: '/participate',
+    path: '/member/participate',
     description: '화전마을과 함께 성장할 수 있는 다양한 방법을 알아보세요',
     items: ['조합원 가입 안내', '자원봉사 신청', '정기회의 자료', '후원 & 기부 안내'],
     hasImage: true,
@@ -58,7 +58,7 @@ const menuData = [
   },
   {
     title: '문의하기',
-    path: '/contact',
+    path: '/member/contact',
     description: '궁금한 점이 있으시면 언제든 문의해 주세요',
     items: ['간편 문의', '오시는 길'],
     hasImage: true,

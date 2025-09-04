@@ -6,12 +6,12 @@ function QuickLinks() {
 
   const quickLinks = useMemo(
     () => [
-      { label: '조합 소개', path: '/combination', emoji: '👥' },
-      { label: '사업 안내', path: '/business', emoji: '📦' },
-      { label: '카페 27b', path: '/business', emoji: '☕️' },
-      { label: '소식', path: '/news', emoji: '📰' },
-      { label: '참여하기', path: '/participate', emoji: '🙌' },
-      { label: '문의', path: '/contact', emoji: '✉️' },
+      { label: '조합 소개', path: '/member/combination', emoji: '👥' },
+      { label: '사업 안내', path: '/member/business', emoji: '📦' },
+      { label: '카페 27b', path: '/member/business', emoji: '☕️' },
+      { label: '소식', path: '/member/news', emoji: '📰' },
+      { label: '참여하기', path: '/member/participate', emoji: '🙌' },
+      { label: '문의', path: '/member/contact', emoji: '✉️' },
     ],
     []
   );
