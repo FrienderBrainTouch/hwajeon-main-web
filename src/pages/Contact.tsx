@@ -1,5 +1,6 @@
 import { TabNavigation, type TabItem } from '@/components/ui/TabNavigation';
 import { useTabState } from '@/hooks/useTabState';
+import { InquiryForm } from '@/components/contact';
 
 function Contact() {
   const tabs: TabItem[] = [
@@ -12,134 +13,7 @@ function Contact() {
   const renderTabContent = () => {
     switch (activeTab) {
       case 'inquiry':
-        return (
-          <div className="py-8">
-            <h2 className="text-2xl font-bold mb-6">간편 문의</h2>
-            <div className="max-w-2xl mx-auto">
-              <form className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                      성함 *
-                    </label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="성함을 입력해주세요"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                      연락처 *
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      placeholder="연락처를 입력해주세요"
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                    이메일
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="이메일을 입력해주세요"
-                  />
-                </div>
-
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
-                    문의 유형 *
-                  </label>
-                  <select
-                    id="subject"
-                    name="subject"
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  >
-                    <option value="">문의 유형을 선택해주세요</option>
-                    <option value="membership">조합원 가입 문의</option>
-                    <option value="business">사업 관련 문의</option>
-                    <option value="volunteer">자원봉사 문의</option>
-                    <option value="donation">후원 및 기부 문의</option>
-                    <option value="facility">시설 이용 문의</option>
-                    <option value="other">기타 문의</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                    문의 내용 *
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={6}
-                    required
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="문의하실 내용을 자세히 입력해주세요"
-                  />
-                </div>
-
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="privacy"
-                    name="privacy"
-                    required
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                  />
-                  <label htmlFor="privacy" className="ml-2 block text-sm text-gray-700">
-                    개인정보 수집 및 이용에 동의합니다. *
-                  </label>
-                </div>
-
-                <div className="text-center">
-                  <button
-                    type="submit"
-                    className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors text-lg font-semibold"
-                  >
-                    문의하기
-                  </button>
-                </div>
-              </form>
-
-              <div className="mt-8 bg-gray-50 p-6 rounded-lg">
-                <h3 className="text-lg font-semibold mb-3">연락처 정보</h3>
-                <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-600">
-                  <div>
-                    <p>
-                      <strong>전화:</strong> 02-1234-5678
-                    </p>
-                    <p>
-                      <strong>팩스:</strong> 02-1234-5679
-                    </p>
-                  </div>
-                  <div>
-                    <p>
-                      <strong>이메일:</strong> info@hwajeon.co.kr
-                    </p>
-                    <p>
-                      <strong>운영시간:</strong> 평일 09:00-18:00
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
+        return <InquiryForm />;
       case 'location':
         return (
           <div className="py-8">
