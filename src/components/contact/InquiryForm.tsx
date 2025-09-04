@@ -114,8 +114,8 @@ const InquiryForm = () => {
   return (
     <div className="max-w-4xl mx-auto py-8 px-4">
       <div className="text-center mb-8">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">간편 문의</h2>
-        <div className="w-16 h-0.5 bg-gray-300 mx-auto mb-6"></div>
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">간편 문의</h2>
+        <div className="w-16 h-1 bg-gray-900 mx-auto mb-6"></div>
         <p className="text-gray-600 text-sm leading-relaxed">
           궁금한 사항은 아래의 간편 문의폼을 통해 언제든지 남겨주세요.
           <br />
@@ -187,22 +187,6 @@ const InquiryForm = () => {
                 </select>
               </div>
             </div>
-
-            {/* 기타 문의사항 */}
-            <div>
-              <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
-                기타 문의사항
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleInputChange}
-                rows={6}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="문의하실 내용을 입력해주세요."
-              />
-            </div>
           </div>
 
           {/* 오른쪽 컬럼 */}
@@ -246,6 +230,22 @@ const InquiryForm = () => {
               </select>
             </div>
           </div>
+        </div>
+
+        {/* 기타 문의사항 - 전체 너비 */}
+        <div>
+          <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+            기타 문의사항
+          </label>
+          <textarea
+            id="message"
+            name="message"
+            value={formData.message}
+            onChange={handleInputChange}
+            rows={6}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="문의하실 내용을 입력해주세요."
+          />
         </div>
 
         {/* 개인정보 동의 */}
