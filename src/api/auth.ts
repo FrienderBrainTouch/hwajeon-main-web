@@ -1,5 +1,13 @@
 import { apiClient, type ApiResponse } from '../lib/api';
-import { API_ENDPOINTS } from '../config/api';
+// 엔드포인트 직접 정의
+const AUTH_ENDPOINTS = {
+  LOGIN: '/api/auth/login',
+  LOGOUT: '/api/auth/logout',
+  VERIFY: '/api/auth/verify',
+  PROFILE: '/api/auth/profile',
+  REFRESH: '/api/auth/refresh',
+  CHANGE_PASSWORD: '/api/auth/change-password',
+} as const;
 
 // 인증 관련 타입 정의
 export type LoginRequest = {
@@ -42,7 +50,7 @@ export const authApi = {
   async login(credentials: LoginRequest): Promise<ApiResponse<LoginResponse>> {
     try {
       const response = await apiClient.post<LoginResponse>(
-        API_ENDPOINTS.AUTH.LOGIN,
+        AUTH_ENDPOINTS.LOGIN,
         credentials
       );
       
@@ -63,7 +71,7 @@ export const authApi = {
   // 로그아웃
   async logout(): Promise<ApiResponse<void>> {
     try {
-      const response = await apiClient.post<void>(API_ENDPOINTS.AUTH.LOGOUT);
+      const response = await apiClient.post<void>(AUTH_ENDPOINTS.LOGOUT);
       
       // 로컬 스토리지에서 토큰 제거
       localStorage.removeItem('admin_token');
@@ -81,7 +89,7 @@ export const authApi = {
   // 토큰 검증
   async verifyToken(): Promise<ApiResponse<UserProfile>> {
     try {
-      return await apiClient.get<UserProfile>(API_ENDPOINTS.AUTH.VERIFY);
+      return await apiClient.get<UserProfile>(AUTH_ENDPOINTS.VERIFY);
     } catch (error) {
       // 토큰이 유효하지 않으면 로컬 스토리지에서 제거
       localStorage.removeItem('admin_token');
@@ -93,7 +101,7 @@ export const authApi = {
   // 사용자 프로필 조회
   async getProfile(): Promise<ApiResponse<UserProfile>> {
     try {
-      return await apiClient.get<UserProfile>(API_ENDPOINTS.AUTH.PROFILE);
+      return await apiClient.get<UserProfile>(AUTH_ENDPOINTS.PROFILE);
     } catch (error) {
       throw error;
     }
@@ -108,7 +116,7 @@ export const authApi = {
       }
 
       const response = await apiClient.post<RefreshTokenResponse>(
-        API_ENDPOINTS.AUTH.REFRESH,
+        AUTH_ENDPOINTS.REFRESH,
         { refreshToken }
       );
 

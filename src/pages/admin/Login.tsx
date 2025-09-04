@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
@@ -10,9 +10,8 @@ export default function AdminLogin() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
   
-  const { login, isAuthenticated } = useAuth();
+  const { login, isAuthenticated, isLoading } = useAuth(); // AuthContext의 isLoading 사용
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -25,7 +24,6 @@ export default function AdminLogin() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    setIsLoading(true);
 
     try {
       const success = await login({ username, password });
@@ -37,8 +35,6 @@ export default function AdminLogin() {
       }
     } catch (err) {
       setError('로그인 중 오류가 발생했습니다.');
-    } finally {
-      setIsLoading(false);
     }
   };
 
