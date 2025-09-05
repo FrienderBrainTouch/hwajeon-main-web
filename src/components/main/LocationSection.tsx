@@ -1,58 +1,8 @@
-import { useEffect, useRef } from 'react';
 import { MapPin, Phone, Mail } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-
-// 카카오맵 타입 선언
-declare global {
-  interface Window {
-    kakao: any;
-  }
-}
+import { LocationMap } from '@/components/contact';
 
 export default function LocationSection() {
-  const mapRef = useRef(null);
-
-  useEffect(() => {
-    if (!mapRef.current) return; // container가 없으면 리턴
-
-    // script 태그 로드 시점 제어
-    const script = document.createElement('script');
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${
-      import.meta.env.VITE_KAKAO_API
-    }&autoload=false`;
-    script.onload = () => {
-      window.kakao.maps.load(() => {
-        const container = mapRef.current;
-        if (!container) return;
-
-        const options = {
-          center: new window.kakao.maps.LatLng(37.6584, 126.832), // 경기 고양시 덕양구 화랑로 31층
-          level: 3,
-        };
-
-        const map = new window.kakao.maps.Map(container, options);
-
-        // 마커 생성
-        const markerPosition = new window.kakao.maps.LatLng(37.6584, 126.832);
-        const marker = new window.kakao.maps.Marker({
-          position: markerPosition,
-          // title: '화전마을', // 마커에 마우스 올리면 표시되는 제목
-        });
-
-        // 마커를 지도에 표시
-        marker.setMap(map);
-      });
-    };
-    document.head.appendChild(script);
-
-    // cleanup
-    return () => {
-      if (script.parentNode) {
-        script.parentNode.removeChild(script);
-      }
-    };
-  }, []);
-
   return (
     <section
       className="mt-10 xs:mt-12 sm:mt-14 md:mt-16 lg:mt-18 xl:mt-20 2xl:mt-24 bg-[#F6F5FA] px-4 xs:px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 py-10 xs:py-12 sm:py-14 md:py-16 lg:py-18 xl:py-20 2xl:py-24"
@@ -68,9 +18,7 @@ export default function LocationSection() {
 
         <div className="mt-6 xs:mt-7 sm:mt-8 md:mt-8 lg:mt-9 xl:mt-10 2xl:mt-12 grid grid-cols-1 lg:grid-cols-2 gap-6 xs:gap-7 sm:gap-8 md:gap-8 lg:gap-10 xl:gap-12 2xl:gap-16 max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl mx-auto">
           {/* 왼쪽: 지도 */}
-          <div className="rounded-xl h-[264px] xs:h-[284px] sm:h-[364px] md:h-[398px] lg:aspect-[4/3] flex items-center justify-center overflow-hidden border border-gray-200 relative">
-            <div ref={mapRef} style={{ width: '100%', height: '100%' }} className="rounded-xl" />
-          </div>
+          <LocationMap className="h-[264px] xs:h-[284px] sm:h-[364px] md:h-[398px] lg:aspect-[4/3]" />
 
           {/* 오른쪽: 연락처 정보 */}
           <div className="bg-white rounded-xl p-6 xs:p-7 sm:p-8 shadow-sm border border-gray-100 flex flex-col items-center justify-center">
