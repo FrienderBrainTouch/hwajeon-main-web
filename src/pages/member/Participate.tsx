@@ -1,5 +1,6 @@
 import { TabNavigation, type TabItem } from '@/components/ui/TabNavigation';
 import { useTabState } from '@/hooks/useTabState';
+import { VolunteerApplication } from '@/components/participate';
 
 function Participate() {
   const tabs: TabItem[] = [
@@ -61,79 +62,7 @@ function Participate() {
           </div>
         );
       case 'volunteer':
-        return (
-          <div className="py-8">
-            <h2 className="text-2xl font-bold mb-6">자원봉사 신청</h2>
-            <div className="space-y-6">
-              <div className="bg-green-50 p-6 rounded-lg">
-                <h3 className="text-lg font-semibold mb-3 text-green-900">자원봉사 활동 분야</h3>
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <h4 className="font-semibold text-green-800 mb-2">환경 보전</h4>
-                    <ul className="text-sm text-green-700 space-y-1">
-                      <li>• 거리 정리 및 청소</li>
-                      <li>• 공원 가꾸기</li>
-                      <li>• 재활용 캠페인</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-green-800 mb-2">지역 행사</h4>
-                    <ul className="text-sm text-green-700 space-y-1">
-                      <li>• 축제 및 행사 지원</li>
-                      <li>• 안내 및 접수</li>
-                      <li>• 행사 준비 및 정리</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-green-800 mb-2">교육 지원</h4>
-                    <ul className="text-sm text-green-700 space-y-1">
-                      <li>• 학습 멘토링</li>
-                      <li>• 문화 프로그램 보조</li>
-                      <li>• 도서관 운영 지원</li>
-                    </ul>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-green-800 mb-2">사회 복지</h4>
-                    <ul className="text-sm text-green-700 space-y-1">
-                      <li>• 어르신 돌봄</li>
-                      <li>• 취약계층 지원</li>
-                      <li>• 급식 지원</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="bg-gray-50 p-6 rounded-lg">
-                  <h3 className="text-lg font-semibold mb-3">신청 방법</h3>
-                  <ol className="space-y-2 text-gray-600">
-                    <li>1. 자원봉사 신청서 작성</li>
-                    <li>2. 희망 활동 분야 선택</li>
-                    <li>3. 가능한 시간대 기재</li>
-                    <li>4. 신청서 제출</li>
-                    <li>5. 활동 안내 및 배정</li>
-                  </ol>
-                </div>
-
-                <div className="bg-gray-50 p-6 rounded-lg">
-                  <h3 className="text-lg font-semibold mb-3">자원봉사 혜택</h3>
-                  <ul className="space-y-2 text-gray-600">
-                    <li>• 자원봉사 활동 확인서 발급</li>
-                    <li>• 조합 시설 이용 혜택</li>
-                    <li>• 교육 프로그램 우선 참여</li>
-                    <li>• 지역사회 기여 인정</li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="text-center">
-                <button className="bg-green-600 text-white px-8 py-3 rounded-lg hover:bg-green-700 transition-colors text-lg font-semibold">
-                  자원봉사 신청하기
-                </button>
-              </div>
-            </div>
-          </div>
-        );
+        return <VolunteerApplication />;
       case 'meeting':
         return (
           <div className="py-8">
