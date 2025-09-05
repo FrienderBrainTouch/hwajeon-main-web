@@ -1,20 +1,17 @@
 import { useMemo, useState, useEffect, useRef } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { Header, Footer } from '@/components/layout';
-import Main from './pages/Main';
-import Combination from './pages/Combination';
-import Business from './pages/Business';
-import News from './pages/News';
-import Participate from './pages/Participate';
-import Contact from './pages/Contact';
+// Layout
 import MemberLayout from './routes/MemberLayout';
 import AdminLayout from './routes/AdminLayout';
+// Context
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ToastProvider } from '@/components/ui/toast';
-import { AdminLogin, AdminDashboard, UserManagement, AdminSettings } from './pages/admin';
+import { Header, Footer } from '@/components/layout';
+// Components
 import { Hero } from '@/components/main';
+import { Main, Combination, Business, News, Participate, Contact } from './pages/member';
+import { AdminLogin, AdminDashboard, UserManagement, AdminSettings } from './pages/admin';
 import HeaderImg from '@/assets/header.png';
-// import HeaderTextImg from '@/assets/header_text.png';
 
 const HERO_BY_ROUTE: Record<
   string,
@@ -74,23 +71,8 @@ function AppContent() {
     );
   }, [route]);
 
-  // 헤더 전환 / 히어로 진행도 상태 (Header 컴포넌트로 이동하여 더 이상 사용되지 않음)
-  // const [_solid, setSolid] = useState(false);
   const [progress, setProgress] = useState(0); // 0~1
   const heroRef = useRef<HTMLDivElement>(null!);
-  // const sentinelRef = useRef<HTMLDivElement | null>(null);
-
-  // 교차 관찰: 히어로가 지나가면 헤더 솔리드로 (Header 컴포넌트로 이동하여 더 이상 사용되지 않음)
-  // useEffect(() => {
-  //   const target = sentinelRef.current;
-  //   if (!target) return;
-  //   const io = new IntersectionObserver(
-  //     ([e]) => setSolid(!e.isIntersecting),
-  //     { rootMargin: '-72px 0px 0px 0px', threshold: 0 } // 헤더 높이 보정
-  //   );
-  //   io.observe(target);
-  //   return () => io.disconnect();
-  // }, [route]);
 
   // 스크롤 진행도(히어로 페이드/패럴랙스에 사용)
   useEffect(() => {
@@ -115,7 +97,6 @@ function AppContent() {
         <>
           {/* 고정 헤더 */}
           <Header />
-          {/* <Header variant="overlay" /> - variant prop이 더 이상 사용되지 않음 */}
 
           {/* 히어로 (일반 페이지만) */}
           <Hero
@@ -126,14 +107,12 @@ function AppContent() {
             heightVh={heroConf.heightVh ?? 40}
             progress={progress}
           />
-
-          {/* 히어로가 끝나는 지점에 센티넬(헤더 전환 트리거) - Header 컴포넌트로 이동하여 더 이상 사용되지 않음 */}
-          {/* <div ref={sentinelRef} className="h-px w-full" /> */}
         </>
       )}
-      
+
       <main>
         <Routes>
+          {/* Member Routes */}
           <Route path="/" element={<Main />} />
           <Route path="/member" element={<MemberLayout />}>
             <Route path="combination" element={<Combination />} />
@@ -142,6 +121,8 @@ function AppContent() {
             <Route path="participate" element={<Participate />} />
             <Route path="contact" element={<Contact />} />
           </Route>
+
+          {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminLayout />}>
             <Route path="dashboard" element={<AdminDashboard />} />
@@ -151,6 +132,7 @@ function AppContent() {
           </Route>
         </Routes>
       </main>
+
       {/* admin 페이지는 헤더와 푸터를 표시하지 않음 */}
       {!isAdminPage && <Footer />}
     </div>

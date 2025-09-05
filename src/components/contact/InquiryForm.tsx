@@ -112,36 +112,42 @@ const InquiryForm = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto py-8 px-4">
-      <div className="text-center mb-8">
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">간편 문의</h2>
-        <div className="w-16 h-1 bg-gray-900 mx-auto mb-6"></div>
-        <p className="text-gray-600 text-sm leading-relaxed">
+    <div className="max-w-4xl mx-auto py-6 sm:py-8 px-4">
+      <div className="text-center mb-6 sm:mb-8">
+        <h2 className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
+          간편 문의
+        </h2>
+        <div className="w-12 sm:w-16 h-1 bg-gray-900 mx-auto mb-4 sm:mb-6"></div>
+        <p className="text-gray-600 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto">
           궁금한 사항은 아래의 간편 문의폼을 통해 언제든지 남겨주세요.
-          <br />
+          <br className="hidden sm:block" />
+          <span className="sm:hidden"> </span>
           담당자가 확인 후 순차적으로 답변 드립니다.
         </p>
       </div>
 
       {/* 성공/에러 메시지 */}
       {submitStatus === 'success' && (
-        <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+        <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg text-sm sm:text-base">
           문의가 성공적으로 전송되었습니다. 빠른 시일 내에 답변드리겠습니다.
         </div>
       )}
       {submitStatus === 'error' && (
-        <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+        <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm sm:text-base">
           문의 전송 중 오류가 발생했습니다. 다시 시도해주세요.
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid md:grid-cols-2 gap-6">
+      <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           {/* 왼쪽 컬럼 */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {/* 이름 */}
             <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="name"
+                className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2"
+              >
                 이름
               </label>
               <input
@@ -151,32 +157,35 @@ const InquiryForm = () => {
                 value={formData.name}
                 onChange={handleInputChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="이름을 입력해주세요"
               />
             </div>
 
             {/* 이메일 */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2"
+              >
                 이메일
               </label>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1 sm:gap-2">
                 <input
                   type="text"
                   id="email"
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="flex-1 px-2 sm:px-3 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   placeholder="이메일 아이디"
                 />
-                <span className="text-gray-500">@</span>
+                <span className="text-gray-500 text-sm sm:text-base">@</span>
                 <select
                   name="emailDomain"
                   value={formData.emailDomain}
                   onChange={handleInputChange}
-                  className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="px-2 sm:px-3 py-2 sm:py-3 text-xs sm:text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
                   <option value="">선택하세요</option>
                   {emailDomains.map((domain) => (
@@ -190,10 +199,13 @@ const InquiryForm = () => {
           </div>
 
           {/* 오른쪽 컬럼 */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {/* 연락처 */}
             <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="phone"
+                className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2"
+              >
                 연락처
               </label>
               <input
@@ -203,14 +215,17 @@ const InquiryForm = () => {
                 value={formData.phone}
                 onChange={handleInputChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="숫자만 입력"
               />
             </div>
 
             {/* 문의사항 */}
             <div>
-              <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="subject"
+                className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2"
+              >
                 문의사항
               </label>
               <select
@@ -219,7 +234,7 @@ const InquiryForm = () => {
                 value={formData.subject}
                 onChange={handleInputChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
                 <option value="">선택하세요</option>
                 {inquiryTypes.map((type) => (
@@ -234,7 +249,10 @@ const InquiryForm = () => {
 
         {/* 기타 문의사항 - 전체 너비 */}
         <div>
-          <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+          <label
+            htmlFor="message"
+            className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2"
+          >
             기타 문의사항
           </label>
           <textarea
@@ -242,14 +260,14 @@ const InquiryForm = () => {
             name="message"
             value={formData.message}
             onChange={handleInputChange}
-            rows={6}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            rows={4}
+            className="w-full px-3 py-2 sm:py-3 text-sm sm:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none sm:resize-y"
             placeholder="문의하실 내용을 입력해주세요."
           />
         </div>
 
         {/* 개인정보 동의 */}
-        <div className="space-y-3">
+        <div className="space-y-2 sm:space-y-3">
           <div className="flex items-start">
             <input
               type="checkbox"
@@ -258,24 +276,24 @@ const InquiryForm = () => {
               checked={formData.privacy}
               onChange={handleInputChange}
               required
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-1"
+              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-0.5 sm:mt-1"
             />
-            <label htmlFor="privacy" className="ml-2 block text-sm text-gray-700">
+            <label htmlFor="privacy" className="ml-2 block text-xs sm:text-sm text-gray-700">
               개인정보 수집 및 이용에 동의합니다.
             </label>
           </div>
-          <p className="text-xs text-gray-500 ml-6">
+          <p className="text-xs text-gray-500 ml-6 leading-relaxed">
             ※ 수집된 개인정보는 명시된 목적 이외의 용도로 사용되지 않으며, 제3자에게 제공되지
             않습니다.
           </p>
         </div>
 
         {/* 제출 버튼 */}
-        <div className="text-center">
+        <div className="text-center pt-2 sm:pt-4">
           <button
             type="submit"
             disabled={isSubmitting}
-            className="bg-blue-600 text-white px-12 py-3 rounded-lg hover:bg-blue-700 transition-colors text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-blue-600 text-white px-8 sm:px-12 py-2.5 sm:py-3 rounded-lg hover:bg-blue-700 transition-colors text-sm sm:text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto"
           >
             {isSubmitting ? '전송 중...' : '문의하기'}
           </button>
