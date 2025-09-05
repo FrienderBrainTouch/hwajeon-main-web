@@ -1,5 +1,13 @@
 import { TabNavigation, type TabItem } from '@/components/ui/TabNavigation';
 import { useTabState } from '@/hooks/useTabState';
+import { BoardWrapper } from '@/components/news';
+import {
+  noticeData,
+  archiveData,
+  // newsData,
+  // galleryData,
+  // calendarData,
+} from '@/components/news/data';
 
 function News() {
   const tabs: TabItem[] = [
@@ -17,40 +25,12 @@ function News() {
       case 'announcements':
         return (
           <div className="py-8">
-            <h2 className="text-2xl font-bold mb-6">공지사항</h2>
-            <div className="space-y-4">
-              <div className="border-b border-gray-200 pb-4">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    화전 조합 정기총회 개최 안내
-                  </h3>
-                  <span className="text-sm text-gray-500">2024.01.15</span>
-                </div>
-                <p className="text-gray-600">
-                  2024년 정기총회가 2월 15일 오후 2시에 화전 조합 회의실에서 개최됩니다...
-                </p>
-              </div>
-              <div className="border-b border-gray-200 pb-4">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-lg font-semibold text-gray-900">도시재생 사업 설명회 개최</h3>
-                  <span className="text-sm text-gray-500">2024.01.10</span>
-                </div>
-                <p className="text-gray-600">
-                  화전 지역 도시재생 사업에 대한 설명회가 1월 25일 개최됩니다...
-                </p>
-              </div>
-              <div className="border-b border-gray-200 pb-4">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    카페27b 운영시간 변경 안내
-                  </h3>
-                  <span className="text-sm text-gray-500">2024.01.05</span>
-                </div>
-                <p className="text-gray-600">
-                  카페27b의 운영시간이 변경되었습니다. 자세한 내용은 공지사항을 확인해주세요...
-                </p>
-              </div>
-            </div>
+            <BoardWrapper
+              title="공지사항"
+              items={noticeData.notices}
+              boardType="announcements"
+              itemsPerPage={10}
+            />
           </div>
         );
       case 'news':
@@ -180,53 +160,12 @@ function News() {
       case 'archive':
         return (
           <div className="py-8">
-            <h2 className="text-2xl font-bold mb-6">자료실</h2>
-            <div className="space-y-4">
-              <div className="border border-gray-200 rounded-lg p-4">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h3 className="font-semibold text-gray-900">화전 조합 정관</h3>
-                    <p className="text-sm text-gray-600">PDF 파일 • 2.3MB</p>
-                  </div>
-                  <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors">
-                    다운로드
-                  </button>
-                </div>
-              </div>
-              <div className="border border-gray-200 rounded-lg p-4">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h3 className="font-semibold text-gray-900">도시재생 사업 계획서</h3>
-                    <p className="text-sm text-gray-600">PDF 파일 • 5.1MB</p>
-                  </div>
-                  <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors">
-                    다운로드
-                  </button>
-                </div>
-              </div>
-              <div className="border border-gray-200 rounded-lg p-4">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h3 className="font-semibold text-gray-900">회의록 모음 (2023년)</h3>
-                    <p className="text-sm text-gray-600">ZIP 파일 • 8.7MB</p>
-                  </div>
-                  <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors">
-                    다운로드
-                  </button>
-                </div>
-              </div>
-              <div className="border border-gray-200 rounded-lg p-4">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <h3 className="font-semibold text-gray-900">사업보고서 2023</h3>
-                    <p className="text-sm text-gray-600">PDF 파일 • 3.2MB</p>
-                  </div>
-                  <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors">
-                    다운로드
-                  </button>
-                </div>
-              </div>
-            </div>
+            <BoardWrapper
+              title="자료실"
+              items={archiveData.archives}
+              boardType="archive"
+              itemsPerPage={10}
+            />
           </div>
         );
       default:
