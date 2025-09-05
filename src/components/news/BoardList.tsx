@@ -13,7 +13,6 @@ interface BoardListProps {
   items: BoardItem[];
   currentPage: number;
   totalPages: number;
-  totalItems: number;
   onPageChange: (page: number) => void;
   onItemClick?: (item: BoardItem) => void;
   showAdminActions?: boolean;
@@ -26,7 +25,6 @@ const BoardList: React.FC<BoardListProps> = ({
   items,
   currentPage,
   totalPages,
-  totalItems,
   onPageChange,
   onItemClick,
   showAdminActions = false,
