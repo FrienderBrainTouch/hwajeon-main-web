@@ -13,7 +13,11 @@ function Contact() {
   const renderTabContent = () => {
     switch (activeTab) {
       case 'inquiry':
-        return <InquiryForm />;
+        return (
+          <div>
+            <InquiryForm />
+          </div>
+        );
       case 'location':
         return (
           <div className="py-8">
@@ -95,16 +99,16 @@ function Contact() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-6xl mx-auto">
+    <div className="w-full py-8">
+      <div className="max-w-6xl mx-auto px-4">
         <TabNavigation
           tabs={tabs}
           value={activeTab}
           onValueChange={handleTabChange}
           className="mb-8"
         />
-        {renderTabContent()}
       </div>
+      {renderTabContent()}
     </div>
   );
 }
