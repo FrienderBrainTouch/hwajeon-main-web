@@ -1,18 +1,30 @@
+import type { Card as CardType, StoryImage } from './data';
+import {
+  cards as defaultCards,
+  storyImages as defaultStoryImages,
+  mainStoryImage as defaultMainStoryImage,
+} from './data';
+
 interface CardProps {
   title: string;
-  description: string;
+  description?: string;
   type: 'gradient' | 'gray' | 'image';
-  gradientFrom?: string;
-  gradientTo?: string;
+  gradient?: string;
 }
 
-function Card({ title, description, type, gradientFrom, gradientTo }: CardProps) {
+interface HwajeonStoryProps {
+  cards?: CardType[];
+  storyImages?: StoryImage[];
+  mainStoryImage?: { src: string; alt: string };
+}
+
+function Card({ title, description, type, gradient }: CardProps) {
   const baseClasses =
     'p-4 sm:p-6 rounded-lg w-full max-w-[280px] sm:max-w-[330px] xl:max-w-[285px] aspect-square mx-auto lg:mx-0';
 
   if (type === 'gradient') {
     return (
-      <div className={`bg-gradient-to-br ${gradientFrom} ${gradientTo} text-white ${baseClasses}`}>
+      <div className={`bg-gradient-to-br ${gradient} text-white ${baseClasses}`}>
         <h4 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-3">{title}</h4>
         <p className="text-blue-100 text-sm sm:text-base">{description}</p>
       </div>
@@ -48,34 +60,11 @@ function Card({ title, description, type, gradientFrom, gradientTo }: CardProps)
   return null;
 }
 
-export default function HwajeonStory() {
-  const cards = [
-    {
-      title: '잇다',
-      description: '주민과 공간, 세대와 세대를 연결하는 마을',
-      type: 'gradient' as const,
-      gradientFrom: 'from-blue-600',
-      gradientTo: 'to-purple-700',
-    },
-    {
-      title: '키워드',
-      description: '간단한 설명',
-      type: 'gradient' as const,
-      gradientFrom: 'from-purple-600',
-      gradientTo: 'to-blue-700',
-    },
-    {
-      title: '키워드',
-      description: '간단한 설명',
-      type: 'gradient' as const,
-      gradientFrom: 'from-purple-600',
-      gradientTo: 'to-blue-700',
-    },
-    { title: '키워드', description: '간단한 설명', type: 'gray' as const },
-    { title: '키워드', description: '간단한 설명', type: 'gray' as const },
-    { title: '키워드', description: '간단한 설명', type: 'image' as const },
-  ];
-
+export default function HwajeonStory({
+  cards = defaultCards,
+  storyImages = defaultStoryImages,
+  mainStoryImage = defaultMainStoryImage,
+}: HwajeonStoryProps) {
   return (
     <div className="mx-auto py-8">
       {/* 화전 이야기 섹션 */}
@@ -87,23 +76,27 @@ export default function HwajeonStory() {
         <div className="max-w-5xl mx-auto mb-8">
           {/* 큰 화면에서는 그리드 */}
           <div className="hidden md:grid md:grid-cols-2 gap-6">
-            <div className="bg-gray-200 h-56 lg:h-64 rounded-lg flex items-center justify-center">
-              <span className="text-gray-500 text-lg">이미지</span>
-            </div>
-            <div className="bg-gray-200 h-56 lg:h-64 rounded-lg flex items-center justify-center">
-              <span className="text-gray-500 text-lg">이미지</span>
-            </div>
+            {storyImages.slice(0, 2).map((image, index) => (
+              <div
+                key={index}
+                className="bg-gray-200 h-56 lg:h-64 rounded-lg flex items-center justify-center"
+              >
+                <span className="text-gray-500 text-lg">{image.alt}</span>
+              </div>
+            ))}
           </div>
 
           {/* 작은 화면에서는 가로 스크롤 */}
           <div className="md:hidden overflow-x-auto">
             <div className="flex gap-6 min-w-max px-4">
-              <div className="bg-gray-200 h-48 w-80 rounded-lg flex items-center justify-center flex-shrink-0">
-                <span className="text-gray-500 text-lg">이미지</span>
-              </div>
-              <div className="bg-gray-200 h-48 w-80 rounded-lg flex items-center justify-center flex-shrink-0">
-                <span className="text-gray-500 text-lg">이미지</span>
-              </div>
+              {storyImages.map((image, index) => (
+                <div
+                  key={index}
+                  className="bg-gray-200 h-48 w-80 rounded-lg flex items-center justify-center flex-shrink-0"
+                >
+                  <span className="text-gray-500 text-lg">{image.alt}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -129,7 +122,7 @@ export default function HwajeonStory() {
         </div>
 
         <div className="bg-gray-200 w-full h-48 sm:h-64 lg:h-80 rounded-lg flex items-center justify-center mb-8">
-          <span className="text-gray-500 text-lg">이미지</span>
+          <span className="text-gray-500 text-lg">{mainStoryImage.alt}</span>
         </div>
 
         <div className="max-w-5xl mx-auto px-4">

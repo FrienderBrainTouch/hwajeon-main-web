@@ -8,6 +8,16 @@ import {
   OrganizationDetails,
   HwajeonStory,
 } from '@/components/combination';
+import {
+  historyData,
+  teams,
+  cards,
+  storyImages,
+  mainStoryImage,
+  missionVisionData,
+  greetingData,
+  organizationChartData,
+} from '@/components/combination/data';
 
 function Combination() {
   const tabs: TabItem[] = [
@@ -25,31 +35,28 @@ function Combination() {
       case 'greeting':
         return (
           <div className="max-w-5xl mx-auto">
-            <Greeting />
+            <Greeting data={greetingData} />
           </div>
         );
       case 'mission':
-        return <MissionVision />;
+        return <MissionVision data={missionVisionData} />;
       case 'history':
-        return <History />;
+        return <History historyData={historyData} />;
       case 'organization':
         return (
           <div className="max-w-5xl mx-auto space-y-8">
             <OrganizationChart
-              top={{ label: '조합장' }}
-              second={[{ label: '이사회' }, { label: '사무국' }, { label: '감사' }]}
-              teams={[
-                { label: '기획행정팀' },
-                { label: '지역사회팀' },
-                { label: '교육문화팀' },
-                { label: '카페27b운영팀' },
-              ]}
+              top={organizationChartData.top}
+              second={organizationChartData.second}
+              teams={organizationChartData.teams}
             />
-            <OrganizationDetails />
+            <OrganizationDetails teams={teams} />
           </div>
         );
       case 'story':
-        return <HwajeonStory />;
+        return (
+          <HwajeonStory cards={cards} storyImages={storyImages} mainStoryImage={mainStoryImage} />
+        );
       default:
         return null;
     }
