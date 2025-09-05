@@ -30,12 +30,13 @@ export interface NewsData {
   newsItems: NewsItem[];
 }
 
-// 갤러리 아이템 타입
+// 갤러리 아이템 타입 (화전 소식용)
 export interface GalleryItem {
   id: number;
   title: string;
-  imageUrl: string;
-  description?: string;
+  content: string;
+  date: string;
+  imageUrl?: string;
 }
 
 // 갤러리 데이터 타입
