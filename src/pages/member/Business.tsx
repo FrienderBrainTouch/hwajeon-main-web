@@ -1,6 +1,6 @@
 import { TabNavigation, type TabItem } from '@/components/ui/TabNavigation';
 import { useTabState } from '@/hooks/useTabState';
-import { UrbanRegenerationHub } from '@/components/business';
+import { UrbanRegenerationHub, EventsEducation } from '@/components/business';
 
 function Business() {
   const tabs: TabItem[] = [
@@ -17,35 +17,7 @@ function Business() {
       case 'urban-regeneration':
         return <UrbanRegenerationHub />;
       case 'events-education':
-        return (
-          <div className="py-8">
-            <h2 className="text-2xl font-bold mb-4">행사 기획 및 교육 체험 사업</h2>
-            <div className="space-y-4">
-              <p className="text-gray-600 leading-relaxed">
-                다양한 행사 기획과 교육 프로그램을 통해 지역주민들의 참여와 소통을 도모하고,
-                지역사회의 활성화와 발전에 기여합니다.
-              </p>
-              <div className="grid md:grid-cols-2 gap-6 mt-6">
-                <div className="bg-gray-50 p-6 rounded-lg">
-                  <h3 className="text-lg font-semibold mb-3">주요 사업</h3>
-                  <ul className="space-y-2 text-gray-600">
-                    <li>• 지역 축제 및 행사 기획</li>
-                    <li>• 교육 프로그램 운영</li>
-                    <li>• 체험 활동 지원</li>
-                  </ul>
-                </div>
-                <div className="bg-gray-50 p-6 rounded-lg">
-                  <h3 className="text-lg font-semibold mb-3">기대효과</h3>
-                  <ul className="space-y-2 text-gray-600">
-                    <li>• 지역 문화 활성화</li>
-                    <li>• 주민 참여 확대</li>
-                    <li>• 지역 정체성 강화</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
+        return <EventsEducation />;
       case 'cafe27b':
         return (
           <div className="py-8">
