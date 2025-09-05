@@ -1,33 +1,24 @@
 import { useState } from 'react';
+import type { MainImage, MenuItem, ProductItem, CateringService, MobileCafeService } from './data';
 
-const Cafe27b = () => {
+interface Cafe27bProps {
+  mainImages?: MainImage[];
+  menuItems?: MenuItem[];
+  productItems?: ProductItem[];
+  cateringServices?: CateringService[];
+  mobileCafeServices?: MobileCafeService[];
+}
+
+const Cafe27b = ({
+  mainImages = [],
+  menuItems = [],
+  productItems = [],
+  cateringServices = [],
+  mobileCafeServices = [],
+}: Cafe27bProps) => {
   const [currentMenuPage, setCurrentMenuPage] = useState(0);
   const [currentProductPage, setCurrentProductPage] = useState(0);
   const [currentMainImage, setCurrentMainImage] = useState(0);
-
-  const mainImages = [
-    { id: 1, name: '이미지1' },
-    { id: 2, name: '이미지2' },
-    { id: 3, name: '이미지3' },
-  ];
-
-  const menuItems = [
-    { id: 1, name: '아메리카노' },
-    { id: 2, name: '라떼' },
-    { id: 3, name: '카푸치노' },
-    { id: 4, name: '모카' },
-    { id: 5, name: '에스프레소' },
-    { id: 6, name: '바닐라라떼' },
-  ];
-
-  const productItems = [
-    { id: 1, name: '상품1' },
-    { id: 2, name: '상품2' },
-    { id: 3, name: '상품3' },
-    { id: 4, name: '상품4' },
-    { id: 5, name: '상품5' },
-    { id: 6, name: '상품6' },
-  ];
 
   const itemsPerPage = 3;
   const productItemsPerPage = 5;
@@ -189,14 +180,17 @@ const Cafe27b = () => {
         <h4 className="text-lg sm:text-xl text-gray-700 mb-8">케이터링 서비스 안내</h4>
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-4xl mx-auto mb-8">
-          {[1, 2, 3, 4].map((item) => (
-            <div key={item} className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+          {cateringServices.map((service) => (
+            <div
+              key={service.id}
+              className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm"
+            >
               <div className="bg-gray-200 rounded-lg h-32 flex items-center justify-center mb-3">
                 <span className="text-gray-500 text-sm">이미지</span>
               </div>
               <div className="text-center">
-                <p className="text-sm font-medium text-gray-900 mb-1">주요 구성 예시</p>
-                <p className="text-xs text-gray-600">커피/차 + 수제 쿠키</p>
+                <p className="text-sm font-medium text-gray-900 mb-1">{service.title}</p>
+                <p className="text-xs text-gray-600">{service.description}</p>
               </div>
             </div>
           ))}
@@ -220,28 +214,23 @@ const Cafe27b = () => {
           <h4 className="text-lg sm:text-xl text-gray-700 mb-8">이동 카페 서비스 안내</h4>
 
           <div className="grid grid-cols-2 gap-4 max-w-5xl mx-auto mb-6">
-            <div className="bg-gray-200 rounded-lg h-56 flex items-center justify-center">
-              <span className="text-gray-500 text-lg">이미지</span>
-            </div>
-            <div className="bg-gray-200 rounded-lg h-56 flex items-center justify-center">
-              <span className="text-gray-500 text-lg">이미지</span>
-            </div>
-            <div className="bg-gray-200 rounded-lg h-56 flex items-center justify-center">
-              <span className="text-gray-500 text-lg">이미지</span>
-            </div>
-            <div className="bg-orange-100 rounded-lg h-56 p-6 flex items-center justify-center">
-              <div className="text-center">
-                <p className="text-sm font-medium text-gray-900 mb-2">
-                  행사 현장, 야외 워크숍, 지역축제 등
-                </p>
-                <p className="text-xs text-gray-600 mb-2">
-                  필요한 공간으로 직접 찾아가는 이동카페 서비스를 제공합니다.
-                </p>
-                <p className="text-xs text-gray-600">
-                  접수된 일정에 따라 카페27b의 맛과 분위기를 현장으로 전달합니다.
-                </p>
+            {mobileCafeServices.map((service) => (
+              <div
+                key={service.id}
+                className={`rounded-lg h-56 flex items-center justify-center ${
+                  service.isTextCard ? 'bg-orange-100 p-6' : 'bg-gray-200'
+                }`}
+              >
+                {service.isTextCard ? (
+                  <div className="text-center">
+                    <p className="text-sm font-medium text-gray-900 mb-2">{service.title}</p>
+                    <p className="text-xs text-gray-600">{service.description}</p>
+                  </div>
+                ) : (
+                  <span className="text-gray-500 text-lg">이미지</span>
+                )}
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>

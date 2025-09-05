@@ -1,4 +1,11 @@
-const EventsEducation = () => {
+import type { EventCard } from './data';
+import { eventCards as defaultEventCards } from './data';
+
+interface EventsEducationProps {
+  eventCards?: EventCard[];
+}
+
+const EventsEducation = ({ eventCards = defaultEventCards }: EventsEducationProps) => {
   return (
     <div className="w-full py-8">
       {/* 헤더 섹션 */}
@@ -22,17 +29,17 @@ const EventsEducation = () => {
           <h4 className="text-lg sm:text-xl text-gray-700 mb-8 text-center">핵심 프로그램 소개</h4>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[1, 2, 3, 4].map((item) => (
+            {eventCards.map((card) => (
               <div
-                key={item}
+                key={card.id}
                 className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm"
               >
                 <div className="bg-gray-300 h-48 flex items-center justify-center">
                   <span className="text-gray-500 text-lg">이미지</span>
                 </div>
                 <div className="p-4">
-                  <h5 className="text-lg font-bold text-gray-900 mb-2">프로그램명</h5>
-                  <p className="text-sm text-gray-600">마을을 기록하고 공유하는 시민참여형 활동</p>
+                  <h5 className="text-lg font-bold text-gray-900 mb-2">{card.title}</h5>
+                  <p className="text-sm text-gray-600">{card.description}</p>
                 </div>
               </div>
             ))}
