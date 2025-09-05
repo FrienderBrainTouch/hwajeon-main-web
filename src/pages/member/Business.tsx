@@ -1,5 +1,6 @@
 import { TabNavigation, type TabItem } from '@/components/ui/TabNavigation';
 import { useTabState } from '@/hooks/useTabState';
+import { UrbanRegenerationHub } from '@/components/business';
 
 function Business() {
   const tabs: TabItem[] = [
@@ -14,59 +15,31 @@ function Business() {
   const renderTabContent = () => {
     switch (activeTab) {
       case 'urban-regeneration':
-        return (
-          <div className="py-8">
-            <h2 className="text-2xl font-bold mb-4">도시재생 거점공간 운영 사업</h2>
-            <div className="space-y-4">
-              <p className="text-gray-600 leading-relaxed">
-                화전 지역의 도시재생을 위한 거점공간을 운영하여 지역주민들의 소통과 협력을 도모하고,
-                지속가능한 도시발전의 기반을 마련합니다.
-              </p>
-              <div className="grid md:grid-cols-2 gap-6 mt-6">
-                <div className="bg-gray-50 p-6 rounded-lg">
-                  <h3 className="text-lg font-semibold mb-3">주요 사업</h3>
-                  <ul className="space-y-2 text-gray-600">
-                    <li>• 거점공간 시설 운영</li>
-                    <li>• 지역주민 모임 지원</li>
-                    <li>• 도시재생 프로그램 기획</li>
-                  </ul>
-                </div>
-                <div className="bg-gray-50 p-6 rounded-lg">
-                  <h3 className="text-lg font-semibold mb-3">기대효과</h3>
-                  <ul className="space-y-2 text-gray-600">
-                    <li>• 지역 커뮤니티 활성화</li>
-                    <li>• 도시재생 참여 확대</li>
-                    <li>• 지역경제 활성화</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        );
+        return <UrbanRegenerationHub />;
       case 'events-education':
         return (
           <div className="py-8">
             <h2 className="text-2xl font-bold mb-4">행사 기획 및 교육 체험 사업</h2>
             <div className="space-y-4">
               <p className="text-gray-600 leading-relaxed">
-                다양한 문화행사와 교육 프로그램을 통해 지역주민들의 문화적 경험을 풍부하게 하고,
-                학습과 성장의 기회를 제공합니다.
+                다양한 행사 기획과 교육 프로그램을 통해 지역주민들의 참여와 소통을 도모하고,
+                지역사회의 활성화와 발전에 기여합니다.
               </p>
               <div className="grid md:grid-cols-2 gap-6 mt-6">
                 <div className="bg-gray-50 p-6 rounded-lg">
-                  <h3 className="text-lg font-semibold mb-3">행사 프로그램</h3>
+                  <h3 className="text-lg font-semibold mb-3">주요 사업</h3>
                   <ul className="space-y-2 text-gray-600">
-                    <li>• 문화축제 및 공연</li>
-                    <li>• 전시회 및 체험전</li>
-                    <li>• 지역 특색 행사</li>
+                    <li>• 지역 축제 및 행사 기획</li>
+                    <li>• 교육 프로그램 운영</li>
+                    <li>• 체험 활동 지원</li>
                   </ul>
                 </div>
                 <div className="bg-gray-50 p-6 rounded-lg">
-                  <h3 className="text-lg font-semibold mb-3">교육 프로그램</h3>
+                  <h3 className="text-lg font-semibold mb-3">기대효과</h3>
                   <ul className="space-y-2 text-gray-600">
-                    <li>• 평생교육 과정</li>
-                    <li>• 직업훈련 프로그램</li>
-                    <li>• 문화예술 교육</li>
+                    <li>• 지역 문화 활성화</li>
+                    <li>• 주민 참여 확대</li>
+                    <li>• 지역 정체성 강화</li>
                   </ul>
                 </div>
               </div>
@@ -139,16 +112,16 @@ function Business() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="max-w-6xl mx-auto">
+    <div className="w-full py-8">
+      <div className="max-w-6xl mx-auto px-4">
         <TabNavigation
           tabs={tabs}
           value={activeTab}
           onValueChange={handleTabChange}
           className="mb-8"
         />
-        {renderTabContent()}
       </div>
+      {renderTabContent()}
     </div>
   );
 }
