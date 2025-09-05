@@ -4,9 +4,9 @@ import { BoardWrapper } from '@/components/news';
 import {
   noticeData,
   archiveData,
-  newsData,
-  galleryData,
-  calendarData,
+  // newsData,
+  // galleryData,
+  // calendarData,
 } from '@/components/news/data';
 
 function News() {
@@ -28,8 +28,8 @@ function News() {
             <BoardWrapper
               title="공지사항"
               items={noticeData.notices}
+              boardType="announcements"
               itemsPerPage={10}
-              onItemClick={(item) => console.log('공지사항 클릭:', item)}
             />
           </div>
         );
@@ -163,8 +163,8 @@ function News() {
             <BoardWrapper
               title="자료실"
               items={archiveData.archives}
+              boardType="archive"
               itemsPerPage={10}
-              onItemClick={(item) => console.log('자료실 클릭:', item)}
             />
           </div>
         );
