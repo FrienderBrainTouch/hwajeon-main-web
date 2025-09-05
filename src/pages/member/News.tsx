@@ -1,11 +1,11 @@
 import { TabNavigation, type TabItem } from '@/components/ui/TabNavigation';
 import { useTabState } from '@/hooks/useTabState';
-import { BoardWrapper } from '@/components/news';
+import { BoardWrapper, GalleryWrapper } from '@/components/news';
 import {
   noticeData,
   archiveData,
-  // newsData,
-  // galleryData,
+  newsData,
+  galleryData,
   // calendarData,
 } from '@/components/news/data';
 
@@ -36,72 +36,25 @@ function News() {
       case 'news':
         return (
           <div className="py-8">
-            <h2 className="text-2xl font-bold mb-6">회전 소식</h2>
-            <div className="space-y-6">
-              <div className="bg-gray-50 p-6 rounded-lg">
-                <div className="flex justify-between items-start mb-3">
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    화전 지역 상권 활성화 프로젝트 성과
-                  </h3>
-                  <span className="text-sm text-gray-500">2024.01.20</span>
-                </div>
-                <p className="text-gray-600 mb-4">
-                  화전 지역 상권 활성화를 위한 다양한 프로그램들이 성공적으로 진행되고 있습니다.
-                  지역 상인들과의 협력을 통해 새로운 상권 문화를 만들어가고 있습니다.
-                </p>
-                <div className="flex space-x-4 text-sm text-blue-600">
-                  <span>#상권활성화</span>
-                  <span>#지역경제</span>
-                  <span>#협력프로그램</span>
-                </div>
-              </div>
-              <div className="bg-gray-50 p-6 rounded-lg">
-                <div className="flex justify-between items-start mb-3">
-                  <h3 className="text-lg font-semibold text-gray-900">화전 문화축제 성공적 개최</h3>
-                  <span className="text-sm text-gray-500">2024.01.18</span>
-                </div>
-                <p className="text-gray-600 mb-4">
-                  지난 주말 화전 문화축제가 대성공을 거두었습니다. 지역주민들의 적극적인 참여와
-                  다양한 문화 프로그램으로 화전의 매력을 널리 알렸습니다.
-                </p>
-                <div className="flex space-x-4 text-sm text-blue-600">
-                  <span>#문화축제</span>
-                  <span>#지역주민</span>
-                  <span>#성공개최</span>
-                </div>
-              </div>
-            </div>
+            <GalleryWrapper
+              title="화전 소식"
+              items={newsData.newsItems}
+              boardType="news"
+              itemsPerPage={9}
+              type="news"
+            />
           </div>
         );
       case 'gallery':
         return (
           <div className="py-8">
-            <h2 className="text-2xl font-bold mb-6">활동 갤러리</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              <div className="bg-gray-200 h-48 rounded-lg flex items-center justify-center">
-                <span className="text-gray-500">갤러리 이미지 1</span>
-              </div>
-              <div className="bg-gray-200 h-48 rounded-lg flex items-center justify-center">
-                <span className="text-gray-500">갤러리 이미지 2</span>
-              </div>
-              <div className="bg-gray-200 h-48 rounded-lg flex items-center justify-center">
-                <span className="text-gray-500">갤러리 이미지 3</span>
-              </div>
-              <div className="bg-gray-200 h-48 rounded-lg flex items-center justify-center">
-                <span className="text-gray-500">갤러리 이미지 4</span>
-              </div>
-              <div className="bg-gray-200 h-48 rounded-lg flex items-center justify-center">
-                <span className="text-gray-500">갤러리 이미지 5</span>
-              </div>
-              <div className="bg-gray-200 h-48 rounded-lg flex items-center justify-center">
-                <span className="text-gray-500">갤러리 이미지 6</span>
-              </div>
-            </div>
-            <div className="mt-6 text-center">
-              <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                더보기
-              </button>
-            </div>
+            <GalleryWrapper
+              title="활동 갤러리"
+              items={galleryData.galleryItems}
+              boardType="gallery"
+              itemsPerPage={9}
+              type="gallery"
+            />
           </div>
         );
       case 'calendar':
