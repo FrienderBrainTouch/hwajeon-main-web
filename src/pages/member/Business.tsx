@@ -6,6 +6,20 @@ import {
   Cafe27b,
   LocalActivation,
 } from '@/components/business';
+import {
+  mainImages,
+  menuItems,
+  productItems,
+  cateringServices,
+  mobileCafeServices,
+  eventImages,
+  communityProjects,
+  educationMethods,
+  educationSummary,
+  academyCards,
+  educationCards,
+  eventCards,
+} from '@/components/business/data';
 
 function Business() {
   const tabs: TabItem[] = [
@@ -20,13 +34,28 @@ function Business() {
   const renderTabContent = () => {
     switch (activeTab) {
       case 'urban-regeneration':
-        return <UrbanRegenerationHub />;
+        return <UrbanRegenerationHub academyCards={academyCards} educationCards={educationCards} />;
       case 'events-education':
-        return <EventsEducation />;
+        return <EventsEducation eventCards={eventCards} />;
       case 'cafe27b':
-        return <Cafe27b />;
+        return (
+          <Cafe27b
+            mainImages={mainImages}
+            menuItems={menuItems}
+            productItems={productItems}
+            cateringServices={cateringServices}
+            mobileCafeServices={mobileCafeServices}
+          />
+        );
       case 'local-activation':
-        return <LocalActivation />;
+        return (
+          <LocalActivation
+            eventImages={eventImages}
+            communityProjects={communityProjects}
+            educationMethods={educationMethods}
+            educationSummary={educationSummary}
+          />
+        );
       default:
         return null;
     }

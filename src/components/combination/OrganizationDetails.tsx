@@ -1,56 +1,13 @@
 import { useState } from 'react';
 import { ChevronUp, ChevronDown } from 'lucide-react';
-// import { cn } from '@/lib/utils';
+import type { Team } from './data';
+import { teams as defaultTeams } from './data';
 
-interface Team {
-  name: string;
-  members?: Array<{
-    position: string;
-    name: string;
-    duties: string;
-  }>;
+interface OrganizationDetailsProps {
+  teams?: Team[];
 }
 
-const teams: Team[] = [
-  {
-    name: '이사회 임원',
-    members: [
-      { position: '조합장', name: '홍길동', duties: '조합 대표자, 전체 운영 총괄' },
-      { position: '대표이사', name: '홍길동', duties: '정책/사업 방향 논의 및 의결' },
-      { position: '이사', name: '홍길동', duties: '교육 및 주민참여 프로그램 검토' },
-    ],
-  },
-  {
-    name: '기획행정팀',
-    members: [
-      { position: '팀장', name: '김철수', duties: '기획 및 행정 업무 총괄' },
-      { position: '주무', name: '이영희', duties: '일반 행정 업무' },
-    ],
-  },
-  {
-    name: '지역사회팀',
-    members: [
-      { position: '팀장', name: '박민수', duties: '지역사회 연계 업무' },
-      { position: '주무', name: '정수진', duties: '주민 참여 프로그램 운영' },
-    ],
-  },
-  {
-    name: '교육문화팀',
-    members: [
-      { position: '팀장', name: '최현우', duties: '교육 프로그램 기획' },
-      { position: '주무', name: '한지은', duties: '문화 행사 기획' },
-    ],
-  },
-  {
-    name: '카페27b 운영팀',
-    members: [
-      { position: '팀장', name: '강동훈', duties: '카페 운영 총괄' },
-      { position: '주무', name: '윤서연', duties: '일반 운영 업무' },
-    ],
-  },
-];
-
-export default function OrganizationDetails() {
+export default function OrganizationDetails({ teams = defaultTeams }: OrganizationDetailsProps) {
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
 
   const toggleSection = (sectionId: string) => {

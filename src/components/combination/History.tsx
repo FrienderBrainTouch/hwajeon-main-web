@@ -1,70 +1,19 @@
 import React from 'react';
 import { TimelineZigzag } from '.';
 import TimelineImg from '@/assets/timeline.jpg';
+import type { HistoryItem } from './data';
+import { historyData as defaultHistoryData } from './data';
 
-const History: React.FC = () => {
-  const historyData = [
-    // {
-    //   year: 2028,
-    //   bullets: [
-    //     '미래 비전 실현을 위한 중장기 계획 수립',
-    //     '지역 사회적 경제 생태계 완성',
-    //     '화전마을 브랜드 가치 향상',
-    //   ],
-    // },
-    // {
-    //   year: 2027,
-    //   bullets: [
-    //     '미래 비전 실현을 위한 중장기 계획 수립',
-    //     '지역 사회적 경제 생태계 완성',
-    //     '화전마을 브랜드 가치 향상',
-    //   ],
-    // },
-    // {
-    //   year: 2026,
-    //   bullets: [
-    //     '미래 비전 실현을 위한 중장기 계획 수립',
-    //     '지역 사회적 경제 생태계 완성',
-    //     '화전마을 브랜드 가치 향상',
-    //   ],
-    // },
-    {
-      year: 2025,
-      bullets: [
-        '미래 비전 실현을 위한 중장기 계획 수립',
-        '지역 사회적 경제 생태계 완성',
-        '화전마을 브랜드 가치 향상',
-      ],
-    },
-    {
-      year: 2024,
-      bullets: [
-        '조합원 확대 및 조직 강화',
-        '지속가능한 지역 순환 생태계 구축',
-        '마을 공동체 네트워크 확장',
-      ],
-    },
-    {
-      year: 2023,
-      bullets: [
-        '행사 기획 및 교육 체험 사업 확장',
-        '지역 활성화 사업 본격 추진',
-        '주민 참여 프로그램 다각화',
-      ],
-    },
-    {
-      year: 2022,
-      bullets: [
-        '화전마을사회적협동조합 정식 설립',
-        '도시재생 거점공간 운영 사업 시작',
-        '카페27b 오픈',
-      ],
-    },
-    {
-      year: 2021,
-      bullets: ['화전마을사회적협동조합 설립 준비', '지역 주민 의견 수렴 및 조합 설립 계획 수립'],
-    },
-  ];
+interface HistoryProps {
+  historyData?: HistoryItem[];
+}
+
+const History: React.FC<HistoryProps> = ({ historyData = defaultHistoryData }) => {
+  // 데이터를 TimelineZigzag가 기대하는 형식으로 변환
+  const timelineData = historyData.map((item) => ({
+    year: parseInt(item.year),
+    bullets: [item.description],
+  }));
 
   return (
     <div className="relative min-h-screen">
@@ -89,7 +38,7 @@ const History: React.FC = () => {
           </div>
 
           {/* 가로 타임라인 */}
-          <TimelineZigzag items={historyData} />
+          <TimelineZigzag items={timelineData} />
         </div>
       </div>
     </div>

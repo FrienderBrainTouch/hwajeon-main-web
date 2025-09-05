@@ -1,13 +1,20 @@
 import { useState } from 'react';
+import type { EventImage, CommunityProject, EducationMethod } from './data';
 
-const LocalActivation = () => {
+interface LocalActivationProps {
+  eventImages?: EventImage[];
+  communityProjects?: CommunityProject[];
+  educationMethods?: EducationMethod[];
+  educationSummary?: string;
+}
+
+const LocalActivation = ({
+  eventImages = [],
+  communityProjects = [],
+  educationMethods = [],
+  educationSummary = '',
+}: LocalActivationProps) => {
   const [currentEventImage, setCurrentEventImage] = useState(0);
-
-  const eventImages = [
-    { id: 1, name: '이미지1' },
-    { id: 2, name: '이미지2' },
-    { id: 3, name: '이미지3' },
-  ];
 
   const nextEventImage = () => {
     setCurrentEventImage((prev) => (prev + 1) % eventImages.length);
@@ -93,35 +100,21 @@ const LocalActivation = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* 카드 1 */}
-            <div
-              className="rounded-lg p-8 flex items-center space-x-6"
-              style={{ backgroundColor: '#2C2E5A80' }}
-            >
-              <div className="w-20 h-20 bg-gray-300 rounded flex items-center justify-center flex-shrink-0">
-                <span className="text-sm text-gray-600">아이콘</span>
+            {communityProjects.map((project) => (
+              <div
+                key={project.id}
+                className="rounded-lg p-8 flex items-center space-x-6"
+                style={{ backgroundColor: '#2C2E5A80' }}
+              >
+                <div className="w-20 h-20 bg-gray-300 rounded flex items-center justify-center flex-shrink-0">
+                  <span className="text-sm text-gray-600">아이콘</span>
+                </div>
+                <div className="flex-1">
+                  <h4 className="text-xl font-medium text-gray-800 mb-2">{project.title}</h4>
+                  <p className="text-base text-gray-600 mb-1">{project.description}</p>
+                </div>
               </div>
-              <div className="flex-1">
-                <h4 className="text-xl font-medium text-gray-800 mb-2">지역사랑 상품권</h4>
-                <p className="text-base text-gray-600 mb-1">지역사랑 상품권</p>
-                <p className="text-base text-gray-600">지역사랑 상품권</p>
-              </div>
-            </div>
-
-            {/* 카드 2 */}
-            <div
-              className="rounded-lg p-8 flex items-center space-x-6"
-              style={{ backgroundColor: '#2C2E5A80' }}
-            >
-              <div className="w-20 h-20 bg-gray-300 rounded flex items-center justify-center flex-shrink-0">
-                <span className="text-sm text-gray-600">아이콘</span>
-              </div>
-              <div className="flex-1">
-                <h4 className="text-xl font-medium text-gray-800 mb-2">지역사랑 상품권</h4>
-                <p className="text-base text-gray-600 mb-1">지역사랑 상품권</p>
-                <p className="text-base text-gray-600">지역사랑 상품권</p>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
@@ -143,32 +136,18 @@ const LocalActivation = () => {
 
             {/* 텍스트 영역 */}
             <div className="flex flex-col justify-between h-64 sm:h-80">
-              <div className="mb-4">
-                <h4 className="text-lg font-semibold text-gray-800 mb-2">우선순위 설정</h4>
-                <p className="text-sm text-gray-600 leading-relaxed">
-                  중요한 작업을 먼저 처리함으로써 효율성을 높일 수 있습니다.
-                </p>
-              </div>
+              {educationMethods.map((method, index) => (
+                <div key={method.id} className={index < educationMethods.length - 1 ? 'mb-4' : ''}>
+                  <h4 className="text-lg font-semibold text-gray-800 mb-2">{method.title}</h4>
+                  <p className="text-sm text-gray-600 leading-relaxed">{method.description}</p>
+                </div>
+              ))}
 
-              <div className="mb-4">
-                <h4 className="text-lg font-semibold text-gray-800 mb-2">시간 블록 기법</h4>
-                <p className="text-sm text-gray-600 leading-relaxed">
-                  작업에 특정 시간을 할당하여 집중력을 유지할 수 있습니다.
-                </p>
-              </div>
-
-              <div className="mb-4">
-                <h4 className="text-lg font-semibold text-gray-800 mb-2">Pomodoro 기법</h4>
-                <p className="text-sm text-gray-600 leading-relaxed">
-                  25분 집중 작업 후 5분 휴식을 반복하여 집중력과 피로를 관리할 수 있습니다.
-                </p>
-              </div>
-
-              <div>
-                <p className="text-sm text-gray-600 leading-relaxed">
-                  이러한 방법들을 통해 디지털 환경에서 효과적으로 시간을 관리할 수 있습니다.
-                </p>
-              </div>
+              {educationSummary && (
+                <div>
+                  <p className="text-sm text-gray-600 leading-relaxed">{educationSummary}</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
