@@ -3,6 +3,7 @@ export interface BoardItem {
   id: number;
   title: string;
   date: string;
+  content?: string;
 }
 
 // 공지사항 데이터 타입
