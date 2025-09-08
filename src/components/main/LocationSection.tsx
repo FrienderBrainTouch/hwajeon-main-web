@@ -1,8 +1,19 @@
 import { MapPin, Phone, Mail } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { LocationMap } from '@/components/contact';
 
 export default function LocationSection() {
+  const navigate = useNavigate();
+
+  const handleViewDetails = () => {
+    navigate('/member/contact?tab=location');
+  };
+
+  const handleInquiry = () => {
+    navigate('/member/contact');
+  };
+
   return (
     <section
       className="mt-10 xs:mt-12 sm:mt-14 md:mt-16 lg:mt-18 xl:mt-20 2xl:mt-24 bg-[#F6F5FA] px-4 xs:px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 py-10 xs:py-12 sm:py-14 md:py-16 lg:py-18 xl:py-20 2xl:py-24"
@@ -37,7 +48,10 @@ export default function LocationSection() {
               </div>
             </div>
             <div className="flex justify-center mt-8">
-              <Button className="px-8 py-2 bg-[#2B2A4C] hover:bg-[#262544] text-white rounded-lg">
+              <Button
+                onClick={handleViewDetails}
+                className="px-8 py-2 bg-[#2B2A4C] hover:bg-[#262544] text-white rounded-lg"
+              >
                 자세히 보기
               </Button>
             </div>
@@ -50,7 +64,10 @@ export default function LocationSection() {
         <button className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center text-white hover:bg-gray-600 transition-colors">
           ↑
         </button>
-        <button className="w-12 h-12 bg-[#2B2A4C] rounded-full flex flex-col items-center justify-center text-white hover:bg-[#262544] transition-colors text-xs">
+        <button
+          onClick={handleInquiry}
+          className="w-12 h-12 bg-[#2B2A4C] rounded-full flex flex-col items-center justify-center text-white hover:bg-[#262544] transition-colors text-xs"
+        >
           <span className="text-lg">��</span>
           <span>문의하기</span>
         </button>

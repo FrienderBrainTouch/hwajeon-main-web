@@ -59,6 +59,16 @@ function AppContent() {
   const location = useLocation();
   const route = location.pathname;
 
+  // 페이지 이동 시 스크롤을 헤더 아래로 이동
+  useEffect(() => {
+    // 헤더 높이를 동적으로 계산
+    const header = document.querySelector('header');
+    const headerHeight = header ? header.offsetHeight : 80; // 기본값 80px
+
+    // 헤더 아래 위치로 스크롤
+    window.scrollTo(0, headerHeight);
+  }, [location.pathname, location.search]);
+
   const heroConf = useMemo(() => {
     // 매칭되는 설정이 없으면 기본값 사용
     return (
