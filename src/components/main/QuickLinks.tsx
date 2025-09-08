@@ -8,9 +8,9 @@ function QuickLinks() {
     () => [
       { label: '조합 소개', path: '/member/combination', emoji: '👥' },
       { label: '사업 안내', path: '/member/business', emoji: '📦' },
-      { label: '카페 27b', path: '/member/business', emoji: '☕️' },
-      { label: '소식', path: '/member/news', emoji: '📰' },
-      { label: '참여하기', path: '/member/participate', emoji: '🙌' },
+      { label: '카페 27b', path: '/member/business?tab=cafe27b', emoji: '☕️' },
+      { label: '소식', path: '/member/news?tab=news', emoji: '📰' },
+      { label: '참여하기', path: '/member/participate?tab=membership', emoji: '🙌' },
       { label: '문의', path: '/member/contact', emoji: '✉️' },
     ],
     []

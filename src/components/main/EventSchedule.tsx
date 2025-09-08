@@ -1,12 +1,18 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { EventCalendar } from '../news';
 import { monthlyEventData } from '../news/data/calendarData';
 import { type MonthlyEventData } from '../news/data/types';
 
 function EventSchedule() {
+  const navigate = useNavigate();
   const [currentDate, setCurrentDate] = useState(new Date());
   // 이벤트 데이터 (새로운 구조로 변경)
   const eventData: Record<number, MonthlyEventData> = monthlyEventData;
+
+  const handleViewAllSchedule = () => {
+    navigate('/member/news?tab=calendar');
+  };
 
   // 현재 월의 이벤트 가져오기
   const getCurrentMonthEvents = (): MonthlyEventData | undefined => {
@@ -85,6 +91,7 @@ function EventSchedule() {
 
             {/* 전체 일정 보기 버튼 */}
             <button
+              onClick={handleViewAllSchedule}
               className="w-full py-3 px-4 rounded-lg text-white font-medium transition-colors hover:opacity-90 mt-6"
               style={{ backgroundColor: '#2C2E5A' }}
             >

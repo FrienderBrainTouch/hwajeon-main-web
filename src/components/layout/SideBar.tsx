@@ -41,7 +41,13 @@ const menuData = [
     title: '조합 소개',
     path: '/member/combination',
     width: 'w-[100px] xl:w-[120px]',
-    items: ['인사말', '미션 &비전', '연혁', '조직도', '화전 이야기'],
+    items: [
+      { label: '인사말', path: '/member/combination?tab=greeting' },
+      { label: '미션 &비전', path: '/member/combination?tab=mission' },
+      { label: '연혁', path: '/member/combination?tab=history' },
+      { label: '조직도', path: '/member/combination?tab=organization' },
+      { label: '화전 이야기', path: '/member/combination?tab=story' },
+    ],
   },
   {
     title: '사업 안내',
@@ -49,32 +55,46 @@ const menuData = [
     width: 'w-[240px] xl:w-[288px]',
     hasBorder: true,
     items: [
-      '도시재생 거점공간 운영 사업',
-      '행사 기획 및 교육 체험 사업',
-      '카페27b',
-      '지역 활성화 사업',
+      { label: '도시재생 거점공간 운영 사업', path: '/member/business?tab=urban-regeneration' },
+      { label: '행사 기획 및 교육 체험 사업', path: '/member/business?tab=events-education' },
+      { label: '카페27b', path: '/member/business?tab=cafe27b' },
+      { label: '지역 활성화 사업', path: '/member/business?tab=local-activation' },
     ],
   },
   {
     title: '소식과 자료',
-    path: '/member/news',
+    path: '/member/news?tab=news',
     width: 'w-[140px] xl:w-[168px]',
     hasBorder: true,
-    items: ['공지사항', '화전 소식', '활동 갤러리', '행사 캘린더', '자료실'],
+    items: [
+      { label: '공지사항', path: '/member/news?tab=notice' },
+      { label: '화전 소식', path: '/member/news?tab=news' },
+      { label: '활동 갤러리', path: '/member/news?tab=gallery' },
+      { label: '행사 캘린더', path: '/member/news?tab=calendar' },
+      { label: '자료실', path: '/member/news?tab=archive' },
+    ],
   },
   {
     title: '참여하기',
-    path: '/member/participate',
+    path: '/member/participate?tab=membership',
     width: 'w-[160px] xl:w-[196px]',
     hasBorder: true,
-    items: ['조합원 가입 안내', '자원봉사 신청', '정기회의 자료', '후원 & 기부 안내'],
+    items: [
+      { label: '조합원 가입 안내', path: '/member/participate?tab=membership' },
+      { label: '자원봉사 신청', path: '/member/participate?tab=volunteer' },
+      { label: '정기회의 자료', path: '/member/participate?tab=meeting' },
+      { label: '후원 & 기부 안내', path: '/member/participate?tab=donation' },
+    ],
   },
   {
     title: '문의하기',
     path: '/member/contact',
     width: 'w-[120px] xl:w-[140px]',
     hasBorder: true,
-    items: ['간편 문의', '오시는 길'],
+    items: [
+      { label: '간편 문의', path: '/member/contact?tab=inquiry' },
+      { label: '오시는 길', path: '/member/contact?tab=location' },
+    ],
   },
 ];
 
@@ -183,9 +203,9 @@ const VerticalNavigation = ({ isOpen, onClose }: SideBarProps) => {
                   <div className="ml-4 mt-2 space-y-3 animate-in slide-in-from-top-2 duration-200">
                     {section.items.map((item, itemIndex) => (
                       <div key={itemIndex}>
-                        <MenuLink to={section.path} onClick={onClose}>
+                        <MenuLink to={item.path} onClick={onClose}>
                           <span className="text-[16px] text-gray-700 hover:text-gray-900 transition-colors">
-                            {item}
+                            {item.label}
                           </span>
                         </MenuLink>
                       </div>
@@ -241,8 +261,8 @@ const HorizontalModal = ({ isOpen, onClose }: SideBarProps) => (
                 </MenuLink>
                 <div className="text-center pt-6 xl:pt-8 space-y-4 xl:space-y-5">
                   {section.items.map((item, itemIndex) => (
-                    <MenuLink key={itemIndex} to={section.path} onClick={onClose}>
-                      {item}
+                    <MenuLink key={itemIndex} to={item.path} onClick={onClose}>
+                      {item.label}
                     </MenuLink>
                   ))}
                 </div>

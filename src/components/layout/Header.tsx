@@ -14,8 +14,8 @@ interface HeaderProps {
 const navigationItems = [
   { label: '조합 소개', path: '/member/combination' },
   { label: '사업 안내', path: '/member/business' },
-  { label: '소식과 자료', path: '/member/news' },
-  { label: '참여하기', path: '/member/participate' },
+  { label: '소식과 자료', path: '/member/news?tab=news' },
+  { label: '참여하기', path: '/member/participate?tab=membership' },
   { label: '문의하기', path: '/member/contact' },
 ];
 
