@@ -1,45 +1,14 @@
 import { useState, useMemo } from 'react';
-
-// 이벤트 카테고리 타입 정의
-export type EventCategory = 'festival' | 'class' | 'meeting';
-
-// 이벤트 데이터 타입 정의
-export interface EventData {
-  id: number;
-  date: number;
-  category: EventCategory;
-  title: string;
-  description: string;
-  time?: string;
-  location?: string;
-}
-
-// 월별 이벤트 데이터 타입
-export interface MonthlyEventData {
-  year: number;
-  month: number;
-  events: EventData[];
-}
-
-// 카테고리 설정
-const CATEGORY_CONFIG = {
-  festival: {
-    name: '마을 축제',
-    color: '#2C2E5A',
-  },
-  class: {
-    name: '원데이 클래스',
-    color: '#A692D1',
-  },
-  meeting: {
-    name: '회의 일정',
-    color: '#FFA484',
-  },
-};
+import {
+  type EventCategory,
+  type EventDataForCalendar,
+  type MonthlyEventData,
+  CALENDAR_CATEGORY_CONFIG,
+} from './data/types';
 
 interface EventCalendarProps {
   events?: MonthlyEventData;
-  onDateClick?: (date: number, events: EventData[]) => void;
+  onDateClick?: (date: number, events: EventDataForCalendar[]) => void;
   showCategoryLegend?: boolean;
   className?: string;
   currentDate?: Date;
@@ -100,7 +69,7 @@ function EventCalendar({
       return {};
     }
 
-    const eventsByDate: Record<number, EventData[]> = {};
+    const eventsByDate: Record<number, EventDataForCalendar[]> = {};
     events.events.forEach((event) => {
       if (!eventsByDate[event.date]) {
         eventsByDate[event.date] = [];
@@ -118,7 +87,7 @@ function EventCalendar({
   };
 
   // 특정 날짜의 이벤트들 가져오기
-  const getEventsForDate = (date: number): EventData[] => {
+  const getEventsForDate = (date: number): EventDataForCalendar[] => {
     const currentMonthEvents = getCurrentMonthEvents();
     return currentMonthEvents[date] || [];
   };
@@ -166,86 +135,89 @@ function EventCalendar({
   }, [firstDay, daysInMonth]);
 
   return (
-    <div className={`bg-white rounded-lg p-6 space-y-4 ${className}`}>
+    <div className={`bg-white rounded-lg p-6 ${className}`}>
       {/* 월 네비게이션 */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center gap-3 mb-4">
+        <button
+          onClick={goToPreviousMonth}
+          className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+          aria-label="이전 달"
+        >
+          ←
+        </button>
         <h3 className="text-base xs:text-lg sm:text-lg md:text-lg lg:text-xl xl:text-xl 2xl:text-2xl font-semibold text-gray-900">
           {getMonthName(currentDate)} {currentDate.getFullYear()}
         </h3>
-        <div className="flex gap-2">
-          <button
-            onClick={goToPreviousMonth}
-            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-            aria-label="이전 달"
-          >
-            ←
-          </button>
-          <button
-            onClick={goToNextMonth}
-            className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
-            aria-label="다음 달"
-          >
-            →
-          </button>
-        </div>
+        <button
+          onClick={goToNextMonth}
+          className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+          aria-label="다음 달"
+        >
+          →
+        </button>
       </div>
 
-      {/* 캘린더 그리드 */}
-      <div className="grid grid-cols-7 gap-1 text-xs">
-        {['일', '월', '화', '수', '목', '금', '토'].map((day) => (
-          <div key={day} className="p-2 text-center font-medium text-gray-500">
-            {day}
-          </div>
-        ))}
-        {calendarDays.map((day, i) => {
-          const hasEventOnDate = hasEvent(day);
-          const primaryCategory = getPrimaryEventCategory(day);
-          const eventsForDate = getEventsForDate(day);
-
-          return (
-            <div
-              key={i}
-              className={`p-2 text-center cursor-pointer hover:bg-gray-100 rounded-lg transition-colors relative ${
-                day === 0
-                  ? 'text-gray-300'
-                  : hasEventOnDate
-                  ? 'font-semibold text-white'
-                  : 'text-gray-700'
-              }`}
-              style={{
-                backgroundColor:
-                  hasEventOnDate && primaryCategory
-                    ? CATEGORY_CONFIG[primaryCategory].color
-                    : undefined,
-              }}
-              onClick={() => handleDateClick(day)}
-              title={hasEventOnDate ? eventsForDate.map((e) => e.title).join(', ') : ''}
-            >
-              {day !== 0 && day}
-              {hasEventOnDate && eventsForDate.length > 1 && (
-                <div className="absolute -top-1 -right-1 w-3 h-3 bg-white rounded-full text-xs flex items-center justify-center text-gray-600">
-                  {eventsForDate.length}
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-
-      {/* 카테고리 범례 */}
-      {showCategoryLegend && (
-        <div className="mt-4">
-          <h4 className="text-sm font-medium text-gray-700 mb-2">행사 카테고리</h4>
-          <div className="flex flex-wrap gap-3">
-            {Object.entries(CATEGORY_CONFIG).map(([key, config]) => (
-              <div key={key} className="flex items-center gap-2">
-                <div className="w-4 h-4 rounded" style={{ backgroundColor: config.color }} />
-                <span className="text-sm text-gray-600">{config.name}</span>
+      {/* 캘린더와 범례를 가로로 배치 */}
+      <div className="flex gap-6">
+        {/* 캘린더 그리드 */}
+        <div className="flex-1">
+          <div className="grid grid-cols-7 gap-1 text-xs">
+            {['일', '월', '화', '수', '목', '금', '토'].map((day) => (
+              <div key={day} className="p-2 text-center font-medium text-gray-500">
+                {day}
               </div>
             ))}
+            {calendarDays.map((day, i) => {
+              const hasEventOnDate = hasEvent(day);
+              const primaryCategory = getPrimaryEventCategory(day);
+              const eventsForDate = getEventsForDate(day);
+
+              return (
+                <div
+                  key={i}
+                  className={`p-2 text-center cursor-pointer hover:bg-gray-100 rounded-lg transition-colors relative ${
+                    day === 0
+                      ? 'text-gray-300'
+                      : hasEventOnDate
+                      ? 'font-semibold text-white'
+                      : 'text-gray-700'
+                  }`}
+                  style={{
+                    backgroundColor:
+                      hasEventOnDate && primaryCategory
+                        ? CALENDAR_CATEGORY_CONFIG[primaryCategory].color
+                        : undefined,
+                  }}
+                  onClick={() => handleDateClick(day)}
+                  title={hasEventOnDate ? eventsForDate.map((e) => e.title).join(', ') : ''}
+                >
+                  {day !== 0 && day}
+                  {hasEventOnDate && eventsForDate.length > 1 && (
+                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-white rounded-full text-xs flex items-center justify-center text-gray-600">
+                      {eventsForDate.length}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
-      )}
+
+        {/* 카테고리 범례 */}
+        {showCategoryLegend && (
+          <div className="flex-shrink-0">
+            <h4 className="text-sm font-semibold text-gray-700 mb-3">행사 카테고리</h4>
+            <div className="flex flex-col gap-2">
+              {Object.entries(CALENDAR_CATEGORY_CONFIG).map(([key, config]) => (
+                <div key={key} className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: config.color }} />
+                  <span className="text-sm text-gray-600">{config.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
