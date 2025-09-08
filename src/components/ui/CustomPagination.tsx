@@ -52,10 +52,10 @@ const CustomPagination: React.FC<CustomPaginationProps> = ({
 
     // 페이지 번호들 (화면 크기에 따라 표시 개수 조정)
     const getVisiblePages = () => {
-      if (window.innerWidth < 640) return 3; // 모바일: 3개
-      if (window.innerWidth < 768) return 5; // sm: 5개
-      if (window.innerWidth < 1024) return 7; // md: 7개
-      return 10; // lg 이상: 10개
+      if (window.innerWidth < 640) return Math.min(3, maxVisiblePages); // 모바일: 3개
+      if (window.innerWidth < 768) return Math.min(5, maxVisiblePages); // sm: 5개
+      if (window.innerWidth < 1024) return Math.min(7, maxVisiblePages); // md: 7개
+      return maxVisiblePages; // lg 이상: maxVisiblePages 개
     };
 
     const visiblePages = getVisiblePages();
