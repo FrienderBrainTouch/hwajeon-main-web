@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pagination, PaginationContent, PaginationItem } from '@/components/ui/pagination';
+import CustomPagination from '@/components/ui/CustomPagination';
 import { type GalleryItem, type NewsItem } from './data/types';
 
 type GalleryItemType = GalleryItem | NewsItem;
@@ -21,96 +21,6 @@ const GalleryList: React.FC<GalleryListProps> = ({
   onItemClick,
   type = 'news',
 }) => {
-  const handlePageChange = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      onPageChange(page);
-    }
-  };
-
-  const renderPaginationItems = () => {
-    const items = [];
-
-    // 첫 페이지 버튼 (<<)
-    items.push(
-      <PaginationItem key="first">
-        <button
-          onClick={() => handlePageChange(1)}
-          disabled={currentPage === 1}
-          className="px-4 py-3 rounded-lg text-base font-bold text-gray-800 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          style={{ backgroundColor: '#2C2E5A29' }}
-        >
-          «
-        </button>
-      </PaginationItem>
-    );
-
-    // 이전 페이지 버튼 (<)
-    items.push(
-      <PaginationItem key="prev">
-        <button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="px-4 py-3 rounded-lg text-base font-bold text-gray-800 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          style={{ backgroundColor: '#2C2E5A29' }}
-        >
-          ‹
-        </button>
-      </PaginationItem>
-    );
-
-    // 페이지 번호들 (최대 10개 페이지 표시)
-    const maxVisiblePages = 10;
-    const startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-    const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-
-    for (let i = startPage; i <= endPage; i++) {
-      items.push(
-        <PaginationItem key={i}>
-          <button
-            onClick={() => handlePageChange(i)}
-            className={`px-4 py-3 rounded-lg text-base transition-colors ${
-              i === currentPage
-                ? 'text-gray-900 font-bold border-b-2 border-gray-900'
-                : 'text-gray-800 font-normal hover:text-gray-900'
-            }`}
-          >
-            {i}
-          </button>
-        </PaginationItem>
-      );
-    }
-
-    // 다음 페이지 버튼 (>)
-    items.push(
-      <PaginationItem key="next">
-        <button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className="px-4 py-3 rounded-lg text-base font-bold text-gray-800 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          style={{ backgroundColor: '#2C2E5A29' }}
-        >
-          ›
-        </button>
-      </PaginationItem>
-    );
-
-    // 마지막 페이지 버튼 (>>)
-    items.push(
-      <PaginationItem key="last">
-        <button
-          onClick={() => handlePageChange(totalPages)}
-          disabled={currentPage === totalPages}
-          className="px-4 py-3 rounded-lg text-base font-bold text-gray-800 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          style={{ backgroundColor: '#2C2E5A29' }}
-        >
-          »
-        </button>
-      </PaginationItem>
-    );
-
-    return items;
-  };
-
   return (
     <div className="w-full">
       {/* 갤러리 그리드 */}
@@ -171,9 +81,11 @@ const GalleryList: React.FC<GalleryListProps> = ({
 
       {/* 페이지네이션 */}
       <div className="flex items-center justify-center">
-        <Pagination>
-          <PaginationContent className="gap-3">{renderPaginationItems()}</PaginationContent>
-        </Pagination>
+        <CustomPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+        />
       </div>
     </div>
   );
