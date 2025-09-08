@@ -6,4 +6,14 @@ export { noticeData } from './noticeData';
 export { archiveData } from './archiveData';
 export { newsData } from './newsData';
 export { galleryData } from './galleryData';
-export { calendarData } from './calendarData';
+export { monthlyEventData, eventListData, allEventData } from './calendarData';
+export {
+  type EventData,
+  type EventDataForCalendar,
+  type MonthlyEventData,
+  type EventCategory,
+  type CategoryFilter,
+  type CategoryConfig,
+  CALENDAR_CATEGORY_CONFIG,
+  LIST_CATEGORY_CONFIG,
+} from './types';
