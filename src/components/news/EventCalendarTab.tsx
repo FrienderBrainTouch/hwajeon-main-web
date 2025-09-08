@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import EventCalendar from './EventCalendar';
-import { monthlyEventData } from './data/calendarData';
 import { type MonthlyEventData } from './data/types';
 
-// 샘플 이벤트 데이터 (추후 API로 대체)
-const sampleEventData: Record<number, MonthlyEventData> = monthlyEventData;
+interface EventCalendarTabProps {
+  events: Record<number, MonthlyEventData>;
+}
 
-function EventCalendarTab() {
+function EventCalendarTab({ events }: EventCalendarTabProps) {
   const [currentDate, setCurrentDate] = useState(new Date());
 
   // 현재 월의 이벤트 가져오기
   const getCurrentMonthEvents = (): MonthlyEventData | undefined => {
     const currentMonth = currentDate.getMonth() + 1;
-    return sampleEventData[currentMonth];
+    return events[currentMonth];
   };
 
   // 날짜 클릭 핸들러

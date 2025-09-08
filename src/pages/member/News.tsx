@@ -6,7 +6,8 @@ import {
   archiveData,
   newsData,
   galleryData,
-  // calendarData,
+  monthlyEventData,
+  eventListData,
 } from '@/components/news/data';
 
 function News() {
@@ -60,8 +61,8 @@ function News() {
       case 'calendar':
         return (
           <div className="space-y-6">
-            <EventCalendarTab />
-            <EventList />
+            <EventCalendarTab events={monthlyEventData} />
+            <EventList events={eventListData} itemsPerPage={4} />
           </div>
         );
       case 'archive':

@@ -1,20 +1,20 @@
 import { useState } from 'react';
-import { eventListData } from './data/calendarData';
 import { type EventData, type CategoryFilter, LIST_CATEGORY_CONFIG } from './data/types';
 
-// 샘플 이벤트 데이터
-const sampleEventList: EventData[] = eventListData;
+interface EventListProps {
+  events: EventData[];
+  itemsPerPage?: number;
+}
 
-function EventList() {
+function EventList({ events, itemsPerPage = 4 }: EventListProps) {
   const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>('all');
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 4;
 
   // 카테고리별 필터링
   const filteredEvents =
     selectedCategory === 'all'
-      ? sampleEventList
-      : sampleEventList.filter((event) => event.category === selectedCategory);
+      ? events
+      : events.filter((event) => event.category === selectedCategory);
 
   // 페이지네이션
   const totalPages = Math.ceil(filteredEvents.length / itemsPerPage);
