@@ -58,10 +58,10 @@ function EventList({ events, itemsPerPage = 4 }: EventListProps) {
           {paginatedEvents.map((event) => (
             <div
               key={event.id}
-              className="flex gap-4 p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow"
+              className="flex flex-col sm:flex-row gap-4 p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow"
             >
               {/* 이미지 영역 */}
-              <div className="flex-shrink-0 w-32 h-24 bg-gray-200 rounded-lg flex items-center justify-center">
+              <div className="flex-shrink-0 w-full sm:w-32 h-32 sm:h-24 bg-gray-200 rounded-lg flex items-center justify-center">
                 <span className="text-gray-500 text-sm">이미지</span>
               </div>
 
@@ -78,7 +78,7 @@ function EventList({ events, itemsPerPage = 4 }: EventListProps) {
                 </div>
 
                 {/* 제목 */}
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{event.title}</h3>
+                <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-2">{event.title}</h3>
 
                 {/* 내용 */}
                 <p className="text-gray-600 text-sm mb-3 line-clamp-2">{event.content}</p>

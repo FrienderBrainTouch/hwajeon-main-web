@@ -34,8 +34,8 @@ const BoardList: React.FC<BoardListProps> = ({
 }) => {
   return (
     <div className="w-full">
-      {/* 게시판 목록 테이블 */}
-      <div className="bg-white overflow-hidden">
+      {/* 데스크톱 테이블 (md 이상) */}
+      <div className="hidden md:block bg-white overflow-hidden">
         <table className="w-full">
           <thead className="bg-gray-50">
             <tr>
@@ -66,6 +66,23 @@ const BoardList: React.FC<BoardListProps> = ({
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* 모바일 카드 레이아웃 (md 미만) */}
+      <div className="md:hidden space-y-3">
+        {items.map((item) => (
+          <div
+            key={item.id}
+            className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
+            onClick={() => onItemClick?.(item)}
+          >
+            <div className="flex justify-between items-start mb-2">
+              <span className="text-sm text-gray-500">#{item.id}</span>
+              <span className="text-xs text-gray-500">{item.date}</span>
+            </div>
+            <h3 className="text-base font-medium text-gray-900 line-clamp-2">{item.title}</h3>
+          </div>
+        ))}
       </div>
 
       {/* 페이지네이션 */}

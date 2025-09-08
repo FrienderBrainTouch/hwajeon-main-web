@@ -24,29 +24,29 @@ const Detail = <T extends BaseItem>({
   hasNext = false,
 }: DetailProps<T>) => {
   return (
-    <div className="w-full max-w-5xl mx-auto py-8">
+    <div className="w-full max-w-5xl mx-auto py-4 sm:py-8 px-4 sm:px-0">
       {/* 상단 정보 섹션 */}
-      <div className="bg-white border-b border-gray-200 pb-6 mb-6">
-        <div className="flex justify-between items-start">
-          <div className="space-y-4">
-            <div>
-              <span className="text-sm text-gray-500 font-medium">제목</span>
-              <p className="text-lg text-gray-900 font-semibold mt-1">{item.title}</p>
-            </div>
-            <div>
-              <span className="text-sm text-gray-500 font-medium">작성일</span>
-              <p className="text-base text-gray-700 mt-1">{item.date}</p>
-            </div>
+      <div className="bg-white border-b border-gray-200 pb-4 sm:pb-6 mb-4 sm:mb-6">
+        <div className="space-y-4">
+          <div>
+            <span className="text-sm text-gray-500 font-medium">제목</span>
+            <p className="text-base sm:text-lg text-gray-900 font-semibold mt-1 break-words">
+              {item.title}
+            </p>
+          </div>
+          <div>
+            <span className="text-sm text-gray-500 font-medium">작성일</span>
+            <p className="text-sm sm:text-base text-gray-700 mt-1">{item.date}</p>
           </div>
         </div>
       </div>
 
       {/* 중앙 내용 섹션 */}
-      <div className="bg-white min-h-[400px] py-8">
+      <div className="bg-white min-h-[300px] sm:min-h-[400px] py-4 sm:py-8">
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold text-gray-900">내용</h3>
+          <h3 className="text-base sm:text-lg font-semibold text-gray-900">내용</h3>
           <div className="prose prose-gray max-w-none">
-            <p className="text-gray-700 leading-relaxed">
+            <p className="text-sm sm:text-base text-gray-700 leading-relaxed break-words">
               {item.content ||
                 '게시물 내용이 여기에 표시됩니다. 실제 구현 시에는 content 필드를 추가하여 상세 내용을 저장할 수 있습니다.'}
             </p>
@@ -55,7 +55,7 @@ const Detail = <T extends BaseItem>({
       </div>
 
       {/* 하단 네비게이션 버튼 */}
-      <div className="flex justify-center mt-8 space-x-4">
+      <div className="flex flex-col sm:flex-row justify-center mt-6 sm:mt-8 space-y-2 sm:space-y-0 sm:space-x-4">
         <button
           onClick={onPrevious}
           disabled={!hasPrevious}
