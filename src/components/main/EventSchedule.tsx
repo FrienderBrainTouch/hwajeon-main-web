@@ -1,94 +1,12 @@
 import { useState } from 'react';
-import { EventCalendar, type MonthlyEventData } from '../news';
+import { EventCalendar } from '../news';
+import { monthlyEventData } from '../news/data/calendarData';
+import { type MonthlyEventData } from '../news/data/types';
 
 function EventSchedule() {
   const [currentDate, setCurrentDate] = useState(new Date());
   // 이벤트 데이터 (새로운 구조로 변경)
-  const eventData: Record<number, MonthlyEventData> = {
-    // 8월 이벤트 (예시)
-    8: {
-      year: 2025,
-      month: 8,
-      events: [
-        {
-          id: 1,
-          date: 4,
-          category: 'festival',
-          title: '마을 축제',
-          description: '화전마을 전통 축제',
-        },
-        { id: 2, date: 7, category: 'meeting', title: '회의 일정', description: '월간 운영위원회' },
-        {
-          id: 3,
-          date: 11,
-          category: 'class',
-          title: '원데이 클래스',
-          description: '전통 공예 체험',
-        },
-        { id: 4, date: 14, category: 'meeting', title: '회의 일정', description: '사업 계획 회의' },
-        { id: 5, date: 18, category: 'festival', title: '마을 축제', description: '가을 수확제' },
-        { id: 6, date: 19, category: 'class', title: '원데이 클래스', description: '요리 교실' },
-        { id: 7, date: 20, category: 'festival', title: '마을 축제', description: '문화 공연' },
-      ],
-    },
-    // 9월 이벤트 (예시)
-    9: {
-      year: 2025,
-      month: 9,
-      events: [
-        {
-          id: 8,
-          date: 2,
-          category: 'class',
-          title: '원데이 클래스',
-          description: '전통 음식 만들기',
-        },
-        {
-          id: 9,
-          date: 8,
-          category: 'meeting',
-          title: '회의 일정',
-          description: '분기별 실적 회의',
-        },
-        {
-          id: 10,
-          date: 15,
-          category: 'festival',
-          title: '마을 축제',
-          description: '추석 맞이 행사',
-        },
-        {
-          id: 11,
-          date: 22,
-          category: 'class',
-          title: '원데이 클래스',
-          description: '한복 입기 체험',
-        },
-      ],
-    },
-    // 10월 이벤트 (예시)
-    10: {
-      year: 2025,
-      month: 10,
-      events: [
-        { id: 12, date: 5, category: 'festival', title: '마을 축제', description: '단풍 축제' },
-        {
-          id: 13,
-          date: 12,
-          category: 'meeting',
-          title: '회의 일정',
-          description: '연말 사업 회의',
-        },
-        {
-          id: 14,
-          date: 19,
-          category: 'class',
-          title: '원데이 클래스',
-          description: '전통 차 시음회',
-        },
-      ],
-    },
-  };
+  const eventData: Record<number, MonthlyEventData> = monthlyEventData;
 
   // 현재 월의 이벤트 가져오기
   const getCurrentMonthEvents = (): MonthlyEventData | undefined => {
