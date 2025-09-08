@@ -19,13 +19,36 @@ const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
   title,
   items,
   boardType,
-  itemsPerPage = 9, // 갤러리는 3x3 그리드로 9개씩
+  itemsPerPage: propItemsPerPage,
   onItemClick,
   type = 'news',
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
+  const [responsiveItemsPerPage, setResponsiveItemsPerPage] = useState(9);
+
+  // 반응형 itemsPerPage 설정
+  useEffect(() => {
+    const updateItemsPerPage = () => {
+      const width = window.innerWidth;
+      if (width >= 1024) {
+        setResponsiveItemsPerPage(9); // lg: 3x3
+      } else if (width >= 768) {
+        setResponsiveItemsPerPage(6); // md: 2x3
+      } else if (width >= 640) {
+        setResponsiveItemsPerPage(5); // sm: 1x5
+      } else {
+        setResponsiveItemsPerPage(4); // 모바일: 1x4
+      }
+    };
+
+    updateItemsPerPage();
+    window.addEventListener('resize', updateItemsPerPage);
+    return () => window.removeEventListener('resize', updateItemsPerPage);
+  }, []);
+
+  const itemsPerPage = propItemsPerPage || responsiveItemsPerPage;
 
   // URL 파라미터에서 아이템 ID와 페이지 확인 (탭별로 독립적)
   const itemId = searchParams.get(`${boardType}_id`);
