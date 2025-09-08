@@ -6,6 +6,8 @@ export { default as EventCalendarTab } from './EventCalendarTab';
 export { default as EventList } from './EventList';
 export { default as GalleryList } from './GalleryList';
 export { default as GalleryWrapper } from './GalleryWrapper';
+export { default as GalleryDetail } from './GalleryDetail';
+export { default as Detail } from './Detail';
 export type { BoardItem } from './BoardList';
 export type {
   EventCategory,

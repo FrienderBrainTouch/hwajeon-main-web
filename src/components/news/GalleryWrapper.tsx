@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import GalleryList from './GalleryList';
+import GalleryDetail from './GalleryDetail';
 import { type GalleryItem, type NewsItem } from './data/types';
 
 type GalleryItemType = GalleryItem | NewsItem;
@@ -116,77 +117,19 @@ const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
     }
   };
 
-  // 상세 페이지가 선택된 경우 (갤러리 상세 모달 또는 페이지)
+  // 상세 페이지가 선택된 경우 GalleryDetail 컴포넌트 사용
   if (selectedItem) {
     const currentIndex = getCurrentItemIndex();
 
     return (
-      <div className="w-full max-w-5xl mx-auto py-8">
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-          {/* 이미지 */}
-          <div className="aspect-[16/9] bg-gray-200 flex items-center justify-center">
-            {selectedItem.imageUrl ? (
-              <img
-                src={selectedItem.imageUrl}
-                alt={selectedItem.title}
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <span className="text-gray-500 text-lg">이미지</span>
-            )}
-          </div>
-
-          {/* 내용 */}
-          <div className="p-8">
-            <div className="flex justify-between items-start mb-6">
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900 mb-2">{selectedItem.title}</h1>
-                <p className="text-gray-500">{selectedItem.date}</p>
-              </div>
-            </div>
-
-            <div className="prose prose-gray max-w-none">
-              <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-                {selectedItem.content}
-              </p>
-            </div>
-          </div>
-
-          {/* 네비게이션 버튼 */}
-          <div className="flex justify-center p-6 border-t border-gray-200 space-x-4">
-            <button
-              onClick={handlePrevious}
-              disabled={currentIndex <= 0}
-              className={`px-6 py-3 rounded-lg text-base font-medium transition-colors ${
-                currentIndex > 0
-                  ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  : 'bg-gray-50 text-gray-400 cursor-not-allowed'
-              }`}
-            >
-              이전
-            </button>
-
-            <button
-              onClick={handleBackToList}
-              className="px-6 py-3 rounded-lg text-base font-medium bg-gray-200 text-gray-800 hover:bg-gray-300 transition-colors"
-            >
-              목록
-            </button>
-
-            <button
-              onClick={handleNext}
-              disabled={currentIndex >= items.length - 1}
-              className={`px-6 py-3 rounded-lg text-base font-medium transition-colors ${
-                currentIndex < items.length - 1
-                  ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  : 'bg-gray-50 text-gray-400 cursor-not-allowed'
-              }`}
-            >
-              다음
-            </button>
-          </div>
-        </div>
-      </div>
+      <GalleryDetail
+        item={selectedItem}
+        onBackToList={handleBackToList}
+        onPrevious={handlePrevious}
+        onNext={handleNext}
+        hasPrevious={currentIndex > 0}
+        hasNext={currentIndex < items.length - 1}
+      />
     );
   }
 
