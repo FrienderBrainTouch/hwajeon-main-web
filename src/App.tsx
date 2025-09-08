@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect, useRef } from 'react';
+import { useMemo, useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 // Layout
 import MemberLayout from './routes/MemberLayout';
@@ -9,9 +9,28 @@ import { ToastProvider } from '@/components/ui/toast';
 import { Header, Footer } from '@/components/layout';
 // Components
 import { Hero } from '@/components/main';
-import { Main, Combination, Business, News, Participate, Contact } from './pages/member';
-import { AdminLogin, AdminDashboard, UserManagement, AdminSettings } from './pages/admin';
+import { Main } from './pages/member';
 import HeaderImg from '@/assets/header.png';
+
+// Lazy load pages for code splitting
+const Combination = lazy(() => import('./pages/member/Combination'));
+const Business = lazy(() => import('./pages/member/Business'));
+const News = lazy(() => import('./pages/member/News'));
+const Participate = lazy(() => import('./pages/member/Participate'));
+const Contact = lazy(() => import('./pages/member/Contact'));
+
+// Lazy load admin pages
+const AdminLogin = lazy(() => import('./pages/admin/Login'));
+const AdminDashboard = lazy(() => import('./pages/admin/Dashboard'));
+const UserManagement = lazy(() => import('./pages/admin/UserManagement'));
+const AdminSettings = lazy(() => import('./pages/admin/Settings'));
+
+// Loading component
+const LoadingSpinner = () => (
+  <div className="flex justify-center items-center h-64">
+    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+  </div>
+);
 
 const HERO_BY_ROUTE: Record<
   string,
@@ -121,26 +140,28 @@ function AppContent() {
       )}
 
       <main>
-        <Routes>
-          {/* Member Routes */}
-          <Route path="/" element={<Main />} />
-          <Route path="/member" element={<MemberLayout />}>
-            <Route path="combination" element={<Combination />} />
-            <Route path="business" element={<Business />} />
-            <Route path="news" element={<News />} />
-            <Route path="participate" element={<Participate />} />
-            <Route path="contact" element={<Contact />} />
-          </Route>
+        <Suspense fallback={<LoadingSpinner />}>
+          <Routes>
+            {/* Member Routes */}
+            <Route path="/" element={<Main />} />
+            <Route path="/member" element={<MemberLayout />}>
+              <Route path="combination" element={<Combination />} />
+              <Route path="business" element={<Business />} />
+              <Route path="news" element={<News />} />
+              <Route path="participate" element={<Participate />} />
+              <Route path="contact" element={<Contact />} />
+            </Route>
 
-          {/* Admin Routes */}
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="users" element={<UserManagement />} />
-            <Route path="settings" element={<AdminSettings />} />
-            <Route index element={<AdminDashboard />} />
-          </Route>
-        </Routes>
+            {/* Admin Routes */}
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="users" element={<UserManagement />} />
+              <Route path="settings" element={<AdminSettings />} />
+              <Route index element={<AdminDashboard />} />
+            </Route>
+          </Routes>
+        </Suspense>
       </main>
 
       {/* admin 페이지는 헤더와 푸터를 표시하지 않음 */}
