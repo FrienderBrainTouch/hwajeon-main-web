@@ -27,13 +27,19 @@ function EventCalendarTab({ events }: EventCalendarTabProps) {
   };
 
   return (
-    <div className="py-8 max-w-5xl mx-auto">
-      <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">행사 캘린더</h2>
-        <p className="text-gray-600">화전마을의 다양한 행사와 일정을 확인하세요.</p>
+    <div className="py-2 sm:py-4 md:py-6 lg:py-8 max-w-7xl mx-auto px-2 sm:px-4 md:px-6 lg:px-8">
+      {/* 헤더 섹션 */}
+      <div className="mb-3 sm:mb-4 md:mb-5 lg:mb-6">
+        <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 sm:mb-2">
+          행사 캘린더
+        </h2>
+        <p className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-600 leading-relaxed">
+          화전마을의 다양한 행사와 일정을 확인하세요.
+        </p>
       </div>
 
-      <div>
+      {/* 캘린더 컨테이너 */}
+      <div className="w-full">
         <EventCalendar
           events={getCurrentMonthEvents()}
           onDateClick={handleDateClick}

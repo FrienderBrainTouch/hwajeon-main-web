@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import CustomPagination from '@/components/ui/CustomPagination';
 import { type EventData, type CategoryFilter, LIST_CATEGORY_CONFIG } from './data/types';
 
 interface EventListProps {
@@ -57,10 +58,10 @@ function EventList({ events, itemsPerPage = 4 }: EventListProps) {
           {paginatedEvents.map((event) => (
             <div
               key={event.id}
-              className="flex gap-4 p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow"
+              className="flex flex-col sm:flex-row gap-4 p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow"
             >
               {/* 이미지 영역 */}
-              <div className="flex-shrink-0 w-32 h-24 bg-gray-200 rounded-lg flex items-center justify-center">
+              <div className="flex-shrink-0 w-full sm:w-32 h-32 sm:h-24 bg-gray-200 rounded-lg flex items-center justify-center">
                 <span className="text-gray-500 text-sm">이미지</span>
               </div>
 
@@ -77,7 +78,7 @@ function EventList({ events, itemsPerPage = 4 }: EventListProps) {
                 </div>
 
                 {/* 제목 */}
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{event.title}</h3>
+                <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-2">{event.title}</h3>
 
                 {/* 내용 */}
                 <p className="text-gray-600 text-sm mb-3 line-clamp-2">{event.content}</p>
@@ -92,51 +93,11 @@ function EventList({ events, itemsPerPage = 4 }: EventListProps) {
         {/* 페이지네이션 */}
         {totalPages > 0 && (
           <div className="flex items-center justify-center mt-6">
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => handlePageChange(1)}
-                disabled={currentPage === 1}
-                className="p-2 rounded-lg border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                &lt;&lt;
-              </button>
-              <button
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-                className="p-2 rounded-lg border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                &lt;
-              </button>
-
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <button
-                  key={page}
-                  onClick={() => handlePageChange(page)}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    currentPage === page
-                      ? 'bg-gray-900 text-white'
-                      : 'text-gray-700 hover:bg-gray-100'
-                  }`}
-                >
-                  {page}
-                </button>
-              ))}
-
-              <button
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                className="p-2 rounded-lg border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                &gt;
-              </button>
-              <button
-                onClick={() => handlePageChange(totalPages)}
-                disabled={currentPage === totalPages}
-                className="p-2 rounded-lg border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                &gt;&gt;
-              </button>
-            </div>
+            <CustomPagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
           </div>
         )}
       </div>

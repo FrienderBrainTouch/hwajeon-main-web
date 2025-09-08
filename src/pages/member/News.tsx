@@ -41,7 +41,6 @@ function News() {
               title="화전 소식"
               items={newsData.newsItems}
               boardType="news"
-              itemsPerPage={9}
               type="news"
             />
           </div>
@@ -53,7 +52,6 @@ function News() {
               title="활동 갤러리"
               items={galleryData.galleryItems}
               boardType="gallery"
-              itemsPerPage={9}
               type="gallery"
             />
           </div>
