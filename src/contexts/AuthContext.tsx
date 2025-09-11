@@ -7,6 +7,7 @@ interface User {
   id: string;
   username: string;
   name: string;
+  realName: string;
   role: 'TEACHER' | 'USER';
 }
 
@@ -49,12 +50,26 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const decodeToken = (token: string, username?: string): User | null => {
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
+      console.log('JWT Payload:', payload); // 디버깅용
+      console.log('realName from JWT:', payload.realName); // 디버깅용
+      
+      // 한글이 깨진 경우를 감지하고 fallback 사용
+      const isKoreanCorrupted = (str: string) => {
+        return /[^\x00-\x7F]/.test(str) && str.includes('ê') || str.includes('ì');
+      };
+      
+      const realName = payload.realName && !isKoreanCorrupted(payload.realName) 
+        ? payload.realName 
+        : '관리자';
+      
       const user = {
         id: payload.sub,
-        username: username || 'admin',
-        name: payload.realName || '관리자',
+        username: username || payload.username || 'admin',
+        name: realName,
         role: payload.role || 'TEACHER',
+        realName: realName,
       };
+      console.log('Decoded user:', user); // 디버깅용
       return user;
     } catch (error) {
       console.error('Token decode error:', error);

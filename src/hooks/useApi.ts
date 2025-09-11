@@ -30,13 +30,13 @@ export function useApi<T>(
     try {
       const response = await apiFunction(...args);
       
-      if (response.success && response.data) {
+      if (response.success) {
         setState({
-          data: response.data,
+          data: response.data || null,
           loading: false,
           error: null,
         });
-        return response.data;
+        return response.data || null;
       } else {
         // 백엔드에서 제공하는 에러 메시지 사용
         throw new Error(response.message || 'API 요청에 실패했습니다.');
