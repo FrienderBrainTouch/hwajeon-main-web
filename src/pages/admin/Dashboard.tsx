@@ -2,15 +2,21 @@ import { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useApi } from '@/hooks/useApi';
-import { authApi } from '@/api/auth';
+import { postsApi } from '@/api/admin/posts';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import type { Post, PostCategory } from './data';
 import { categoryInfo } from './data';
-import type { GetPostsParams } from '@/api/auth';
+import type { GetPostsParams } from '@/api/admin/types/posts';
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -23,8 +29,8 @@ export default function AdminDashboard() {
   const postsPerPage = 10;
 
   // API 훅들
-  const getPostsApi = useApi(authApi.getPosts);
-  const deletePostApi = useApi(authApi.deletePost);
+  const getPostsApi = useApi(postsApi.getPosts);
+  const deletePostApi = useApi(postsApi.deletePost);
 
   // 게시글 조회 함수
   const fetchPosts = async (category: PostCategory, page: number = 0) => {
@@ -32,18 +38,18 @@ export default function AdminDashboard() {
       const params: GetPostsParams = {
         postType: category,
         page: page,
-        size: postsPerPage
+        size: postsPerPage,
       };
-      
+
       const result = await getPostsApi.execute(params);
       if (result) {
         console.log('API 응답 데이터:', result);
-        
+
         // PostSummary를 Post 타입으로 변환
-        const mappedPosts: Post[] = result.content.map(post => {
+        const mappedPosts: Post[] = result.content.map((post) => {
           console.log('게시글 데이터:', post);
           console.log('postType:', result.postType);
-          
+
           return {
             id: post.postId.toString(),
             title: post.title,
@@ -55,10 +61,10 @@ export default function AdminDashboard() {
             views: 0, // 기본값
             thumbnail: post.thumbnailUrl,
             attachments: [], // PostSummary에는 attachments가 없음
-            eventDate: undefined // PostSummary에는 eventDate가 없음
+            eventDate: undefined, // PostSummary에는 eventDate가 없음
           };
         });
-        
+
         console.log('매핑된 게시글:', mappedPosts);
         setPosts(mappedPosts);
         setTotalPages(result.totalPages);
@@ -75,8 +81,9 @@ export default function AdminDashboard() {
 
   // 검색 필터링된 게시글 계산
   const filteredPosts = useMemo(() => {
-    return posts.filter(post => {
-      const matchesSearch = searchTerm === '' || 
+    return posts.filter((post) => {
+      const matchesSearch =
+        searchTerm === '' ||
         post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         post.content.toLowerCase().includes(searchTerm.toLowerCase());
       return matchesSearch;
@@ -110,7 +117,6 @@ export default function AdminDashboard() {
     }
   };
 
-
   const handleCategoryChange = (category: PostCategory) => {
     setSelectedCategory(category);
     setCurrentPage(0); // 카테고리 변경 시 첫 페이지로 (0부터 시작)
@@ -139,9 +145,7 @@ export default function AdminDashboard() {
               <h1 className="text-xl font-semibold text-gray-900">화전 관리자 대시보드</h1>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">
-                안녕하세요, {user?.realName}님
-              </span>
+              <span className="text-sm text-gray-600">안녕하세요, {user?.realName}님</span>
               <Button variant="outline" onClick={logout}>
                 로그아웃
               </Button>
@@ -156,9 +160,7 @@ export default function AdminDashboard() {
           {/* 상단 액션 버튼 */}
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-gray-900">게시글 관리</h2>
-            <Button onClick={handleCreatePost}>
-              새 게시글 작성
-            </Button>
+            <Button onClick={handleCreatePost}>새 게시글 작성</Button>
           </div>
 
           {/* 필터 및 검색 */}
@@ -173,7 +175,7 @@ export default function AdminDashboard() {
                   className="w-full"
                 />
               </div>
-              
+
               {/* 카테고리 필터 */}
               <div className="sm:w-48">
                 <Select value={selectedCategory} onValueChange={handleCategoryChange}>
@@ -190,7 +192,7 @@ export default function AdminDashboard() {
                 </Select>
               </div>
             </div>
-            
+
             {/* 결과 정보 */}
             <div className="mt-4 text-sm text-gray-600">
               총 {filteredPosts.length}개의 게시글
@@ -215,22 +217,18 @@ export default function AdminDashboard() {
                   <div className="flex justify-between items-start">
                     <div className="flex-1">
                       <div className="flex items-center space-x-2 mb-2">
-                        <Badge variant="outline">
-                          {getCategoryLabel(post.category)}
-                        </Badge>
+                        <Badge variant="outline">{getCategoryLabel(post.category)}</Badge>
                         {getCategoryViewType(post.category) === 'THUMBNAIL' && (
                           <Badge variant="secondary">썸네일</Badge>
                         )}
-                        {post.eventDate && (
-                          <Badge variant="default">행사</Badge>
-                        )}
+                        {post.eventDate && <Badge variant="default">행사</Badge>}
                       </div>
                       <h3 className="text-lg font-semibold text-gray-900 mb-2">{post.title}</h3>
                       {post.thumbnail && (
                         <div className="mb-3">
-                          <img 
-                            src={post.thumbnail} 
-                            alt="썸네일" 
+                          <img
+                            src={post.thumbnail}
+                            alt="썸네일"
                             className="w-24 h-24 object-cover rounded"
                           />
                         </div>
@@ -251,11 +249,7 @@ export default function AdminDashboard() {
                       </div>
                     </div>
                     <div className="flex space-x-2 ml-4">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleEditPost(post)}
-                      >
+                      <Button variant="outline" size="sm" onClick={() => handleEditPost(post)}>
                         수정
                       </Button>
                       <Button
@@ -274,14 +268,10 @@ export default function AdminDashboard() {
           ) : (
             <div className="text-center py-12">
               <div className="text-gray-500 text-lg">
-                {searchTerm 
-                  ? '검색 결과가 없습니다.' 
-                  : '게시글이 없습니다.'}
+                {searchTerm ? '검색 결과가 없습니다.' : '게시글이 없습니다.'}
               </div>
               <div className="text-gray-400 text-sm mt-2">
-                {searchTerm 
-                  ? '다른 검색어를 시도해보세요.' 
-                  : '새 게시글을 작성해보세요.'}
+                {searchTerm ? '다른 검색어를 시도해보세요.' : '새 게시글을 작성해보세요.'}
               </div>
             </div>
           )}
@@ -292,17 +282,17 @@ export default function AdminDashboard() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 0))}
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
                 disabled={currentPage === 0}
               >
                 이전
               </Button>
-              
+
               <div className="flex space-x-1">
-                {Array.from({ length: totalPages }, (_, i) => i).map(page => (
+                {Array.from({ length: totalPages }, (_, i) => i).map((page) => (
                   <Button
                     key={page}
-                    variant={currentPage === page ? "default" : "outline"}
+                    variant={currentPage === page ? 'default' : 'outline'}
                     size="sm"
                     onClick={() => setCurrentPage(page)}
                     className="w-10"
@@ -311,18 +301,17 @@ export default function AdminDashboard() {
                   </Button>
                 ))}
               </div>
-              
+
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages - 1))}
+                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))}
                 disabled={currentPage === totalPages - 1}
               >
                 다음
               </Button>
             </div>
           )}
-
         </div>
       </main>
     </div>

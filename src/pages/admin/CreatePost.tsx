@@ -2,11 +2,17 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useApi } from '@/hooks/useApi';
-import { authApi } from '@/api/auth';
+import { postsApi } from '@/api/admin/posts';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Textarea } from '../../components/ui/textarea';
 import type { PostFormData, PostCategory, ActivityType } from './data';
 import { categoryInfo } from './data';
@@ -17,16 +23,16 @@ export default function CreatePost() {
   const [formData, setFormData] = useState<PostFormData>({
     title: '',
     content: '',
-    postType: 'NOTICE'
+    postType: 'NOTICE',
   });
 
   // API 훅들
-  const createPostApi = useApi(authApi.createPost);
-  const createCalendarApi = useApi(authApi.createCalendarPost);
+  const createPostApi = useApi(postsApi.createPost);
+  const createCalendarApi = useApi(postsApi.createCalendarPost);
 
   const handleFileUpload = (files: FileList | null, type: 'thumbnail' | 'attachments') => {
     if (!files) return;
-    
+
     if (type === 'thumbnail') {
       setFormData({ ...formData, thumbnail: files[0] });
     } else {
@@ -36,33 +42,33 @@ export default function CreatePost() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     console.log('전송할 formData:', formData);
     console.log('postType:', formData.postType);
-    
+
     try {
       let result;
-      
+
       if (formData.postType === 'CALENDAR') {
         // 캘린더 게시글 생성 (활동 타입 포함)
         if (!formData.activityType) {
           alert('캘린더 게시글은 활동 타입을 선택해야 합니다.');
           return;
         }
-        
+
         const calendarData = {
           ...formData,
-          activityType: formData.activityType
+          activityType: formData.activityType,
         };
         console.log('캘린더 데이터:', calendarData);
-        
+
         result = await createCalendarApi.execute(calendarData);
       } else {
         // 일반 게시글 생성
         console.log('일반 게시글 데이터:', formData);
         result = await createPostApi.execute(formData);
       }
-      
+
       // result가 null이어도 성공으로 처리 (201 Created 응답의 경우)
       console.log('게시글 생성 성공:', result);
       alert('게시글이 성공적으로 생성되었습니다.');
@@ -87,9 +93,7 @@ export default function CreatePost() {
               <h1 className="text-xl font-semibold text-gray-900">새 게시글 작성</h1>
             </div>
             <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">
-                안녕하세요, {user?.name}님
-              </span>
+              <span className="text-sm text-gray-600">안녕하세요, {user?.name}님</span>
             </div>
           </div>
         </div>
@@ -105,7 +109,9 @@ export default function CreatePost() {
               <Input
                 id="title"
                 value={formData.title}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, title: e.target.value })}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  setFormData({ ...formData, title: e.target.value })
+                }
                 placeholder="게시글 제목을 입력하세요"
                 required
                 className="mt-1"
@@ -115,7 +121,12 @@ export default function CreatePost() {
             {/* 카테고리 */}
             <div>
               <Label htmlFor="postType">카테고리 *</Label>
-              <Select value={formData.postType} onValueChange={(value: PostCategory) => setFormData({ ...formData, postType: value })}>
+              <Select
+                value={formData.postType}
+                onValueChange={(value: PostCategory) =>
+                  setFormData({ ...formData, postType: value })
+                }
+              >
                 <SelectTrigger className="mt-1">
                   <SelectValue />
                 </SelectTrigger>
@@ -128,7 +139,7 @@ export default function CreatePost() {
                 </SelectContent>
               </Select>
             </div>
-            
+
             {/* 행사 날짜 (CALENDAR 카테고리만) */}
             {formData.postType === 'CALENDAR' && (
               <div>
@@ -137,7 +148,9 @@ export default function CreatePost() {
                   id="eventDate"
                   type="date"
                   value={formData.eventDate ? formData.eventDate.split('T')[0] : ''}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData({ ...formData, eventDate: e.target.value })}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setFormData({ ...formData, eventDate: e.target.value })
+                  }
                   required
                   className="mt-1"
                 />
@@ -148,7 +161,12 @@ export default function CreatePost() {
             {formData.postType === 'CALENDAR' && (
               <div>
                 <Label htmlFor="activityType">활동 타입 *</Label>
-                <Select value={formData.activityType} onValueChange={(value: ActivityType) => setFormData({ ...formData, activityType: value })}>
+                <Select
+                  value={formData.activityType}
+                  onValueChange={(value: ActivityType) =>
+                    setFormData({ ...formData, activityType: value })
+                  }
+                >
                   <SelectTrigger className="mt-1">
                     <SelectValue placeholder="활동 타입을 선택하세요" />
                   </SelectTrigger>
@@ -170,15 +188,17 @@ export default function CreatePost() {
                   id="thumbnail"
                   type="file"
                   accept="image/png,image/jpg,image/jpeg"
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleFileUpload(e.target.files, 'thumbnail')}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    handleFileUpload(e.target.files, 'thumbnail')
+                  }
                   className="mt-1"
                 />
                 {formData.thumbnail && (
                   <div className="mt-3">
                     <p className="text-sm text-gray-600 mb-2">썸네일 미리보기:</p>
-                    <img 
-                      src={URL.createObjectURL(formData.thumbnail)} 
-                      alt="썸네일 미리보기" 
+                    <img
+                      src={URL.createObjectURL(formData.thumbnail)}
+                      alt="썸네일 미리보기"
                       className="w-48 h-48 object-cover rounded border"
                     />
                   </div>
@@ -193,7 +213,9 @@ export default function CreatePost() {
                 id="attachments"
                 type="file"
                 multiple
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleFileUpload(e.target.files, 'attachments')}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                  handleFileUpload(e.target.files, 'attachments')
+                }
                 className="mt-1"
               />
               {formData.attachments && formData.attachments.length > 0 && (
@@ -217,7 +239,9 @@ export default function CreatePost() {
               <Textarea
                 id="content"
                 value={formData.content}
-                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setFormData({ ...formData, content: e.target.value })}
+                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                  setFormData({ ...formData, content: e.target.value })
+                }
                 placeholder="게시글 내용을 입력하세요"
                 rows={12}
                 required
@@ -227,7 +251,12 @@ export default function CreatePost() {
 
             {/* 버튼 */}
             <div className="flex justify-end space-x-4 pt-6 border-t">
-              <Button type="button" variant="outline" onClick={handleCancel} disabled={createPostApi.loading || createCalendarApi.loading}>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={handleCancel}
+                disabled={createPostApi.loading || createCalendarApi.loading}
+              >
                 취소
               </Button>
               <Button type="submit" disabled={createPostApi.loading || createCalendarApi.loading}>
