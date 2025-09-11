@@ -4,6 +4,10 @@ interface BaseItem {
   title: string;
   date: string;
   content?: string;
+  files?: Array<{
+    fileId: number;
+    fileUrl: string;
+  }>;
 }
 
 interface DetailProps<T extends BaseItem> {
@@ -53,6 +57,48 @@ const Detail = <T extends BaseItem>({
           </div>
         </div>
       </div>
+
+      {/* 첨부파일 섹션 */}
+      {item.files && item.files.length > 0 && (
+        <div className="bg-white py-4 sm:py-8">
+          <div className="space-y-4">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900">첨부파일</h3>
+            <div className="space-y-2">
+              {item.files.map((file, index) => (
+                <div
+                  key={file.fileId}
+                  className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border"
+                >
+                  <div className="flex items-center space-x-3">
+                    <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                      <svg
+                        className="w-4 h-4 text-blue-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                        />
+                      </svg>
+                    </div>
+                    <span className="text-sm text-gray-700">첨부파일 {index + 1}</span>
+                  </div>
+                  <button
+                    onClick={() => window.open(file.fileUrl, '_blank')}
+                    className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    다운로드
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* 하단 네비게이션 버튼 */}
       <div className="flex flex-col sm:flex-row justify-center mt-6 sm:mt-8 space-y-2 sm:space-y-0 sm:space-x-4">
