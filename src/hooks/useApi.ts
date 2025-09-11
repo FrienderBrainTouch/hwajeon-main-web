@@ -9,48 +9,51 @@ export interface ApiState<T> {
 }
 
 // API 훅 반환 타입
-export interface UseApiReturn<T> extends ApiState<T> {
-  execute: (...args: any[]) => Promise<T | null>;
+export interface UseApiReturn<T, TArgs extends unknown[] = unknown[]> extends ApiState<T> {
+  execute: (...args: TArgs) => Promise<T | null>;
   reset: () => void;
 }
 
 // API 호출을 위한 커스텀 훅
-export function useApi<T>(
-  apiFunction: (...args: any[]) => Promise<{ success: boolean; data?: T; message?: string }>
-): UseApiReturn<T> {
+export function useApi<T, TArgs extends unknown[] = unknown[]>(
+  apiFunction: (...args: TArgs) => Promise<{ success: boolean; data?: T; message?: string }>
+): UseApiReturn<T, TArgs> {
   const [state, setState] = useState<ApiState<T>>({
     data: null,
     loading: false,
     error: null,
   });
 
-  const execute = useCallback(async (...args: any[]): Promise<T | null> => {
-    setState(prev => ({ ...prev, loading: true, error: null }));
+  const execute = useCallback(
+    async (...args: TArgs): Promise<T | null> => {
+      setState((prev) => ({ ...prev, loading: true, error: null }));
 
-    try {
-      const response = await apiFunction(...args);
-      
-      if (response.success) {
+      try {
+        const response = await apiFunction(...args);
+
+        if (response.success) {
+          setState({
+            data: response.data || null,
+            loading: false,
+            error: null,
+          });
+          return response.data || null;
+        } else {
+          // 백엔드에서 제공하는 에러 메시지 사용
+          throw new Error(response.message || 'API 요청에 실패했습니다.');
+        }
+      } catch (error) {
+        const errorMessage = getErrorMessage(error as ApiError);
         setState({
-          data: response.data || null,
+          data: null,
           loading: false,
-          error: null,
+          error: errorMessage,
         });
-        return response.data || null;
-      } else {
-        // 백엔드에서 제공하는 에러 메시지 사용
-        throw new Error(response.message || 'API 요청에 실패했습니다.');
+        return null;
       }
-    } catch (error) {
-      const errorMessage = getErrorMessage(error as ApiError);
-      setState({
-        data: null,
-        loading: false,
-        error: errorMessage,
-      });
-      return null;
-    }
-  }, [apiFunction]);
+    },
+    [apiFunction]
+  );
 
   const reset = useCallback(() => {
     setState({
@@ -92,12 +95,19 @@ export function getErrorMessage(error: ApiError): string {
 }
 
 // 여러 API 호출을 관리하는 훅
-export function useMultipleApi<T extends Record<string, any>>(
+export function useMultipleApi<
+  T extends Record<
+    string,
+    (...args: unknown[]) => Promise<{ success: boolean; data?: unknown; message?: string }>
+  >
+>(
   apiFunctions: T
 ): {
-  [K in keyof T]: UseApiReturn<Awaited<ReturnType<T[K]>>['data']>;
+  [K in keyof T]: UseApiReturn<Awaited<ReturnType<T[K]>>['data'], Parameters<T[K]>>;
 } {
-  const result = {} as any;
+  const result = {} as {
+    [K in keyof T]: UseApiReturn<Awaited<ReturnType<T[K]>>['data'], Parameters<T[K]>>;
+  };
 
   for (const key in apiFunctions) {
     result[key] = useApi(apiFunctions[key]);
