@@ -1,14 +1,7 @@
 import { TabNavigation, type TabItem } from '@/components/ui/TabNavigation';
 import { useTabState } from '@/hooks/useTabState';
 import { BoardWrapper, GalleryWrapper, EventCalendarTab, EventList } from '@/components/news';
-import {
-  noticeData,
-  archiveData,
-  newsData,
-  galleryData,
-  monthlyEventData,
-  eventListData,
-} from '@/components/news/data';
+import { newsData, galleryData, monthlyEventData, eventListData } from '@/components/news/data';
 
 function News() {
   const tabs: TabItem[] = [
@@ -26,12 +19,7 @@ function News() {
       case 'announcements':
         return (
           <div className="py-8">
-            <BoardWrapper
-              title="공지사항"
-              items={noticeData.notices}
-              boardType="announcements"
-              itemsPerPage={10}
-            />
+            <BoardWrapper title="공지사항" boardType="announcements" itemsPerPage={10} />
           </div>
         );
       case 'news':
@@ -66,12 +54,7 @@ function News() {
       case 'archive':
         return (
           <div className="py-8">
-            <BoardWrapper
-              title="자료실"
-              items={archiveData.archives}
-              boardType="archive"
-              itemsPerPage={10}
-            />
+            <BoardWrapper title="자료실" boardType="archive" itemsPerPage={10} />
           </div>
         );
       default:

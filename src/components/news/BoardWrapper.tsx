@@ -2,22 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import BoardList, { type BoardItem } from './BoardList';
 import BoardDetail from './BoardDetail';
+import { useApi } from '@/hooks/useApi';
+import { memberPostsApi } from '@/api/member';
+import type { PostCategory } from '@/api/common/types/posts';
 
 interface BoardWrapperProps {
   title: string;
-  items: BoardItem[];
-  boardType: string; // 'announcements' 또는 'archive'
+  boardType: string; // 'announcements', 'archive', 'meeting'
   itemsPerPage?: number;
   onItemClick?: (item: BoardItem) => void;
   showAdminActions?: boolean;
   onEdit?: (item: BoardItem) => void;
   onDelete?: (item: BoardItem) => void;
   onSettings?: () => void;
+  showTitle?: boolean; // 제목 표시 여부
 }
 
 const BoardWrapper: React.FC<BoardWrapperProps> = ({
   title,
-  items,
   boardType,
   itemsPerPage = 10,
   onItemClick,
@@ -25,10 +27,46 @@ const BoardWrapper: React.FC<BoardWrapperProps> = ({
   onEdit,
   onDelete,
   onSettings,
+  showTitle = true,
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItem, setSelectedItem] = useState<BoardItem | null>(null);
+
+  // boardType을 postType으로 매핑
+  const getPostType = (boardType: string): PostCategory => {
+    switch (boardType) {
+      case 'announcements':
+        return 'NOTICE';
+      case 'archive':
+        return 'ARCHIVE';
+      case 'meeting':
+        return 'MEETING';
+      default:
+        return 'NOTICE';
+    }
+  };
+
+  // API 호출
+  const getPostsApi = useApi(memberPostsApi.getPosts);
+  const getPostDetailApi = useApi(memberPostsApi.getPostDetail);
+  const postType = getPostType(boardType);
+
+  // API 데이터를 BoardItem 형태로 변환
+  const items: BoardItem[] =
+    getPostsApi.data?.content.map((post: any) => ({
+      id: post.postId,
+      title: post.title,
+      content: '', // PostSummary에는 content가 없음
+      author: '', // PostSummary에는 author가 없음
+      date: post.createdAt.split('T')[0], // 날짜만 추출 (YYYY-MM-DD)
+      views: 0, // 기본값
+    })) || [];
+
+  // boardType이 변경될 때마다 API 호출
+  useEffect(() => {
+    getPostsApi.execute({ postType, page: currentPage - 1, size: itemsPerPage });
+  }, [boardType, currentPage, itemsPerPage]);
 
   // URL 파라미터에서 아이템 ID와 페이지 확인 (탭별로 독립적)
   const itemId = searchParams.get(`${boardType}_id`);
@@ -37,14 +75,27 @@ const BoardWrapper: React.FC<BoardWrapperProps> = ({
   // URL 파라미터가 변경될 때 상태 업데이트
   useEffect(() => {
     if (itemId) {
-      const item = items.find((item) => item.id === parseInt(itemId));
-      if (item) {
-        setSelectedItem(item);
-      }
+      // 상세 조회 API 호출
+      getPostDetailApi.execute({ postId: parseInt(itemId) });
     } else {
       setSelectedItem(null);
     }
-  }, [itemId, items]);
+  }, [itemId]);
+
+  // 상세 조회 API 응답 처리
+  useEffect(() => {
+    if (getPostDetailApi.data && itemId) {
+      const detailData = getPostDetailApi.data;
+      const item: BoardItem = {
+        id: parseInt(itemId),
+        title: detailData.title,
+        content: detailData.content,
+        date: detailData.createAt.split('T')[0], // 날짜만 추출 (YYYY-MM-DD)
+        files: detailData.fileUrls, // 파일 정보 추가
+      };
+      setSelectedItem(item);
+    }
+  }, [getPostDetailApi.data, itemId]);
 
   // 페이지 파라미터가 변경될 때 상태 업데이트
   useEffect(() => {
@@ -58,11 +109,44 @@ const BoardWrapper: React.FC<BoardWrapperProps> = ({
     }
   }, [page]);
 
-  // 페이지네이션 계산 (최신 게시물이 위에 오도록)
-  const totalPages = Math.ceil(items.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentItems = items.slice(startIndex, endIndex).reverse();
+  // 로딩 및 에러 상태 처리
+  if (getPostsApi.loading) {
+    return (
+      <div className="w-full max-w-5xl mx-auto py-8">
+        <div className="text-center">
+          {showTitle && (
+            <>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">{title}</h2>
+              <div className="w-16 h-1 bg-black mx-auto mb-6"></div>
+            </>
+          )}
+          <div className="py-8">로딩 중...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (getPostsApi.error) {
+    return (
+      <div className="w-full max-w-5xl mx-auto py-8">
+        <div className="text-center">
+          {showTitle && (
+            <>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">{title}</h2>
+              <div className="w-16 h-1 bg-black mx-auto mb-6"></div>
+            </>
+          )}
+          <div className="py-8 text-red-500">
+            데이터를 불러오는데 실패했습니다: {getPostsApi.error}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 페이지네이션 계산 (API에서 받은 데이터 사용)
+  const totalPages = getPostsApi.data?.totalPages || 1;
+  const currentItems = items;
 
   // 페이지 변경 핸들러
   const handlePageChange = (page: number) => {
@@ -124,6 +208,48 @@ const BoardWrapper: React.FC<BoardWrapperProps> = ({
   if (selectedItem) {
     const currentIndex = getCurrentItemIndex();
 
+    // 상세 조회 로딩 중
+    if (getPostDetailApi.loading) {
+      return (
+        <div className="w-full max-w-5xl mx-auto py-8">
+          <div className="text-center">
+            {showTitle && (
+              <>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">{title}</h2>
+                <div className="w-16 h-1 bg-black mx-auto mb-6"></div>
+              </>
+            )}
+            <div className="py-8">게시글을 불러오는 중...</div>
+          </div>
+        </div>
+      );
+    }
+
+    // 상세 조회 에러
+    if (getPostDetailApi.error) {
+      return (
+        <div className="w-full max-w-5xl mx-auto py-8">
+          <div className="text-center">
+            {showTitle && (
+              <>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">{title}</h2>
+                <div className="w-16 h-1 bg-black mx-auto mb-6"></div>
+              </>
+            )}
+            <div className="py-8 text-red-500">
+              게시글을 불러오는데 실패했습니다: {getPostDetailApi.error}
+            </div>
+            <button
+              onClick={handleBackToList}
+              className="mt-4 px-6 py-3 rounded-lg text-base font-medium bg-gray-200 text-gray-800 hover:bg-gray-300 transition-colors"
+            >
+              목록으로 돌아가기
+            </button>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="w-full max-w-5xl mx-auto py-8">
         <BoardDetail
@@ -141,10 +267,12 @@ const BoardWrapper: React.FC<BoardWrapperProps> = ({
   return (
     <div className="w-full max-w-5xl mx-auto py-8">
       {/* 제목 */}
-      <div className="text-center mb-16">
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">{title}</h2>
-        <div className="w-16 h-1 bg-black mx-auto mb-6"></div>
-      </div>
+      {showTitle && (
+        <div className="text-center mb-16">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">{title}</h2>
+          <div className="w-16 h-1 bg-black mx-auto mb-6"></div>
+        </div>
+      )}
 
       {/* 게시판 목록 */}
       <BoardList

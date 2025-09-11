@@ -7,6 +7,11 @@ export interface BoardItem {
   id: number;
   title: string;
   date: string;
+  content?: string;
+  files?: Array<{
+    fileId: number;
+    fileUrl: string;
+  }>;
 }
 
 interface BoardListProps {
