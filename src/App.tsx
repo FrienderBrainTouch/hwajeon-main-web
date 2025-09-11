@@ -22,8 +22,8 @@ const Contact = lazy(() => import('./pages/member/Contact'));
 // Lazy load admin pages
 const AdminLogin = lazy(() => import('./pages/admin/Login'));
 const AdminDashboard = lazy(() => import('./pages/admin/Dashboard'));
-const UserManagement = lazy(() => import('./pages/admin/UserManagement'));
-const AdminSettings = lazy(() => import('./pages/admin/Settings'));
+const CreatePost = lazy(() => import('./pages/admin/CreatePost'));
+const EditPost = lazy(() => import('./pages/admin/EditPost'));
 
 // Loading component
 const LoadingSpinner = () => (
@@ -156,8 +156,8 @@ function AppContent() {
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminLayout />}>
               <Route path="dashboard" element={<AdminDashboard />} />
-              <Route path="users" element={<UserManagement />} />
-              <Route path="settings" element={<AdminSettings />} />
+              <Route path="create" element={<CreatePost />} />
+              <Route path="edit/:id" element={<EditPost />} />
               <Route index element={<AdminDashboard />} />
             </Route>
           </Routes>

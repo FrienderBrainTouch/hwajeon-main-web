@@ -39,8 +39,11 @@ class ApiClient {
     
     // 토큰이 있고 인증이 필요한 엔드포인트인 경우에만 Authorization 헤더에 추가
     const token = localStorage.getItem('admin_token');
+    
+    // FormData인 경우 Content-Type을 설정하지 않음 (브라우저가 자동으로 multipart/form-data로 설정)
+    const isFormData = options.body instanceof FormData;
     const headers = {
-      ...this.defaultHeaders,
+      ...(isFormData ? {} : this.defaultHeaders), // FormData가 아닌 경우에만 기본 헤더 사용
       ...options.headers,
       ...(token && !isAuthEndpoint && { Authorization: `Bearer ${token}` }),
     };
@@ -67,20 +70,35 @@ class ApiClient {
         url: response.url
       });
 
-      const data = await response.json();
-
       if (!response.ok) {
+        let errorData;
+        try {
+          errorData = await response.json();
+        } catch {
+          errorData = { message: 'API 요청에 실패했습니다.' };
+        }
         throw {
-          message: data.message || 'API 요청에 실패했습니다.',
+          message: errorData.message || 'API 요청에 실패했습니다.',
           status: response.status,
-          code: data.code,
+          code: errorData.code,
         } as ApiError;
+      }
+
+      // 응답 본문이 있는 경우에만 JSON 파싱 시도
+      let data = null;
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        try {
+          data = await response.json();
+        } catch (error) {
+          console.warn('JSON 파싱 실패:', error);
+        }
       }
 
       return {
         success: true,
-        data: data.data || data,
-        message: data.message,
+        data: data?.data || data,
+        message: data?.message,
       };
     } catch (error) {
       if (error instanceof TypeError) {
@@ -112,14 +130,14 @@ class ApiClient {
   async post<T>(endpoint: string, data?: any): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, {
       method: 'POST',
-      body: data ? JSON.stringify(data) : undefined,
+      body: data ? (data instanceof FormData ? data : JSON.stringify(data)) : undefined,
     });
   }
 
   async put<T>(endpoint: string, data?: any): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, {
       method: 'PUT',
-      body: data ? JSON.stringify(data) : undefined,
+      body: data ? (data instanceof FormData ? data : JSON.stringify(data)) : undefined,
     });
   }
 
@@ -132,7 +150,7 @@ class ApiClient {
   async patch<T>(endpoint: string, data?: any): Promise<ApiResponse<T>> {
     return this.request<T>(endpoint, {
       method: 'PATCH',
-      body: data ? JSON.stringify(data) : undefined,
+      body: data ? (data instanceof FormData ? data : JSON.stringify(data)) : undefined,
     });
   }
 }

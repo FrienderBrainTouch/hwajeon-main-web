@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
-import { authApi, type LoginRequest } from '../api/auth';
+import { authApi } from '../api/admin/auth';
+import type { LoginRequest } from '../api/admin/types/auth';
 import { useApi } from '../hooks/useApi';
 import { useToast } from '../components/ui/toast';
 
@@ -7,6 +8,7 @@ interface User {
   id: string;
   username: string;
   name: string;
+  realName: string;
   role: 'TEACHER' | 'USER';
 }
 
@@ -17,7 +19,7 @@ interface AuthContextType {
   logout: () => Promise<void>;
   isLoading: boolean;
   isAuthenticated: boolean;
-  refreshToken: () => Promise<boolean>;
+  // refreshToken: () => Promise<boolean>; // 사용되지 않음
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -42,19 +44,33 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   // useApi 훅들 사용 - 에러 처리는 useApi에서 자동으로 됨
   const loginApi = useApi(authApi.login);
   const logoutApi = useApi(authApi.logout);
-  const verifyApi = useApi(authApi.verifyToken);
-  const refreshApi = useApi(authApi.refreshToken);
+  // verifyToken과 refreshToken은 주석 처리되어 있으므로 사용하지 않음
+  // const verifyApi = useApi(authApi.verifyToken);
+  // const refreshApi = useApi(authApi.refreshToken);
 
   // JWT 토큰에서 사용자 정보 추출
   const decodeToken = (token: string, username?: string): User | null => {
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
+      console.log('JWT Payload:', payload); // 디버깅용
+      console.log('realName from JWT:', payload.realName); // 디버깅용
+
+      // 한글이 깨진 경우를 감지하고 fallback 사용
+      const isKoreanCorrupted = (str: string) => {
+        return (/[^\x00-\x7F]/.test(str) && str.includes('ê')) || str.includes('ì');
+      };
+
+      const realName =
+        payload.realName && !isKoreanCorrupted(payload.realName) ? payload.realName : '관리자';
+
       const user = {
         id: payload.sub,
-        username: username || 'admin',
-        name: payload.realName || '관리자',
+        username: username || payload.username || 'admin',
+        name: realName,
         role: payload.role || 'TEACHER',
+        realName: realName,
       };
+      console.log('Decoded user:', user); // 디버깅용
       return user;
     } catch (error) {
       console.error('Token decode error:', error);
@@ -68,10 +84,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const storedToken = localStorage.getItem('admin_token');
       if (storedToken) {
         try {
-          const result = await verifyApi.execute();
-          if (result) {
+          // 토큰이 있으면 디코드해서 사용자 정보 설정
+          const userFromToken = decodeToken(storedToken);
+          if (userFromToken) {
             setToken(storedToken);
-            setUser(result);
+            setUser(userFromToken);
           } else {
             localStorage.removeItem('admin_token');
             localStorage.removeItem('refresh_token');
@@ -91,7 +108,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const result = await loginApi.execute(credentials);
       if (result) {
         setToken(result.accessToken);
-        
+
         if (result.user) {
           setUser(result.user);
           addToast({
@@ -137,7 +154,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       setToken(null);
       localStorage.removeItem('admin_token');
       localStorage.removeItem('refresh_token');
-      
+
       addToast({
         type: 'info',
         title: '로그아웃',
@@ -146,23 +163,15 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  const refreshToken = async (): Promise<boolean> => {
-    try {
-      const result = await refreshApi.execute();
-      if (result) {
-        setToken(result.token);
-        return true;
-      }
-      return false;
-    } catch (error) {
-      // 리프레시 실패 시 로그아웃
-      await logout();
-      return false;
-    }
-  };
+  // const refreshToken = async (): Promise<boolean> => {
+  //   // refreshApi가 주석 처리되어 있으므로 항상 false 반환
+  //   // 필요시 로그아웃 처리
+  //   await logout();
+  //   return false;
+  // };
 
   // 전체 로딩 상태는 개별 API 로딩 상태를 고려
-  const isLoading = loginApi.loading || logoutApi.loading || verifyApi.loading || refreshApi.loading;
+  const isLoading = loginApi.loading || logoutApi.loading;
 
   const value: AuthContextType = {
     user,
@@ -171,12 +180,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     logout,
     isLoading,
     isAuthenticated: !!user && !!token,
-    refreshToken,
+    // refreshToken, // 사용되지 않음
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
