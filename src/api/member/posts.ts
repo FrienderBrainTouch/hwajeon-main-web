@@ -1,11 +1,10 @@
 import { apiClient, type ApiResponse } from '../../lib/api';
 import type {
-  ActivityType,
   PostSummaryResponse,
   PostDetailResponse,
   GetPostsParams,
   GetPostDetailParams,
-} from '../common/types/posts';
+} from '../../api/common/types/posts';
 
 // 게시글 관련 엔드포인트 (Member용 - 토큰 없이 접근)
 const POST_ENDPOINTS = {
