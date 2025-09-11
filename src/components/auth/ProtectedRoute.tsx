@@ -1,8 +1,6 @@
 import { type ReactNode } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { useApi } from '@/hooks/useApi';
-import { authApi } from '@/api/auth';
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -10,14 +8,11 @@ interface ProtectedRouteProps {
 }
 
 export const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRouteProps) => {
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user, isLoading } = useAuth();
   const location = useLocation();
-  
-  // 토큰 검증 API의 로딩 상태 직접 사용
-  const verifyApi = useApi(authApi.verifyToken);
 
   // 로딩 중일 때는 로딩 화면 표시
-  if (verifyApi.loading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
