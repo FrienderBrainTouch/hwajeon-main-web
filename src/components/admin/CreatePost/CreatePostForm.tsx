@@ -99,7 +99,7 @@ export const CreatePostForm = ({
                   <Label htmlFor="eventDate">행사 날짜 *</Label>
                   <Input
                     id="eventDate"
-                    type="datetime-local"
+                    type="date"
                     value={eventDate}
                     onChange={(e) => onEventDateChange(e.target.value)}
                     required
