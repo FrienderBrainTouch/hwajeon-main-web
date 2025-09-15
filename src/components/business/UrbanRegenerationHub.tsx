@@ -1,4 +1,4 @@
-import type { AcademyCard, EducationCard } from './data';
+import type { AcademyCard, EducationCard } from '@/types/components/business';
 import {
   academyCards as defaultAcademyCards,
   educationCards as defaultEducationCards,
