@@ -1,4 +1,4 @@
-import { apiClient, type ApiResponse } from '../../lib/api';
+import { apiClient, type ApiResponse } from '@/lib/api';
 import type {
   PostSummaryResponse,
   PostDetailResponse,
