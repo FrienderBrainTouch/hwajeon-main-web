@@ -1,11 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import type { TabItem, UseTabStateReturn } from '@/types/hooks/useTabState';
 
-interface TabItem {
-  value: string;
-}
-
-export function useTabState(tabs: TabItem[], defaultTab: string) {
+export function useTabState(tabs: TabItem[], defaultTab: string): UseTabStateReturn {
   const [searchParams, setSearchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState(defaultTab);
 

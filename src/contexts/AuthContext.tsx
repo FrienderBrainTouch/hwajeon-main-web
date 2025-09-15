@@ -1,26 +1,9 @@
-import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
-import { authApi } from '../api/admin/auth';
-import type { LoginRequest } from '@/types/api';
-import { useApi } from '../hooks/useApi';
-import { useToast } from '../components/ui/toast';
-
-interface User {
-  id: string;
-  username: string;
-  name: string;
-  realName: string;
-  role: 'TEACHER' | 'USER';
-}
-
-interface AuthContextType {
-  user: User | null;
-  token: string | null;
-  login: (credentials: LoginRequest) => Promise<boolean>;
-  logout: () => Promise<void>;
-  isLoading: boolean;
-  isAuthenticated: boolean;
-  // refreshToken: () => Promise<boolean>; // 사용되지 않음
-}
+import { createContext, useContext, useState, useEffect } from 'react';
+import { authApi } from '@/api/admin/auth';
+import { useApi } from '@/hooks/useApi';
+import { useToast } from '@/components/ui/toast';
+import type { User, AuthContextType, AuthProviderProps } from '@/types/components/auth';
+import type { LoginRequest, LoginResponse } from '@/types/api/admin';
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
@@ -32,21 +15,14 @@ export const useAuth = () => {
   return context;
 };
 
-interface AuthProviderProps {
-  children: ReactNode;
-}
-
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const { addToast } = useToast();
 
   // useApi 훅들 사용 - 에러 처리는 useApi에서 자동으로 됨
-  const loginApi = useApi(authApi.login);
-  const logoutApi = useApi(authApi.logout);
-  // verifyToken과 refreshToken은 주석 처리되어 있으므로 사용하지 않음
-  // const verifyApi = useApi(authApi.verifyToken);
-  // const refreshApi = useApi(authApi.refreshToken);
+  const loginApi = useApi<LoginResponse, [LoginRequest]>(authApi.login);
+  const logoutApi = useApi<void, []>(authApi.logout);
 
   // JWT 토큰에서 사용자 정보 추출
   const decodeToken = (token: string, username?: string): User | null => {
@@ -163,13 +139,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  // const refreshToken = async (): Promise<boolean> => {
-  //   // refreshApi가 주석 처리되어 있으므로 항상 false 반환
-  //   // 필요시 로그아웃 처리
-  //   await logout();
-  //   return false;
-  // };
-
   // 전체 로딩 상태는 개별 API 로딩 상태를 고려
   const isLoading = loginApi.loading || logoutApi.loading;
 
@@ -180,7 +149,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     logout,
     isLoading,
     isAuthenticated: !!user && !!token,
-    // refreshToken, // 사용되지 않음
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -1,22 +1,10 @@
 import { useState, useCallback } from 'react';
-import { type ApiError } from '../lib/api';
-
-// API 호출 상태 타입
-export interface ApiState<T> {
-  data: T | null;
-  loading: boolean;
-  error: string | null;
-}
-
-// API 훅 반환 타입
-export interface UseApiReturn<T, TArgs extends unknown[] = unknown[]> extends ApiState<T> {
-  execute: (...args: TArgs) => Promise<T | null>;
-  reset: () => void;
-}
+import type { ApiError } from '@/types/api/client';
+import type { ApiState, UseApiReturn, GetErrorMessageFunction } from '@/types/hooks';
 
 // API 호출을 위한 커스텀 훅
 export function useApi<T, TArgs extends unknown[] = unknown[]>(
-  apiFunction: (...args: TArgs) => Promise<{ success: boolean; data?: T; message?: string }>
+  apiFunction: (...args: TArgs) => Promise<import('@/types/api/client').ApiResponse<T>>
 ): UseApiReturn<T, TArgs> {
   const [state, setState] = useState<ApiState<T>>({
     data: null,
@@ -71,7 +59,7 @@ export function useApi<T, TArgs extends unknown[] = unknown[]>(
 }
 
 // 에러 메시지 추출 함수 - 백엔드 응답 우선 사용
-export function getErrorMessage(error: ApiError): string {
+export const getErrorMessage: GetErrorMessageFunction = (error: ApiError): string => {
   // 백엔드에서 제공하는 에러 메시지가 있으면 우선 사용
   if (error.message) {
     return error.message;
@@ -92,13 +80,13 @@ export function getErrorMessage(error: ApiError): string {
     default:
       return '알 수 없는 오류가 발생했습니다.';
   }
-}
+};
 
 // 여러 API 호출을 관리하는 훅
 export function useMultipleApi<
   T extends Record<
     string,
-    (...args: unknown[]) => Promise<{ success: boolean; data?: unknown; message?: string }>
+    (...args: unknown[]) => Promise<import('@/types/api/client').ApiResponse<unknown>>
   >
 >(
   apiFunctions: T

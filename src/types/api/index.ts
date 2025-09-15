@@ -11,3 +11,6 @@ export * from './responses';
 
 // Admin 전용 타입
 export * from './admin';
+
+// API 클라이언트 타입
+export * from './client';

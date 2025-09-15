@@ -1,17 +1,6 @@
 // API 기본 설정 및 HTTP 클라이언트
 
-export type ApiResponse<T = any> = {
-  success: boolean;
-  data?: T;
-  message?: string;
-  error?: string;
-};
-
-export type ApiError = {
-  message: string;
-  status?: number;
-  code?: string;
-};
+import type { ApiResponse, ApiError } from '@/types/api/client';
 
 class ApiClient {
   private baseURL: string;
@@ -22,24 +11,21 @@ class ApiClient {
     this.defaultHeaders = {
       'Content-Type': 'application/json',
     };
-    
+
     // 디버깅을 위한 로그
     console.log('API Client initialized with baseURL:', this.baseURL);
   }
 
-  private async request<T>(
-    endpoint: string,
-    options: RequestInit = {}
-  ): Promise<ApiResponse<T>> {
+  private async request<T>(endpoint: string, options: RequestInit = {}): Promise<ApiResponse<T>> {
     const url = `${this.baseURL}${endpoint}`;
-    
+
     // 인증이 필요한 엔드포인트인지 확인 (로그인, 리프레시 등은 제외)
     const publicEndpoints = ['/api/auth/login', '/api/auth/refresh'];
     const isAuthEndpoint = publicEndpoints.includes(endpoint);
-    
+
     // 토큰이 있고 인증이 필요한 엔드포인트인 경우에만 Authorization 헤더에 추가
     const token = localStorage.getItem('admin_token');
-    
+
     // FormData인 경우 Content-Type을 설정하지 않음 (브라우저가 자동으로 multipart/form-data로 설정)
     const isFormData = options.body instanceof FormData;
     const headers = {
@@ -55,7 +41,7 @@ class ApiClient {
       headers,
       body: options.body,
       isAuthEndpoint,
-      hasToken: !!token
+      hasToken: !!token,
     });
 
     try {
@@ -67,7 +53,7 @@ class ApiClient {
       console.log('API Response:', {
         status: response.status,
         statusText: response.statusText,
-        url: response.url
+        url: response.url,
       });
 
       if (!response.ok) {
