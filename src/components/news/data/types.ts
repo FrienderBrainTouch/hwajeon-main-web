@@ -37,6 +37,8 @@ export interface GalleryItem {
   content: string;
   date: string;
   imageUrl?: string;
+  author?: string;
+  files?: Array<{ fileId: number; fileUrl: string }>;
 }
 
 // 갤러리 데이터 타입

@@ -70,8 +70,16 @@ const GalleryList: React.FC<GalleryListProps> = ({
                 )}
 
                 {/* 제목 오버레이 */}
-                <div className="absolute bottom-0 left-0 right-0 p-3">
-                  <h3 className="text-lg font-semibold text-black line-clamp-2">{item.title}</h3>
+                <div className="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                  <h3
+                    className="text-lg font-semibold text-white line-clamp-2"
+                    style={{
+                      textShadow:
+                        '2px 2px 4px rgba(0,0,0,0.8), -1px -1px 2px rgba(0,0,0,0.8), 1px -1px 2px rgba(0,0,0,0.8), -1px 1px 2px rgba(0,0,0,0.8)',
+                    }}
+                  >
+                    {item.title}
+                  </h3>
                 </div>
               </div>
             )}

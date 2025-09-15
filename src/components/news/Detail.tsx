@@ -4,6 +4,7 @@ interface BaseItem {
   title: string;
   date: string;
   content?: string;
+  author?: string;
   files?: Array<{
     fileId: number;
     fileUrl: string;
@@ -17,6 +18,7 @@ interface DetailProps<T extends BaseItem> {
   onNext?: () => void;
   hasPrevious?: boolean;
   hasNext?: boolean;
+  showDate?: boolean; // 작성일 표시 여부
 }
 
 const Detail = <T extends BaseItem>({
@@ -26,6 +28,7 @@ const Detail = <T extends BaseItem>({
   onNext,
   hasPrevious = false,
   hasNext = false,
+  showDate = true,
 }: DetailProps<T>) => {
   return (
     <div className="w-full max-w-5xl mx-auto py-4 sm:py-8 px-4 sm:px-0">
@@ -38,23 +41,28 @@ const Detail = <T extends BaseItem>({
               {item.title}
             </p>
           </div>
-          <div>
-            <span className="text-sm text-gray-500 font-medium">작성일</span>
-            <p className="text-sm sm:text-base text-gray-700 mt-1">{item.date}</p>
-          </div>
+          {showDate && (
+            <div>
+              <span className="text-sm text-gray-500 font-medium">작성일</span>
+              <p className="text-sm sm:text-base text-gray-700 mt-1">{item.date}</p>
+            </div>
+          )}
+          {item.author && (
+            <div>
+              <span className="text-sm text-gray-500 font-medium">작성자</span>
+              <p className="text-sm sm:text-base text-gray-700 mt-1">{item.author}</p>
+            </div>
+          )}
         </div>
       </div>
 
       {/* 중앙 내용 섹션 */}
       <div className="bg-white min-h-[300px] sm:min-h-[400px] py-4 sm:py-8">
-        <div className="space-y-4">
-          <h3 className="text-base sm:text-lg font-semibold text-gray-900">내용</h3>
-          <div className="prose prose-gray max-w-none">
-            <p className="text-sm sm:text-base text-gray-700 leading-relaxed break-words">
-              {item.content ||
-                '게시물 내용이 여기에 표시됩니다. 실제 구현 시에는 content 필드를 추가하여 상세 내용을 저장할 수 있습니다.'}
-            </p>
-          </div>
+        <div className="prose prose-gray max-w-none">
+          <p className="text-sm sm:text-base text-gray-700 leading-relaxed break-words">
+            {item.content ||
+              '게시물 내용이 여기에 표시됩니다. 실제 구현 시에는 content 필드를 추가하여 상세 내용을 저장할 수 있습니다.'}
+          </p>
         </div>
       </div>
 

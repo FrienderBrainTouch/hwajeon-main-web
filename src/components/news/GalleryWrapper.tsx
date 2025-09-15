@@ -1,32 +1,111 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import GalleryList from './GalleryList';
 import GalleryDetail from './GalleryDetail';
+import { useApi } from '@/hooks/useApi';
+import { memberPostsApi } from '@/api/member';
+import type { PostCategory } from '@/api/common/types/posts';
 import { type GalleryItem, type NewsItem } from './data/types';
 
 type GalleryItemType = GalleryItem | NewsItem;
 
 interface GalleryWrapperProps {
   title: string;
-  items: GalleryItemType[];
   boardType: string; // 'news' 또는 다른 갤러리 타입
   itemsPerPage?: number;
   onItemClick?: (item: GalleryItemType) => void;
   type?: 'news' | 'gallery'; // News는 카드 형태, Gallery는 이미지 위에 제목 오버레이
+  showTitle?: boolean; // 제목 표시 여부
 }
 
 const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
   title,
-  items,
   boardType,
   itemsPerPage: propItemsPerPage,
   onItemClick,
   type = 'news',
+  showTitle = true,
 }) => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const location = useLocation();
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
   const [responsiveItemsPerPage, setResponsiveItemsPerPage] = useState(9);
+
+  // boardType을 postType으로 매핑
+  const getPostType = (boardType: string): PostCategory => {
+    switch (boardType) {
+      case 'news':
+        return 'NEWS';
+      case 'gallery':
+        return 'GALLERY';
+      default:
+        return 'NEWS';
+    }
+  };
+
+  const postType = getPostType(boardType);
+  const itemsPerPage = propItemsPerPage || responsiveItemsPerPage;
+
+  // API 호출
+  const getPostsApi = useApi(memberPostsApi.getPosts);
+  const getPostDetailApi = useApi(memberPostsApi.getPostDetail);
+
+  // 게시글 목록 조회
+  useEffect(() => {
+    getPostsApi.execute({
+      postType,
+      page: currentPage - 1, // API는 0부터 시작
+      size: itemsPerPage,
+    });
+  }, [boardType, currentPage, itemsPerPage, postType]);
+
+  // API 데이터를 GalleryItemType으로 변환
+  const items: GalleryItemType[] =
+    getPostsApi.data?.content.map((post: any) => ({
+      id: post.postId,
+      title: post.title,
+      content: post.content || '',
+      author: post.author || '',
+      date: post.createdAt.split('T')[0], // 날짜만 추출 (YYYY-MM-DD)
+      imageUrl: post.thumbnailUrl || '',
+      files: post.fileUrls || [],
+    })) || [];
+
+  // URL 파라미터에서 아이템 ID 확인
+  const itemId = searchParams.get(`${boardType}_id`);
+
+  // itemId가 있을 때 상세 조회
+  useEffect(() => {
+    if (itemId) {
+      getPostDetailApi.execute({ postId: parseInt(itemId) });
+    }
+  }, [itemId]);
+
+  // 상세 조회 데이터를 selectedItem으로 설정
+  useEffect(() => {
+    if (getPostDetailApi.data && itemId) {
+      const detailData = getPostDetailApi.data;
+      const item: GalleryItem = {
+        id: parseInt(itemId),
+        title: detailData.title,
+        content: detailData.content,
+        author: (detailData as any).author || '',
+        date: detailData.createAt.split('T')[0], // 날짜만 추출 (YYYY-MM-DD)
+        imageUrl: (detailData as any).thumbnailUrl || '',
+        files: detailData.fileUrls || [],
+      };
+      setSelectedItem(item);
+    }
+  }, [getPostDetailApi.data, itemId]);
+
+  // URL 변경 감지 (브라우저 뒤로 가기 포함)
+  useEffect(() => {
+    const currentItemId = searchParams.get(`${boardType}_id`);
+    if (!currentItemId) {
+      setSelectedItem(null);
+    }
+  }, [location.search, searchParams, boardType]);
 
   // 반응형 itemsPerPage 설정
   useEffect(() => {
@@ -48,23 +127,8 @@ const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
     return () => window.removeEventListener('resize', updateItemsPerPage);
   }, []);
 
-  const itemsPerPage = propItemsPerPage || responsiveItemsPerPage;
-
-  // URL 파라미터에서 아이템 ID와 페이지 확인 (탭별로 독립적)
-  const itemId = searchParams.get(`${boardType}_id`);
+  // URL 파라미터에서 페이지 확인
   const page = searchParams.get(`${boardType}_page`);
-
-  // URL 파라미터가 변경될 때 상태 업데이트
-  useEffect(() => {
-    if (itemId) {
-      const item = items.find((item) => item.id === parseInt(itemId));
-      if (item) {
-        setSelectedItem(item);
-      }
-    } else {
-      setSelectedItem(null);
-    }
-  }, [itemId, items]);
 
   // 페이지 파라미터가 변경될 때 상태 업데이트
   useEffect(() => {
@@ -78,11 +142,44 @@ const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
     }
   }, [page]);
 
-  // 페이지네이션 계산 (최신 게시물이 위에 오도록)
-  const totalPages = Math.ceil(items.length / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = startIndex + itemsPerPage;
-  const currentItems = items.slice(startIndex, endIndex).reverse();
+  // 로딩 및 에러 상태 처리
+  if (getPostsApi.loading) {
+    return (
+      <div className="w-full max-w-5xl mx-auto py-8">
+        <div className="text-center">
+          {showTitle && (
+            <>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">{title}</h2>
+              <div className="w-16 h-1 bg-black mx-auto mb-6"></div>
+            </>
+          )}
+          <div className="py-8">로딩 중...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (getPostsApi.error) {
+    return (
+      <div className="w-full max-w-5xl mx-auto py-8">
+        <div className="text-center">
+          {showTitle && (
+            <>
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">{title}</h2>
+              <div className="w-16 h-1 bg-black mx-auto mb-6"></div>
+            </>
+          )}
+          <div className="py-8 text-red-500">
+            데이터를 불러오는데 실패했습니다: {getPostsApi.error}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // 페이지네이션 계산 (API에서 받은 데이터 사용)
+  const totalPages = getPostsApi.data?.totalPages || 1;
+  const currentItems = items;
 
   // 페이지 변경 핸들러
   const handlePageChange = (page: number) => {
@@ -140,9 +237,51 @@ const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
     }
   };
 
-  // 상세 페이지가 선택된 경우 GalleryDetail 컴포넌트 사용
+  // 상세 페이지가 선택된 경우
   if (selectedItem) {
     const currentIndex = getCurrentItemIndex();
+
+    // 상세 조회 로딩 중
+    if (getPostDetailApi.loading) {
+      return (
+        <div className="w-full max-w-5xl mx-auto py-8">
+          <div className="text-center">
+            {showTitle && (
+              <>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">{title}</h2>
+                <div className="w-16 h-1 bg-black mx-auto mb-6"></div>
+              </>
+            )}
+            <div className="py-8">게시글을 불러오는 중...</div>
+          </div>
+        </div>
+      );
+    }
+
+    // 상세 조회 에러
+    if (getPostDetailApi.error) {
+      return (
+        <div className="w-full max-w-5xl mx-auto py-8">
+          <div className="text-center">
+            {showTitle && (
+              <>
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">{title}</h2>
+                <div className="w-16 h-1 bg-black mx-auto mb-6"></div>
+              </>
+            )}
+            <div className="py-8 text-red-500">
+              게시글을 불러오는데 실패했습니다: {getPostDetailApi.error}
+            </div>
+            <button
+              onClick={handleBackToList}
+              className="mt-4 px-6 py-3 rounded-lg text-base font-medium bg-gray-200 text-gray-800 hover:bg-gray-300 transition-colors"
+            >
+              목록으로 돌아가기
+            </button>
+          </div>
+        </div>
+      );
+    }
 
     return (
       <GalleryDetail
@@ -152,6 +291,7 @@ const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
         onNext={handleNext}
         hasPrevious={currentIndex > 0}
         hasNext={currentIndex < items.length - 1}
+        type={type}
       />
     );
   }
@@ -159,14 +299,16 @@ const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
   return (
     <div className="w-full max-w-5xl mx-auto py-8">
       {/* 제목 및 설명 */}
-      <div className="text-center mb-16">
-        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">{title}</h2>
-        <div className="w-16 h-1 bg-black mx-auto mb-6"></div>
-        <p className="text-gray-600 max-w-2xl mx-auto">
-          화전마을의 이야기가 다양한 언론과 미디어를 통해 전해지고 있습니다. 아래는 조합의 주요
-          보도자료와 뉴스 기사들을 모은 공간입니다.
-        </p>
-      </div>
+      {showTitle && (
+        <div className="text-center mb-16">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">{title}</h2>
+          <div className="w-16 h-1 bg-black mx-auto mb-6"></div>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            화전마을의 이야기가 다양한 언론과 미디어를 통해 전해지고 있습니다. 아래는 조합의 주요
+            보도자료와 뉴스 기사들을 모은 공간입니다.
+          </p>
+        </div>
+      )}
 
       {/* 갤러리 목록 */}
       <GalleryList
