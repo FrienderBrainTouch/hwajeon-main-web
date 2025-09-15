@@ -4,15 +4,12 @@ import EventList from './EventList';
 import { useApi } from '@/hooks/useApi';
 import { memberPostsApi } from '@/api/member';
 import type { PostCategory } from '@/types/api';
-import { type EventData, type EventDataForCalendar } from '@/types/components';
+import {
+  type EventData,
+  type EventDataForCalendar,
+  type EventWrapperProps,
+} from '@/types/components';
 import { mapActivityTypeToEventCategory } from '@/types/ui';
-
-/**
- * 이벤트 래퍼 컴포넌트 Props
- */
-interface EventWrapperProps {
-  itemsPerPage?: number;
-}
 
 const EventWrapper: React.FC<EventWrapperProps> = ({ itemsPerPage = 4 }) => {
   const [events, setEvents] = useState<EventData[]>([]);

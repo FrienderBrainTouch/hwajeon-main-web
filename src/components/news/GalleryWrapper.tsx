@@ -5,18 +5,11 @@ import GalleryDetail from './GalleryDetail';
 import { useApi } from '@/hooks/useApi';
 import { memberPostsApi } from '@/api/member';
 import type { PostCategory } from '@/types/api';
-import { type GalleryItem, type NewsItem } from '@/types/components';
-
-type GalleryItemType = GalleryItem | NewsItem;
-
-interface GalleryWrapperProps {
-  title: string;
-  boardType: string; // 'news' 또는 다른 갤러리 타입
-  itemsPerPage?: number;
-  onItemClick?: (item: GalleryItemType) => void;
-  type?: 'news' | 'gallery'; // News는 카드 형태, Gallery는 이미지 위에 제목 오버레이
-  showTitle?: boolean; // 제목 표시 여부
-}
+import {
+  type GalleryItem,
+  type GalleryItemType,
+  type GalleryWrapperProps,
+} from '@/types/components';
 
 const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
   title,
