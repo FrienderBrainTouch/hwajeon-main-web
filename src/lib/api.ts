@@ -11,9 +11,6 @@ class ApiClient {
     this.defaultHeaders = {
       'Content-Type': 'application/json',
     };
-
-    // 디버깅을 위한 로그
-    console.log('API Client initialized with baseURL:', this.baseURL);
   }
 
   private async request<T>(endpoint: string, options: RequestInit = {}): Promise<ApiResponse<T>> {
@@ -34,26 +31,10 @@ class ApiClient {
       ...(token && !isAuthEndpoint && { Authorization: `Bearer ${token}` }),
     };
 
-    // 디버깅을 위한 로그
-    console.log('API Request:', {
-      url,
-      method: options.method || 'GET',
-      headers,
-      body: options.body,
-      isAuthEndpoint,
-      hasToken: !!token,
-    });
-
     try {
       const response = await fetch(url, {
         ...options,
         headers,
-      });
-
-      console.log('API Response:', {
-        status: response.status,
-        statusText: response.statusText,
-        url: response.url,
       });
 
       if (!response.ok) {
@@ -77,7 +58,7 @@ class ApiClient {
         try {
           data = await response.json();
         } catch (error) {
-          console.warn('JSON 파싱 실패:', error);
+          // JSON 파싱 실패 시 무시
         }
       }
 

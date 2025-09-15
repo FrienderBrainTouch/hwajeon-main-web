@@ -58,13 +58,6 @@ const InquiryForm = () => {
       const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
       const toEmail = import.meta.env.VITE_EMAILJS_TO_EMAIL;
 
-      console.log('EmailJS 설정 확인:', {
-        serviceId: serviceId ? '설정됨' : '누락',
-        templateId: templateId ? '설정됨' : '누락',
-        publicKey: publicKey ? '설정됨' : '누락',
-        toEmail: toEmail ? '설정됨' : '누락',
-      });
-
       if (!serviceId || !templateId || !publicKey || !toEmail) {
         throw new Error('EmailJS 설정이 완료되지 않았습니다.');
       }

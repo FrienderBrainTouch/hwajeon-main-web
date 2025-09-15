@@ -1,4 +1,5 @@
-import { apiClient, type ApiResponse } from '@/lib/api';
+import { apiClient } from '@/lib/api';
+import type { ApiResponse } from '@/types/api/client';
 import type {
   PostSummaryResponse,
   PostDetailResponse,
@@ -40,10 +41,6 @@ export const memberPostsApi = {
   // 게시글 상세 조회 (공개 API)
   async getPostDetail(params: GetPostDetailParams): Promise<ApiResponse<PostDetailResponse>> {
     try {
-      console.log('getPostDetail params:', params);
-      console.log('postId type:', typeof params.postId);
-      console.log('postId value:', params.postId);
-
       // postId가 이미 숫자인지 확인
       let postId: number;
       if (typeof params.postId === 'number') {
@@ -51,8 +48,6 @@ export const memberPostsApi = {
       } else {
         postId = parseInt(params.postId, 10);
       }
-
-      console.log('final postId:', postId);
 
       if (isNaN(postId) || postId <= 0) {
         throw new Error(`Invalid post ID: ${params.postId}`);
@@ -71,10 +66,6 @@ export const memberPostsApi = {
     params: GetPostDetailParams
   ): Promise<ApiResponse<CalendarPostDetailResponse>> {
     try {
-      console.log('getCalendarPostDetail params:', params);
-      console.log('postId type:', typeof params.postId);
-      console.log('postId value:', params.postId);
-
       // postId가 이미 숫자인지 확인
       let postId: number;
       if (typeof params.postId === 'number') {
@@ -82,8 +73,6 @@ export const memberPostsApi = {
       } else {
         postId = parseInt(params.postId, 10);
       }
-
-      console.log('final postId:', postId);
 
       if (isNaN(postId) || postId <= 0) {
         throw new Error(`Invalid post ID: ${params.postId}`);

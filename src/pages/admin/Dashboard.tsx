@@ -31,18 +31,10 @@ export default function AdminDashboard() {
         size: postsPerPage,
       };
 
-      console.log('게시글 조회 요청 파라미터:', params);
-      console.log('요청 카테고리:', category);
-
       const result = await getPostsApi.execute(params);
       if (result) {
-        console.log('API 응답 데이터:', result);
-
         // PostSummary를 Post 타입으로 변환
         const mappedPosts: Post[] = result.content.map((post) => {
-          console.log('게시글 데이터:', post);
-          console.log('postType:', result.postType);
-
           return {
             id: post.postId.toString(),
             title: post.title,
@@ -58,7 +50,6 @@ export default function AdminDashboard() {
           };
         });
 
-        console.log('매핑된 게시글:', mappedPosts);
         setPosts(mappedPosts);
         setTotalPages(result.totalPages);
       }

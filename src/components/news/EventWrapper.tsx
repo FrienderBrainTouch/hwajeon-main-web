@@ -34,12 +34,8 @@ const EventWrapper: React.FC<EventWrapperProps> = ({ itemsPerPage = 4 }) => {
         });
 
         if (response?.content) {
-          console.log('API Response:', response);
-          console.log('Content:', response.content);
-
           // API 응답을 EventData 형식으로 변환
           const eventData: EventData[] = response.content.map((post: any) => {
-            console.log('Individual post:', post);
             const activityDate = post.activityDate ? new Date(post.activityDate) : new Date();
             const createdAt = post.createdAt ? new Date(post.createdAt) : new Date();
             return {
@@ -134,10 +130,9 @@ const EventWrapper: React.FC<EventWrapperProps> = ({ itemsPerPage = 4 }) => {
   };
 
   // 날짜 클릭 핸들러
-  const handleDateClick = (date: number, events: any[]) => {
-    console.log(`날짜 ${date} 클릭:`, events);
-    // 여기에 상세 모달이나 다른 동작을 추가할 수 있습니다
-  };
+  // const handleDateClick = (date: number, events: any[]) => {
+  //   // 여기에 상세 모달이나 다른 동작을 추가할 수 있습니다
+  // };
 
   // 캘린더 날짜 변경 핸들러
   const handleDateChange = (date: Date) => {
@@ -189,7 +184,7 @@ const EventWrapper: React.FC<EventWrapperProps> = ({ itemsPerPage = 4 }) => {
           <div className="overflow-hidden">
             <EventCalendar
               events={getCurrentMonthEvents()}
-              onDateClick={handleDateClick}
+              // onDateClick={handleDateClick}
               showCategoryLegend={true}
               currentDate={currentDate}
               onDateChange={handleDateChange}

@@ -28,8 +28,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const decodeToken = (token: string, username?: string): User | null => {
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
-      console.log('JWT Payload:', payload); // 디버깅용
-      console.log('realName from JWT:', payload.realName); // 디버깅용
 
       // 한글이 깨진 경우를 감지하고 fallback 사용
       const isKoreanCorrupted = (str: string) => {
@@ -46,7 +44,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         role: payload.role || 'TEACHER',
         realName: realName,
       };
-      console.log('Decoded user:', user); // 디버깅용
       return user;
     } catch (error) {
       console.error('Token decode error:', error);

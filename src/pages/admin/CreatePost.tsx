@@ -21,12 +21,7 @@ export default function CreatePost() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log('전송할 formData:', formData);
-    console.log('postType:', formData.postType);
-
     try {
-      let result;
-
       if (formData.postType === 'CALENDAR') {
         // 캘린더 게시글 생성 (활동 타입 포함)
         if (!formData.activityType || formData.activityType === 'NONE') {
@@ -38,17 +33,14 @@ export default function CreatePost() {
           ...formData,
           activityType: formData.activityType,
         };
-        console.log('캘린더 데이터:', calendarData);
 
-        result = await createCalendarApi.execute(calendarData);
+        await createCalendarApi.execute(calendarData);
       } else {
         // 일반 게시글 생성
-        console.log('일반 게시글 데이터:', formData);
-        result = await createPostApi.execute(formData);
+        await createPostApi.execute(formData);
       }
 
       // result가 null이어도 성공으로 처리 (201 Created 응답의 경우)
-      console.log('게시글 생성 성공:', result);
       alert('게시글이 성공적으로 생성되었습니다.');
       navigate('/admin/dashboard');
     } catch (error) {

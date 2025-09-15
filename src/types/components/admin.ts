@@ -1,13 +1,4 @@
-/**
- * 사용자 타입
- */
-export interface User {
-  id: string;
-  username: string;
-  name: string;
-  realName: string;
-  role: 'TEACHER' | 'USER';
-}
+import type { User } from './auth';
 
 /**
  * 대시보드 헤더 컴포넌트 Props

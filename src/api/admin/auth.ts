@@ -1,4 +1,5 @@
-import { apiClient, type ApiResponse } from '../../lib/api';
+import { apiClient } from '../../lib/api';
+import type { ApiResponse } from '@/types/api/client';
 import type { LoginRequest, LoginResponse } from '@/types/api';
 
 // 엔드포인트 직접 정의
