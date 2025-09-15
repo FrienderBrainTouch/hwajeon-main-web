@@ -24,10 +24,3 @@ export interface SideBarProps {
   onClose: () => void;
   className?: string;
 }
-
-/**
- * 보호된 라우트 컴포넌트 Props
- */
-export interface ProtectedRouteProps {
-  children: React.ReactNode;
-}
