@@ -1,10 +1,6 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { type FAQItem } from './data/types';
-
-interface FAQSectionProps {
-  faqData: FAQItem[];
-}
+import { type FAQSectionProps } from '@/types/components/participate';
 
 const FAQSection: React.FC<FAQSectionProps> = ({ faqData }) => {
   const [expandedFAQ, setExpandedFAQ] = useState<number | null>(null);

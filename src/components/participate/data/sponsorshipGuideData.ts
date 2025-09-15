@@ -1,16 +1,5 @@
 import { BookOpen, DollarSign, Handshake, Package, Users, Heart, Lightbulb } from 'lucide-react';
-
-export interface SponsorshipUsageItem {
-  icon: any;
-  title: string;
-  description: string;
-}
-
-export interface SponsorshipMethodItem {
-  icon: any;
-  title: string;
-  description: string;
-}
+import type { SponsorshipUsageItem, SponsorshipMethodItem } from '@/types/components/participate';
 
 export const sponsorshipUsageData: SponsorshipUsageItem[] = [
   {
