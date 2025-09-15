@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 
-interface VolunteerApplicationModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+import { type VolunteerApplicationModalProps } from '@/types/components';
 
 interface FormData {
   name: string;

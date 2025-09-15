@@ -147,7 +147,14 @@ const VolunteerApplication = () => {
       </div>
 
       {/* 모달 */}
-      <VolunteerApplicationModal isOpen={isModalOpen} onClose={handleCloseModal} />
+      <VolunteerApplicationModal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onSubmit={(data) => {
+          console.log('자원봉사 신청 데이터:', data);
+          handleCloseModal();
+        }}
+      />
     </div>
   );
 };

@@ -1,14 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EventCalendar } from '../news';
-import { monthlyEventData } from '../news/data/calendarData';
-import { type MonthlyEventData } from '../news/data/types';
+import { type MonthlyEventData } from '@/types/components';
 
 function EventSchedule() {
   const navigate = useNavigate();
   const [currentDate, setCurrentDate] = useState(new Date());
-  // 이벤트 데이터 (새로운 구조로 변경)
-  const eventData: Record<number, MonthlyEventData> = monthlyEventData;
+  // 이벤트 데이터 (API 연동 예정)
+  const eventData: Record<number, MonthlyEventData> = {};
 
   const handleViewAllSchedule = () => {
     navigate('/member/news?tab=calendar');

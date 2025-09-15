@@ -1,10 +1,6 @@
 import React from 'react';
-import type { GreetingData } from './data';
 import { greetingData as defaultData } from './data';
-
-interface GreetingProps {
-  data?: GreetingData;
-}
+import { type GreetingProps } from '@/types/components';
 
 const Greeting: React.FC<GreetingProps> = ({ data = defaultData }) => {
   return (
@@ -29,7 +25,7 @@ const Greeting: React.FC<GreetingProps> = ({ data = defaultData }) => {
             </div>
 
             <div className="space-y-6 sm:space-y-8 text-sm sm:text-base text-gray-700 leading-relaxed">
-              {data.content.map((paragraph) => (
+              {data.content.map((paragraph: any) => (
                 <p key={paragraph.id}>{paragraph.text}</p>
               ))}
             </div>

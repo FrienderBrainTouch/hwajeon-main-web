@@ -1,7 +1,6 @@
 import { TabNavigation, type TabItem } from '@/components/ui/TabNavigation';
 import { useTabState } from '@/hooks/useTabState';
-import { BoardWrapper, GalleryWrapper, EventCalendarTab, EventList } from '@/components/news';
-import { monthlyEventData, eventListData } from '@/components/news/data';
+import { BoardWrapper, GalleryWrapper, EventWrapper } from '@/components/news';
 
 function News() {
   const tabs: TabItem[] = [
@@ -36,9 +35,8 @@ function News() {
         );
       case 'calendar':
         return (
-          <div className="space-y-6">
-            <EventCalendarTab events={monthlyEventData} />
-            <EventList events={eventListData} itemsPerPage={4} />
+          <div className="py-8">
+            <EventWrapper itemsPerPage={4} />
           </div>
         );
       case 'archive':

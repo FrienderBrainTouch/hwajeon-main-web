@@ -1,22 +1,9 @@
-import type { Card as CardType, StoryImage } from './data';
 import {
   cards as defaultCards,
   storyImages as defaultStoryImages,
   mainStoryImage as defaultMainStoryImage,
 } from './data';
-
-interface CardProps {
-  title: string;
-  description?: string;
-  type: 'gradient' | 'gray' | 'image';
-  gradient?: string;
-}
-
-interface HwajeonStoryProps {
-  cards?: CardType[];
-  storyImages?: StoryImage[];
-  mainStoryImage?: { src: string; alt: string };
-}
+import { type CardProps, type HwajeonStoryProps } from '@/types/components';
 
 function Card({ title, description, type, gradient }: CardProps) {
   const baseClasses =
@@ -76,7 +63,7 @@ export default function HwajeonStory({
         <div className="max-w-5xl mx-auto mb-8">
           {/* 큰 화면에서는 그리드 */}
           <div className="hidden md:grid md:grid-cols-2 gap-6">
-            {storyImages.slice(0, 2).map((image, index) => (
+            {storyImages.slice(0, 2).map((image: any, index: number) => (
               <div
                 key={index}
                 className="bg-gray-200 h-56 lg:h-64 rounded-lg flex items-center justify-center"
@@ -89,7 +76,7 @@ export default function HwajeonStory({
           {/* 작은 화면에서는 가로 스크롤 */}
           <div className="md:hidden overflow-x-auto">
             <div className="flex gap-6 min-w-max px-4">
-              {storyImages.map((image, index) => (
+              {storyImages.map((image: any, index: number) => (
                 <div
                   key={index}
                   className="bg-gray-200 h-48 w-80 rounded-lg flex items-center justify-center flex-shrink-0"
@@ -153,7 +140,7 @@ export default function HwajeonStory({
           {/* 1024px 이상: 4x2 그리드 (첫 번째 행: 0,1,2번째 칸, 두 번째 행: 1,2,3번째 칸) */}
 
           {/* 첫 번째 행: 0, 1, 2번째 칸 */}
-          {cards.slice(0, 3).map((card, index) => (
+          {cards.slice(0, 3).map((card: any, index: number) => (
             <Card key={index} {...card} />
           ))}
 
@@ -162,7 +149,7 @@ export default function HwajeonStory({
 
           {/* 두 번째 행: 1, 2, 3번째 칸 */}
           <div className="hidden lg:block"></div>
-          {cards.slice(3).map((card, index) => (
+          {cards.slice(3).map((card: any, index: number) => (
             <Card key={index + 3} {...card} />
           ))}
         </div>

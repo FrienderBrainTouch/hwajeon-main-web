@@ -1,12 +1,5 @@
 import { useState } from 'react';
-import type { EventImage, CommunityProject, EducationMethod } from './data';
-
-interface LocalActivationProps {
-  eventImages?: EventImage[];
-  communityProjects?: CommunityProject[];
-  educationMethods?: EducationMethod[];
-  educationSummary?: string;
-}
+import { type LocalActivationProps } from '@/types/components';
 
 const LocalActivation = ({
   eventImages = [],
