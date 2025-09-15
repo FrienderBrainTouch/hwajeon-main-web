@@ -13,6 +13,7 @@ const POST_ENDPOINTS = {
   POST_LIST: '/homepage/category',
   POST_DETAIL: '/homepage/:postId',
   POST_CALENDAR_DETAIL: '/homepage/calendar/:postId',
+  POST_CALENDAR_V2: '/homepage/calendar/v2',
 } as const;
 
 // Member용 게시글 API 함수들 (토큰 없이 호출)
@@ -82,6 +83,18 @@ export const memberPostsApi = {
       );
     } catch (error) {
       console.error('getCalendarPostDetail error:', error);
+      throw error;
+    }
+  },
+
+  // 캘린더 이벤트 조회 (v2 API)
+  async getCalendarEvents(requestDate: string): Promise<ApiResponse<any[]>> {
+    try {
+      return await apiClient.get<any[]>(POST_ENDPOINTS.POST_CALENDAR_V2, {
+        requestDate,
+      });
+    } catch (error) {
+      console.error('getCalendarEvents error:', error);
       throw error;
     }
   },
