@@ -1,23 +1,4 @@
-// 공통 아이템 타입 (BoardItem과 GalleryItem의 공통 필드)
-interface BaseItem {
-  id: number;
-  title: string;
-  date: string;
-  content?: string;
-  files?: Array<{
-    fileId: number;
-    fileUrl: string;
-  }>;
-}
-
-interface DetailProps<T extends BaseItem> {
-  item: T;
-  onBackToList: () => void;
-  onPrevious?: () => void;
-  onNext?: () => void;
-  hasPrevious?: boolean;
-  hasNext?: boolean;
-}
+import { type BaseItem, type DetailProps } from '@/types/components';
 
 const Detail = <T extends BaseItem>({
   item,
@@ -26,6 +7,7 @@ const Detail = <T extends BaseItem>({
   onNext,
   hasPrevious = false,
   hasNext = false,
+  showDate = true,
 }: DetailProps<T>) => {
   return (
     <div className="w-full max-w-5xl mx-auto py-4 sm:py-8 px-4 sm:px-0">
@@ -38,23 +20,28 @@ const Detail = <T extends BaseItem>({
               {item.title}
             </p>
           </div>
-          <div>
-            <span className="text-sm text-gray-500 font-medium">작성일</span>
-            <p className="text-sm sm:text-base text-gray-700 mt-1">{item.date}</p>
-          </div>
+          {showDate && (
+            <div>
+              <span className="text-sm text-gray-500 font-medium">작성일</span>
+              <p className="text-sm sm:text-base text-gray-700 mt-1">{item.date}</p>
+            </div>
+          )}
+          {item.author && (
+            <div>
+              <span className="text-sm text-gray-500 font-medium">작성자</span>
+              <p className="text-sm sm:text-base text-gray-700 mt-1">{item.author}</p>
+            </div>
+          )}
         </div>
       </div>
 
       {/* 중앙 내용 섹션 */}
       <div className="bg-white min-h-[300px] sm:min-h-[400px] py-4 sm:py-8">
-        <div className="space-y-4">
-          <h3 className="text-base sm:text-lg font-semibold text-gray-900">내용</h3>
-          <div className="prose prose-gray max-w-none">
-            <p className="text-sm sm:text-base text-gray-700 leading-relaxed break-words">
-              {item.content ||
-                '게시물 내용이 여기에 표시됩니다. 실제 구현 시에는 content 필드를 추가하여 상세 내용을 저장할 수 있습니다.'}
-            </p>
-          </div>
+        <div className="prose prose-gray max-w-none">
+          <p className="text-sm sm:text-base text-gray-700 leading-relaxed break-words">
+            {item.content ||
+              '게시물 내용이 여기에 표시됩니다. 실제 구현 시에는 content 필드를 추가하여 상세 내용을 저장할 수 있습니다.'}
+          </p>
         </div>
       </div>
 
@@ -64,37 +51,61 @@ const Detail = <T extends BaseItem>({
           <div className="space-y-4">
             <h3 className="text-base sm:text-lg font-semibold text-gray-900">첨부파일</h3>
             <div className="space-y-2">
-              {item.files.map((file, index) => (
-                <div
-                  key={file.fileId}
-                  className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border"
-                >
-                  <div className="flex items-center space-x-3">
-                    <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
-                      <svg
-                        className="w-4 h-4 text-blue-600"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                        />
-                      </svg>
-                    </div>
-                    <span className="text-sm text-gray-700">첨부파일 {index + 1}</span>
-                  </div>
-                  <button
-                    onClick={() => window.open(file.fileUrl, '_blank')}
-                    className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors"
+              {item.files.map((file, index) => {
+                // URL에서 파일명 추출
+                const getFileName = (url: string) => {
+                  try {
+                    const urlObj = new URL(url);
+                    const pathname = urlObj.pathname;
+                    const fileName = pathname.split('/').pop() || '';
+
+                    // 파일명이 있으면 디코딩, 없으면 기본값
+                    if (fileName) {
+                      return decodeURIComponent(fileName);
+                    }
+                    return `첨부파일_${index + 1}`;
+                  } catch {
+                    return `첨부파일_${index + 1}`;
+                  }
+                };
+
+                const fileName = getFileName(file.fileUrl);
+
+                return (
+                  <div
+                    key={file.fileId}
+                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border"
                   >
-                    다운로드
-                  </button>
-                </div>
-              ))}
+                    <div className="flex items-center space-x-3">
+                      <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <svg
+                          className="w-4 h-4 text-blue-600"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                          />
+                        </svg>
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-sm text-gray-700 font-medium">{fileName}</span>
+                        <span className="text-xs text-gray-500">첨부파일 {index + 1}</span>
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => window.open(file.fileUrl, '_blank')}
+                      className="px-4 py-2 bg-blue-600 text-white text-sm rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                      다운로드
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

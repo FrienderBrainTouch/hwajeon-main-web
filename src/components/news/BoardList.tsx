@@ -2,17 +2,7 @@ import React from 'react';
 import CustomPagination from '@/components/ui/CustomPagination';
 import { Button } from '@/components/ui/button';
 import { Settings, Edit, Trash2 } from 'lucide-react';
-
-export interface BoardItem {
-  id: number;
-  title: string;
-  date: string;
-  content?: string;
-  files?: Array<{
-    fileId: number;
-    fileUrl: string;
-  }>;
-}
+import { type BoardItem } from '@/types/components';
 
 interface BoardListProps {
   items: BoardItem[];

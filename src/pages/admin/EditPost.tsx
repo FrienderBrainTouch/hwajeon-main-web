@@ -3,7 +3,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 // import { useAuth } from '@/contexts/AuthContext';
 import { useApi } from '@/hooks/useApi';
 import { postsApi } from '@/api/admin/posts';
-import type { PostDetailResponse } from '@/api/admin/types/posts';
+import type { PostDetailResponse } from '@/types/api';
 import { EditPostForm } from '@/components/admin/EditPost';
 import { Button } from '@/components/ui/button';
 import type { PostFormData, PostCategory, Post } from './data';
@@ -53,8 +53,8 @@ export default function EditPost() {
         const resultData = result as PostDetailResponse;
 
         // fileUrls에서 fileId와 fileUrl 추출
-        const fileIds = resultData.fileUrls.map((file) => file.fileId);
-        const fileUrls = resultData.fileUrls.map((file) => file.fileUrl);
+        const fileIds = resultData.fileUrls.map((file: any) => file.fileId);
+        const fileUrls = resultData.fileUrls.map((file: any) => file.fileUrl);
 
         const post: Post = {
           id: postId,
@@ -132,7 +132,10 @@ export default function EditPost() {
         newFiles: formData.attachments || [],
       };
 
-      const result = await updatePostApi.execute(id, updateRequest);
+      const result = await updatePostApi.execute(id, {
+        ...updateRequest,
+        postType: formData.postType,
+      });
 
       if (result !== null) {
         console.log('게시글 수정 성공:', result);

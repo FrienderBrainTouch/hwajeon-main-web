@@ -1,22 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import BoardList, { type BoardItem } from './BoardList';
+import BoardList from './BoardList';
 import BoardDetail from './BoardDetail';
 import { useApi } from '@/hooks/useApi';
 import { memberPostsApi } from '@/api/member';
-import type { PostCategory } from '@/api/common/types/posts';
-
-interface BoardWrapperProps {
-  title: string;
-  boardType: string; // 'announcements', 'archive', 'meeting'
-  itemsPerPage?: number;
-  onItemClick?: (item: BoardItem) => void;
-  showAdminActions?: boolean;
-  onEdit?: (item: BoardItem) => void;
-  onDelete?: (item: BoardItem) => void;
-  onSettings?: () => void;
-  showTitle?: boolean; // 제목 표시 여부
-}
+import type { PostCategory } from '@/types/api';
+import { type BoardItem, type BoardWrapperProps } from '@/types/components';
 
 const BoardWrapper: React.FC<BoardWrapperProps> = ({
   title,

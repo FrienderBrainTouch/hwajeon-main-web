@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import { authApi } from '../api/admin/auth';
-import type { LoginRequest } from '../api/admin/types/auth';
+import type { LoginRequest } from '@/types/api';
 import { useApi } from '../hooks/useApi';
 import { useToast } from '../components/ui/toast';
 

@@ -1,18 +1,6 @@
-// 공통 게시글 관련 타입 정의
+// API 응답 타입 정의
 
-/**
- * 활동 타입 열거형
- * @type {string}
- * @description 게시글의 활동 분류를 나타내는 타입
- */
-export type ActivityType = 'NONE' | 'FESTIVAL' | 'ONE_DAY_CLASS' | 'CONFERENCE';
-
-/**
- * 게시글 카테고리 타입
- * @type {string}
- * @description 게시글의 카테고리 분류를 나타내는 타입
- */
-export type PostCategory = 'NOTICE' | 'ARCHIVE' | 'MEETING' | 'NEWS' | 'GALLERY' | 'CALENDAR';
+import type { PostCategory, ActivityType } from './common';
 
 /**
  * 게시글 요약 정보 타입
@@ -69,23 +57,25 @@ export type PostDetailResponse = {
 };
 
 /**
- * 게시글 목록 조회 파라미터 타입
- * @interface GetPostsParams
- * @property {PostCategory} [postType] - 게시글 카테고리 필터 (선택적)
- * @property {number} [page] - 페이지 번호 (선택적)
- * @property {number} [size] - 페이지 크기 (선택적)
+ * 캘린더 게시글 상세 정보 타입
+ * @interface CalendarPostDetailResponse
+ * @property {string} title - 게시글 제목
+ * @property {string} content - 게시글 내용
+ * @property {string} createAt - 생성일시
+ * @property {string} modifiedAt - 수정일시
+ * @property {Array<{fileId: number, fileUrl: string}>} fileUrls - 파일 정보 목록
+ * @property {string} eventDate - 행사 날짜
+ * @property {ActivityType} activityType - 활동 타입
  */
-export type GetPostsParams = {
-  postType?: PostCategory;
-  page?: number;
-  size?: number;
-};
-
-/**
- * 게시글 상세 조회 파라미터 타입
- * @interface GetPostDetailParams
- * @property {string | number} postId - 게시글 ID
- */
-export type GetPostDetailParams = {
-  postId: string | number;
+export type CalendarPostDetailResponse = {
+  title: string;
+  content: string;
+  createAt: string;
+  modifiedAt: string;
+  fileUrls: Array<{
+    fileId: number;
+    fileUrl: string;
+  }>;
+  eventDate: string;
+  activityType: ActivityType;
 };

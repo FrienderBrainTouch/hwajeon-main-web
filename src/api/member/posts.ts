@@ -2,14 +2,16 @@ import { apiClient, type ApiResponse } from '../../lib/api';
 import type {
   PostSummaryResponse,
   PostDetailResponse,
+  CalendarPostDetailResponse,
   GetPostsParams,
   GetPostDetailParams,
-} from '../../api/common/types/posts';
+} from '@/types/api';
 
 // 게시글 관련 엔드포인트 (Member용 - 토큰 없이 접근)
 const POST_ENDPOINTS = {
   POST_LIST: '/homepage/category',
   POST_DETAIL: '/homepage/:postId',
+  POST_CALENDAR_DETAIL: '/homepage/calendar/:postId',
 } as const;
 
 // Member용 게시글 API 함수들 (토큰 없이 호출)
@@ -60,6 +62,37 @@ export const memberPostsApi = {
       );
     } catch (error) {
       console.error('getPostDetail error:', error);
+      throw error;
+    }
+  },
+
+  // 캘린더 게시글 상세 조회 (공개 API)
+  async getCalendarPostDetail(
+    params: GetPostDetailParams
+  ): Promise<ApiResponse<CalendarPostDetailResponse>> {
+    try {
+      console.log('getCalendarPostDetail params:', params);
+      console.log('postId type:', typeof params.postId);
+      console.log('postId value:', params.postId);
+
+      // postId가 이미 숫자인지 확인
+      let postId: number;
+      if (typeof params.postId === 'number') {
+        postId = params.postId;
+      } else {
+        postId = parseInt(params.postId, 10);
+      }
+
+      console.log('final postId:', postId);
+
+      if (isNaN(postId) || postId <= 0) {
+        throw new Error(`Invalid post ID: ${params.postId}`);
+      }
+      return await apiClient.get<CalendarPostDetailResponse>(
+        POST_ENDPOINTS.POST_CALENDAR_DETAIL.replace(':postId', postId.toString())
+      );
+    } catch (error) {
+      console.error('getCalendarPostDetail error:', error);
       throw error;
     }
   },

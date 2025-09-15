@@ -1,7 +1,6 @@
 import { TabNavigation, type TabItem } from '@/components/ui/TabNavigation';
 import { useTabState } from '@/hooks/useTabState';
-import { BoardWrapper, GalleryWrapper, EventCalendarTab, EventList } from '@/components/news';
-import { newsData, galleryData, monthlyEventData, eventListData } from '@/components/news/data';
+import { BoardWrapper, GalleryWrapper, EventWrapper } from '@/components/news';
 
 function News() {
   const tabs: TabItem[] = [
@@ -25,30 +24,19 @@ function News() {
       case 'news':
         return (
           <div className="py-8">
-            <GalleryWrapper
-              title="화전 소식"
-              items={newsData.newsItems}
-              boardType="news"
-              type="news"
-            />
+            <GalleryWrapper title="화전 소식" boardType="news" type="news" />
           </div>
         );
       case 'gallery':
         return (
           <div className="py-8">
-            <GalleryWrapper
-              title="활동 갤러리"
-              items={galleryData.galleryItems}
-              boardType="gallery"
-              type="gallery"
-            />
+            <GalleryWrapper title="활동 갤러리" boardType="gallery" type="gallery" />
           </div>
         );
       case 'calendar':
         return (
-          <div className="space-y-6">
-            <EventCalendarTab events={monthlyEventData} />
-            <EventList events={eventListData} itemsPerPage={4} />
+          <div className="py-8">
+            <EventWrapper itemsPerPage={4} />
           </div>
         );
       case 'archive':

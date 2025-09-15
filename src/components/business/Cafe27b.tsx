@@ -1,13 +1,5 @@
 import { useState } from 'react';
-import type { MainImage, MenuItem, ProductItem, CateringService, MobileCafeService } from './data';
-
-interface Cafe27bProps {
-  mainImages?: MainImage[];
-  menuItems?: MenuItem[];
-  productItems?: ProductItem[];
-  cateringServices?: CateringService[];
-  mobileCafeServices?: MobileCafeService[];
-}
+import { type Cafe27bProps } from '@/types/components';
 
 const Cafe27b = ({
   mainImages = [],

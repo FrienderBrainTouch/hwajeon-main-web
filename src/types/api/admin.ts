@@ -1,4 +1,4 @@
-// 인증 관련 타입 정의
+import type { PostCategory, ActivityType } from './common';
 
 /**
  * 로그인 요청 데이터 타입
@@ -77,3 +77,62 @@ export type LoginResponse = {
 //   token: string;
 //   refreshToken: string;
 // };
+
+// Admin 전용 API 타입들
+
+/**
+ * 게시글 생성 요청 데이터 타입
+ * @interface CreatePostRequest
+ * @property {string} title - 게시글 제목
+ * @property {string} content - 게시글 내용
+ * @property {PostCategory} postType - 게시글 카테고리
+ * @property {string} [eventDate] - 행사 날짜 (CALENDAR 카테고리용)
+ * @property {ActivityType} [activityType] - 활동 타입 (GALLERY 카테고리용)
+ * @property {File} [thumbnail] - 썸네일 이미지 파일
+ * @property {File[]} [attachments] - 첨부파일 목록
+ */
+export type CreatePostRequest = {
+  title: string;
+  content: string;
+  postType: PostCategory;
+  eventDate?: string; // CALENDAR 카테고리용
+  activityType?: ActivityType; // GALLERY 카테고리용
+  thumbnail?: File;
+  attachments?: File[];
+};
+
+/**
+ * 게시글 생성 응답 데이터 타입
+ * @interface CreatePostResponse
+ * @property {number} postId - 생성된 게시글 ID
+ * @property {string} message - 응답 메시지
+ */
+export type CreatePostResponse = {
+  postId: number;
+  message: string;
+};
+
+/**
+ * 게시글 수정 요청 데이터 타입
+ * @interface UpdatePostRequest
+ * @property {string} title - 게시글 제목
+ * @property {string} content - 게시글 내용
+ * @property {PostCategory} postType - 게시글 카테고리
+ * @property {string} [eventDate] - 행사 날짜 (CALENDAR 카테고리용)
+ * @property {ActivityType} [activityType] - 활동 타입 (GALLERY 카테고리용)
+ * @property {File} [thumbnail] - 썸네일 이미지 파일
+ * @property {File[]} [attachments] - 첨부파일 목록
+ * @property {number[]} [existingFileIds] - 기존 파일 IDs
+ * @property {File[]} [newFiles] - 새 파일들
+ */
+export type UpdatePostRequest = {
+  title: string;
+  content: string;
+  postType: PostCategory;
+  eventDate?: string; // CALENDAR 카테고리용
+  activityType?: ActivityType; // GALLERY 카테고리용
+  thumbnail?: File;
+  attachments?: File[];
+  existingFileIds?: number[];
+  newFiles?: File[];
+};

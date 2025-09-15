@@ -1,6 +1,6 @@
 import React from 'react';
 import Detail from './Detail';
-import { type BoardItem } from './data/types';
+import { type BoardItem } from '@/types/components';
 
 interface BoardDetailProps {
   item: BoardItem;

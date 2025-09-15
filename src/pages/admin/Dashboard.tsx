@@ -6,7 +6,7 @@ import { postsApi } from '@/api/admin/posts';
 import { DashboardHeader, DashboardStats, DashboardTable } from '@/components/admin/Dashboard';
 import type { Post, PostCategory } from './data';
 import { categoryInfo } from './data';
-import type { GetPostsParams } from '@/api/admin/types/posts';
+import type { GetPostsParams } from '@/types/api';
 
 export default function AdminDashboard() {
   const navigate = useNavigate();

@@ -1,17 +1,5 @@
 import { Button } from '@/components/ui/button';
-
-interface User {
-  id: string;
-  username: string;
-  name: string;
-  realName: string;
-  role: 'TEACHER' | 'USER';
-}
-
-interface DashboardHeaderProps {
-  user: User | null;
-  onLogout: () => void;
-}
+import { type DashboardHeaderProps } from '@/types/components';
 
 export const DashboardHeader = ({ user, onLogout }: DashboardHeaderProps) => {
   return (

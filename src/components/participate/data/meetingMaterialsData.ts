@@ -1,4 +1,4 @@
-import { type BoardItem } from '@/components/news/BoardList';
+import { type BoardItem } from '@/types/components';
 
 export const meetingMaterialsData: BoardItem[] = [
   { id: 10, title: '[정기회의] 제10회 정기회의 자료입니다.', date: '2025.07.07' },
