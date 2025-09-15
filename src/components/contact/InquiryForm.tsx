@@ -1,16 +1,7 @@
 import { useState } from 'react';
 import emailjs from '@emailjs/browser';
 import SnsGuide from './SnsGuide';
-
-interface FormData {
-  name: string;
-  phone: string;
-  email: string;
-  emailDomain: string;
-  subject: string;
-  message: string;
-  privacy: boolean;
-}
+import type { FormData } from '@/types/components/contact';
 
 const InquiryForm = () => {
   const [formData, setFormData] = useState<FormData>({
