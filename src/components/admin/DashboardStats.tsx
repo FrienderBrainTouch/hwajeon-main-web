@@ -7,15 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-
-interface DashboardStatsProps {
-  selectedCategory: string;
-  searchTerm: string;
-  categoryInfo: Record<string, { name: string; viewType: string; hasThumbnail: boolean }>;
-  onCategoryChange: (value: string) => void;
-  onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onCreatePost: () => void;
-}
+import type { DashboardStatsProps } from '@/types/components/admin';
 
 export const DashboardStats = ({
   selectedCategory,

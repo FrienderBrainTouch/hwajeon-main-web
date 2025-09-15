@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApi } from '@/hooks/useApi';
 import { postsApi } from '@/api/admin/posts';
-import { CreatePostForm } from '@/components/admin/CreatePost';
-import type { PostFormData, PostCategory, ActivityType } from './data';
-import { categoryInfo } from './data';
+import { CreatePostForm } from '@/components/admin';
+import type { PostFormData, PostCategory, ActivityType } from '@/types/api/common';
+import { categoryInfo } from '@/types/ui/admin';
 
 export default function CreatePost() {
   const navigate = useNavigate();

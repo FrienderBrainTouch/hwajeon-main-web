@@ -9,46 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-
-interface Post {
-  id: string;
-  title: string;
-  content: string;
-  category: string;
-  createdAt: string;
-  updatedAt: string;
-  author: string;
-  views: number;
-  thumbnail?: string;
-  attachments?: string[];
-  eventDate?: string;
-  activityType?: string;
-}
-
-interface EditPostFormProps {
-  formData: {
-    title: string;
-    content: string;
-    postType: string;
-    eventDate?: string;
-    activityType?: string;
-    thumbnail?: File;
-    attachments?: File[];
-  };
-  originalPost: Post | null;
-  existingFileIds: number[];
-  selectedExistingFiles: number[];
-  updateLoading: boolean;
-  onTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onPostTypeChange: (value: string) => void;
-  onEventDateChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onFileUpload: (files: FileList | null, type: 'thumbnail' | 'attachments') => void;
-  onExistingFileToggle: (fileId: number) => void;
-  onContentChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  onSubmit: (e: React.FormEvent) => void;
-  onCancel: () => void;
-  categoryInfo: Record<string, { name: string; viewType: string; hasThumbnail: boolean }>;
-}
+import type { EditPostFormProps } from '@/types/components/admin';
 
 export const EditPostForm = ({
   formData,
@@ -199,7 +160,7 @@ export const EditPostForm = ({
                     기존 첨부파일 (유지할 파일을 선택하세요):
                   </p>
                   <ul className="text-sm text-gray-500 space-y-2">
-                    {originalPost.attachments.map((file, index) => {
+                    {originalPost.attachments.map((file: any, index: number) => {
                       const fileId =
                         existingFileIds && existingFileIds.length > index
                           ? existingFileIds[index]

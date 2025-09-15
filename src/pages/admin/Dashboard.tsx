@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useApi } from '@/hooks/useApi';
 import { postsApi } from '@/api/admin/posts';
-import { DashboardHeader, DashboardStats, DashboardTable } from '@/components/admin/Dashboard';
-import type { Post, PostCategory } from './data';
-import { categoryInfo } from './data';
+import { DashboardHeader, DashboardStats, DashboardTable } from '@/components/admin';
+import type { Post, PostCategory } from '@/types/api/common';
+import { categoryInfo } from '@/types/ui/admin';
 import type { GetPostsParams } from '@/types/api';
 
 export default function AdminDashboard() {

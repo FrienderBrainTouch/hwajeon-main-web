@@ -2,16 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-
-interface LoginFormProps {
-  username: string;
-  password: string;
-  error: string;
-  isLoading: boolean;
-  onUsernameChange: (value: string) => void;
-  onPasswordChange: (value: string) => void;
-  onSubmit: (e: React.FormEvent) => void;
-}
+import type { LoginFormProps } from '@/types/components/admin';
 
 export const LoginForm = ({
   username,

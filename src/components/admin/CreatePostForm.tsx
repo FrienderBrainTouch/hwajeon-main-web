@@ -10,27 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-
-interface CreatePostFormProps {
-  title: string;
-  content: string;
-  postType: string;
-  eventDate: string;
-  activityType: string;
-  thumbnail: File | null;
-  attachments: File[];
-  isLoading: boolean;
-  categoryInfo: Record<string, { name: string; viewType: string; hasThumbnail: boolean }>;
-  onTitleChange: (value: string) => void;
-  onContentChange: (value: string) => void;
-  onPostTypeChange: (value: string) => void;
-  onEventDateChange: (value: string) => void;
-  onActivityTypeChange: (value: string) => void;
-  onThumbnailChange: (file: File | null) => void;
-  onAttachmentsChange: (files: File[]) => void;
-  onSubmit: (e: React.FormEvent) => void;
-  onCancel: () => void;
-}
+import type { CreatePostFormProps } from '@/types/components/admin';
 
 export const CreatePostForm = ({
   title,
