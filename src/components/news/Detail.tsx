@@ -1,25 +1,4 @@
-// 공통 아이템 타입 (BoardItem과 GalleryItem의 공통 필드)
-interface BaseItem {
-  id: number;
-  title: string;
-  date: string;
-  content?: string;
-  author?: string;
-  files?: Array<{
-    fileId: number;
-    fileUrl: string;
-  }>;
-}
-
-interface DetailProps<T extends BaseItem> {
-  item: T;
-  onBackToList: () => void;
-  onPrevious?: () => void;
-  onNext?: () => void;
-  hasPrevious?: boolean;
-  hasNext?: boolean;
-  showDate?: boolean; // 작성일 표시 여부
-}
+import { type BaseItem, type DetailProps } from '@/types/components';
 
 const Detail = <T extends BaseItem>({
   item,

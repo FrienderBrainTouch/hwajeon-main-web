@@ -1,6 +1,6 @@
 import React from 'react';
 import CustomPagination from '@/components/ui/CustomPagination';
-import { type GalleryItem, type NewsItem } from './data/types';
+import { type GalleryItem, type NewsItem } from '@/types/components';
 
 type GalleryItemType = GalleryItem | NewsItem;
 

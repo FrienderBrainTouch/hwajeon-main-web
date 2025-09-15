@@ -4,8 +4,8 @@ import GalleryList from './GalleryList';
 import GalleryDetail from './GalleryDetail';
 import { useApi } from '@/hooks/useApi';
 import { memberPostsApi } from '@/api/member';
-import type { PostCategory } from '@/api/common/types/posts';
-import { type GalleryItem, type NewsItem } from './data/types';
+import type { PostCategory } from '@/types/api';
+import { type GalleryItem, type NewsItem } from '@/types/components';
 
 type GalleryItemType = GalleryItem | NewsItem;
 

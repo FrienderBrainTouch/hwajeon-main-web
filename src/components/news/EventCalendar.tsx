@@ -1,13 +1,9 @@
 import { useState, useMemo } from 'react';
-import {
-  type EventCategory,
-  type EventDataForCalendar,
-  type MonthlyEventData,
-  CALENDAR_CATEGORY_CONFIG,
-} from './data/types';
+import { type EventDataForCalendar, type MonthlyEventData } from '@/types/components';
+import { CALENDAR_CATEGORY_CONFIG } from '@/types/ui';
 
 interface EventCalendarProps {
-  events?: MonthlyEventData;
+  events?: MonthlyEventData | Record<number, EventDataForCalendar[]>;
   onDateClick?: (date: number, events: EventDataForCalendar[]) => void;
   showCategoryLegend?: boolean;
   className?: string;
@@ -61,16 +57,26 @@ function EventCalendar({
 
   // 현재 월의 이벤트 가져오기
   const getCurrentMonthEvents = () => {
+    if (!events) {
+      return {};
+    }
+
+    // Record<number, EventDataForCalendar[]> 형태인 경우
+    if (typeof events === 'object' && !('year' in events) && !('month' in events)) {
+      return events as Record<number, EventDataForCalendar[]>;
+    }
+
+    // MonthlyEventData 형태인 경우
+    const monthlyData = events as MonthlyEventData;
     if (
-      !events ||
-      events.year !== currentDate.getFullYear() ||
-      events.month !== currentDate.getMonth() + 1
+      monthlyData.year !== currentDate.getFullYear() ||
+      monthlyData.month !== currentDate.getMonth() + 1
     ) {
       return {};
     }
 
     const eventsByDate: Record<number, EventDataForCalendar[]> = {};
-    events.events.forEach((event) => {
+    monthlyData.events.forEach((event) => {
       if (!eventsByDate[event.date]) {
         eventsByDate[event.date] = [];
       }
@@ -90,21 +96,6 @@ function EventCalendar({
   const getEventsForDate = (date: number): EventDataForCalendar[] => {
     const currentMonthEvents = getCurrentMonthEvents();
     return currentMonthEvents[date] || [];
-  };
-
-  // 특정 날짜의 주요 이벤트 카테고리 가져오기 (여러 이벤트가 있을 때 우선순위)
-  const getPrimaryEventCategory = (date: number): EventCategory | null => {
-    const events = getEventsForDate(date);
-    if (events.length === 0) return null;
-
-    // 우선순위: festival > class > meeting
-    const priority = ['festival', 'class', 'meeting'];
-    for (const category of priority) {
-      if (events.some((event) => event.category === category)) {
-        return category as EventCategory;
-      }
-    }
-    return events[0].category;
   };
 
   // 날짜 클릭 핸들러
@@ -169,32 +160,32 @@ function EventCalendar({
             ))}
             {calendarDays.map((day, i) => {
               const hasEventOnDate = hasEvent(day);
-              const primaryCategory = getPrimaryEventCategory(day);
               const eventsForDate = getEventsForDate(day);
+              const uniqueCategories = [...new Set(eventsForDate.map((e) => e.category))];
 
               return (
                 <div
                   key={i}
                   className={`p-2 text-center cursor-pointer hover:bg-gray-100 rounded-lg transition-colors relative ${
-                    day === 0
-                      ? 'text-gray-300'
-                      : hasEventOnDate
-                      ? 'font-semibold text-white'
-                      : 'text-gray-700'
+                    day === 0 ? 'text-gray-300' : 'text-gray-700'
                   }`}
-                  style={{
-                    backgroundColor:
-                      hasEventOnDate && primaryCategory
-                        ? CALENDAR_CATEGORY_CONFIG[primaryCategory].color
-                        : undefined,
-                  }}
                   onClick={() => handleDateClick(day)}
                   title={hasEventOnDate ? eventsForDate.map((e) => e.title).join(', ') : ''}
                 >
                   {day !== 0 && day}
-                  {hasEventOnDate && eventsForDate.length > 1 && (
-                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-white rounded-full text-xs flex items-center justify-center text-gray-600">
-                      {eventsForDate.length}
+                  {/* 카테고리 점들로 표시 */}
+                  {hasEventOnDate && (
+                    <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 flex gap-0.5">
+                      {uniqueCategories.slice(0, 3).map((category, idx) => (
+                        <div
+                          key={idx}
+                          className="w-1 h-1 rounded-full"
+                          style={{ backgroundColor: CALENDAR_CATEGORY_CONFIG[category].color }}
+                        />
+                      ))}
+                      {uniqueCategories.length > 3 && (
+                        <div className="w-1 h-1 rounded-full bg-gray-400" />
+                      )}
                     </div>
                   )}
                 </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import Detail from './Detail';
-import { type GalleryItem } from './data/types';
+import { type GalleryItem } from '@/types/components';
 
 interface GalleryDetailProps {
   item: GalleryItem;
