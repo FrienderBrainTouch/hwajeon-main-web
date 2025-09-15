@@ -1,17 +1,10 @@
-// import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import IntroIcon from '@/assets/intro_icon.svg';
 import BusinessIcon from '@/assets/business_icon.svg';
 import NewsIcon from '@/assets/news_icon.svg';
 import JoinIcon from '@/assets/join_icon.svg';
 import ContactIcon from '@/assets/contact_icon.svg';
-
-interface HeaderDropdownProps {
-  isOpen: boolean;
-  onClose: () => void;
-  headerHeight: number;
-  selectedCategory: string | null;
-}
+import type { HeaderDropdownProps } from '@/types/components/layout';
 
 // 메뉴 데이터
 const menuData = [

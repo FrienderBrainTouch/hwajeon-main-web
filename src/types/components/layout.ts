@@ -4,7 +4,7 @@
  * 헤더 컴포넌트 Props
  */
 export interface HeaderProps {
-  className?: string;
+  variant?: 'overlay' | 'default';
 }
 
 /**
@@ -13,7 +13,8 @@ export interface HeaderProps {
 export interface HeaderDropdownProps {
   isOpen: boolean;
   onClose: () => void;
-  className?: string;
+  headerHeight: number;
+  selectedCategory: string | null;
 }
 
 /**
@@ -22,5 +23,4 @@ export interface HeaderDropdownProps {
 export interface SideBarProps {
   isOpen: boolean;
   onClose: () => void;
-  className?: string;
 }
