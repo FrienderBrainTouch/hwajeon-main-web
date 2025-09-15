@@ -1,24 +1,4 @@
-export interface BoardMember {
-  id: number;
-  name: string;
-  position: string;
-  department: string;
-}
-
-export interface TeamMember {
-  id: number;
-  name: string;
-  position: string;
-  department: string;
-  duties: string;
-}
-
-export interface Team {
-  id: number;
-  name: string;
-  description: string;
-  members: TeamMember[];
-}
+import type { BoardMember, TeamMember, Team } from '@/types/components/combination';
 
 export const boardMembers: BoardMember[] = [
   {

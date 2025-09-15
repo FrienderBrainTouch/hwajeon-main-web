@@ -1,16 +1,12 @@
 import React from 'react';
-import { TimelineZigzag } from '.';
+import { TimelineZigzag } from '@/components/combination';
 import TimelineImg from '@/assets/timeline.jpg';
-import type { HistoryItem } from './data';
+import type { HistoryProps } from '@/types/components/combination';
 import { historyData as defaultHistoryData } from './data';
-
-interface HistoryProps {
-  historyData?: HistoryItem[];
-}
 
 const History: React.FC<HistoryProps> = ({ historyData = defaultHistoryData }) => {
   // 데이터를 TimelineZigzag가 기대하는 형식으로 변환
-  const timelineData = historyData.map((item) => ({
+  const timelineData = historyData.map((item: any) => ({
     year: parseInt(item.year),
     bullets: [item.description],
   }));

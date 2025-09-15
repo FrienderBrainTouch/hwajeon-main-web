@@ -1,9 +1,4 @@
-export interface HistoryItem {
-  id: number;
-  year: string;
-  title: string;
-  description: string;
-}
+import type { HistoryItem } from '@/types/components/combination';
 
 export const historyData: HistoryItem[] = [
   {

@@ -1,17 +1,4 @@
-export interface Card {
-  id: number;
-  type: 'gradient' | 'gray' | 'image';
-  title: string;
-  description?: string;
-  image?: string;
-  gradient?: string;
-}
-
-export interface StoryImage {
-  id: number;
-  src: string;
-  alt: string;
-}
+import type { Card, StoryImage } from '@/types/components/combination';
 
 export const cards: Card[] = [
   {

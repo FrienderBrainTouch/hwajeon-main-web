@@ -1,10 +1,6 @@
 import React from 'react';
-import type { MissionVisionData } from './data';
+import type { MissionVisionProps } from '@/types/components/combination';
 import { missionVisionData as defaultData } from './data';
-
-interface MissionVisionProps {
-  data?: MissionVisionData;
-}
 
 const MissionVision: React.FC<MissionVisionProps> = ({ data = defaultData }) => {
   return (
@@ -56,7 +52,7 @@ const MissionVision: React.FC<MissionVisionProps> = ({ data = defaultData }) => 
           <p className="text-sm sm:text-base text-gray-500">{data.values.subtitle}</p>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-6xl mx-auto">
-          {data.values.items.map((item) => (
+          {data.values.items.map((item: any) => (
             <div key={item.id} className="bg-gray-100 p-4 sm:p-6 rounded-lg text-center">
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gray-300 rounded-lg mx-auto mb-4 flex items-center justify-center">
                 <span className="text-gray-500 text-xs sm:text-sm">이미지</span>
