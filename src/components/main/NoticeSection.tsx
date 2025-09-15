@@ -3,10 +3,6 @@ import { useNavigate } from 'react-router-dom';
 function NoticeSection() {
   const navigate = useNavigate();
 
-  const handleMoreClick = () => {
-    navigate('/member/news?tab=notice');
-  };
-
   return (
     <div className="mx-auto w-full max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl px-4 xs:px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 py-6 xs:py-8 sm:py-10 md:py-12 lg:py-14 xl:py-16 2xl:py-20">
       <section className="mt-20 xs:mt-24 sm:mt-28 md:mt-32 lg:mt-36 xl:mt-40 2xl:mt-48">
@@ -14,7 +10,10 @@ function NoticeSection() {
           <h2 className="text-lg xs:text-xl sm:text-xl md:text-xl lg:text-2xl xl:text-2xl 2xl:text-3xl font-semibold text-gray-900">
             공지사항
           </h2>
-          <button onClick={handleMoreClick} className="text-sm text-gray-500 hover:text-gray-700">
+          <button
+            onClick={() => navigate('/member/news?tab=notice')}
+            className="text-sm text-gray-500 hover:text-gray-700"
+          >
             더보기
           </button>
         </div>

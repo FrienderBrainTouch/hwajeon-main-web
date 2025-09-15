@@ -1,34 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EventCalendar } from '../news';
-import { type MonthlyEventData } from '@/types/components';
 
 function EventSchedule() {
   const navigate = useNavigate();
   const [currentDate, setCurrentDate] = useState(new Date());
-  // 이벤트 데이터 (API 연동 예정)
-  const eventData: Record<number, MonthlyEventData> = {};
-
-  const handleViewAllSchedule = () => {
-    navigate('/member/news?tab=calendar');
-  };
-
-  // 현재 월의 이벤트 가져오기
-  const getCurrentMonthEvents = (): MonthlyEventData | undefined => {
-    const currentMonth = currentDate.getMonth() + 1; // getMonth()는 0부터 시작
-    return eventData[currentMonth];
-  };
-
-  // 날짜 클릭 핸들러
-  const handleDateClick = (date: number, events: any[]) => {
-    console.log(`날짜 ${date} 클릭:`, events);
-    // 여기에 상세 모달이나 다른 동작을 추가할 수 있습니다
-  };
-
-  // 캘린더 날짜 변경 핸들러
-  const handleDateChange = (date: Date) => {
-    setCurrentDate(date);
-  };
 
   return (
     <section
@@ -57,23 +33,17 @@ function EventSchedule() {
                 {[
                   {
                     label: '마을 축제',
-                    count:
-                      getCurrentMonthEvents()?.events.filter((e) => e.category === 'festival')
-                        .length || 0,
+                    count: 0,
                     color: '#2C2E5A',
                   },
                   {
                     label: '원데이 클래스',
-                    count:
-                      getCurrentMonthEvents()?.events.filter((e) => e.category === 'class')
-                        .length || 0,
+                    count: 0,
                     color: '#A692D1',
                   },
                   {
                     label: '회의 일정',
-                    count:
-                      getCurrentMonthEvents()?.events.filter((e) => e.category === 'meeting')
-                        .length || 0,
+                    count: 0,
                     color: '#FFA484',
                   },
                 ].map((category, i) => (
@@ -90,7 +60,7 @@ function EventSchedule() {
 
             {/* 전체 일정 보기 버튼 */}
             <button
-              onClick={handleViewAllSchedule}
+              onClick={() => navigate('/member/news?tab=calendar')}
               className="w-full py-3 px-4 rounded-lg text-white font-medium transition-colors hover:opacity-90 mt-6"
               style={{ backgroundColor: '#2C2E5A' }}
             >
@@ -100,11 +70,9 @@ function EventSchedule() {
 
           {/* 오른쪽: 캘린더 */}
           <EventCalendar
-            events={getCurrentMonthEvents()}
-            onDateClick={handleDateClick}
             showCategoryLegend={false}
             currentDate={currentDate}
-            onDateChange={handleDateChange}
+            onDateChange={(date: Date) => setCurrentDate(date)}
           />
         </div>
       </div>

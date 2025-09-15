@@ -26,3 +26,6 @@ export * from './contact';
 
 // 인증 관련
 export * from './auth';
+
+// 메인 페이지 관련
+export * from './main';
