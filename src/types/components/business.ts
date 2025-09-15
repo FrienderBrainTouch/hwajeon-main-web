@@ -1,5 +1,3 @@
-// 사업 관련 컴포넌트 Props 타입
-
 /**
  * 도시재생 허브 컴포넌트 Props
  */
@@ -82,8 +80,9 @@ export interface MainImage {
 export interface MenuItem {
   id: number;
   name: string;
-  price?: string;
-  description?: string;
+  price: string;
+  description: string;
+  image: string;
 }
 
 /**
@@ -92,8 +91,9 @@ export interface MenuItem {
 export interface ProductItem {
   id: number;
   name: string;
-  price?: string;
-  description?: string;
+  price: string;
+  description: string;
+  image: string;
 }
 
 /**
@@ -115,4 +115,42 @@ export interface MobileCafeService {
   description: string;
   isTextCard?: boolean;
   image?: string;
+}
+
+/**
+ * 아카데미 카드 타입
+ */
+export interface AcademyCard {
+  id: number;
+  title: string;
+  description: string;
+  period: string;
+  target: string;
+  capacity: string;
+}
+
+/**
+ * 교육 카드 타입
+ */
+export interface EducationCard {
+  id: number;
+  title: string;
+  description: string;
+  period: string;
+  target: string;
+  capacity: string;
+  image?: string;
+}
+
+/**
+ * 이벤트 카드 타입
+ */
+export interface EventCard {
+  id: number;
+  title: string;
+  description: string;
+  date: string;
+  location: string;
+  capacity: string;
+  image: string;
 }

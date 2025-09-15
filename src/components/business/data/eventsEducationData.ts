@@ -1,22 +1,4 @@
-export interface EventCard {
-  id: number;
-  title: string;
-  description: string;
-  date: string;
-  location: string;
-  capacity: string;
-  image: string;
-}
-
-export interface EducationCard {
-  id: number;
-  title: string;
-  description: string;
-  period: string;
-  target: string;
-  capacity: string;
-  image: string;
-}
+import type { EventCard, EducationCard } from '@/types/components/business';
 
 export const eventCards: EventCard[] = [
   {

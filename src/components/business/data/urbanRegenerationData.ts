@@ -1,20 +1,4 @@
-export interface AcademyCard {
-  id: number;
-  title: string;
-  description: string;
-  period: string;
-  target: string;
-  capacity: string;
-}
-
-export interface EducationCard {
-  id: number;
-  title: string;
-  description: string;
-  period: string;
-  target: string;
-  capacity: string;
-}
+import type { AcademyCard, EducationCard } from '@/types/components/business';
 
 export const academyCards: AcademyCard[] = [
   {
