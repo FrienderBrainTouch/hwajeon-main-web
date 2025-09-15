@@ -10,10 +10,6 @@ export default function LocationSection() {
     navigate('/member/contact?tab=location');
   };
 
-  const handleInquiry = () => {
-    navigate('/member/contact');
-  };
-
   return (
     <section
       className="mt-10 xs:mt-12 sm:mt-14 md:mt-16 lg:mt-18 xl:mt-20 2xl:mt-24 bg-[#F6F5FA] px-4 xs:px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 py-10 xs:py-12 sm:py-14 md:py-16 lg:py-18 xl:py-20 2xl:py-24"
@@ -57,20 +53,6 @@ export default function LocationSection() {
             </div>
           </div>
         </div>
-      </div>
-
-      {/* 우측 플로팅 버튼들 */}
-      <div className="fixed right-4 bottom-4 flex flex-col gap-3 z-50">
-        <button className="w-12 h-12 bg-gray-700 rounded-full flex items-center justify-center text-white hover:bg-gray-600 transition-colors">
-          ↑
-        </button>
-        <button
-          onClick={handleInquiry}
-          className="w-12 h-12 bg-[#2B2A4C] rounded-full flex flex-col items-center justify-center text-white hover:bg-[#262544] transition-colors text-xs"
-        >
-          <span className="text-lg">��</span>
-          <span>문의하기</span>
-        </button>
       </div>
     </section>
   );
