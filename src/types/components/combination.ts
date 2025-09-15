@@ -20,7 +20,9 @@ export interface MissionVisionProps {
  * 화전 스토리 컴포넌트 Props
  */
 export interface HwajeonStoryProps {
-  data?: any; // StoryData 타입
+  cards?: any[];
+  storyImages?: any[];
+  mainStoryImage?: any;
   className?: string;
 }
 
@@ -29,7 +31,9 @@ export interface HwajeonStoryProps {
  */
 export interface CardProps {
   title: string;
-  content: string;
+  description: string;
+  type: 'gradient' | 'image' | 'gray';
+  gradient?: string;
   image?: string;
   className?: string;
 }

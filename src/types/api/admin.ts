@@ -1,4 +1,4 @@
-import type { PostCategory, ActivityType } from './api/common';
+import type { PostCategory, ActivityType } from './common';
 
 /**
  * 로그인 요청 데이터 타입
