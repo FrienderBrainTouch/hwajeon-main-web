@@ -1,14 +1,14 @@
 import { apiClient, type ApiResponse } from '../../lib/api';
+
 import type {
   ActivityType,
-  CreatePostRequest,
   PostSummaryResponse,
-  CreatePostResponse,
   PostDetailResponse,
+  CalendarPostDetailResponse,
   GetPostsParams,
   GetPostDetailParams,
-  UpdatePostRequest,
-} from './types/posts';
+} from '@/types/api';
+import type { CreatePostRequest, CreatePostResponse, UpdatePostRequest } from '@/types/api';
 
 // 게시글 관련 엔드포인트
 const POST_ENDPOINTS = {
@@ -16,6 +16,7 @@ const POST_ENDPOINTS = {
   POST_CALENDAR_CREATE: '/homepage/admin/calendar',
   POST_LIST: '/homepage/category',
   POST_DETAIL: '/homepage/:postId',
+  POST_CALENDAR_DETAIL: '/homepage/calendar/:postId',
   POST_UPDATE: '/homepage/admin/:postId',
   POST_DELETE: '/homepage/admin/:postId',
 } as const;
@@ -134,6 +135,37 @@ export const postsApi = {
       );
     } catch (error) {
       console.error('getPostDetail error:', error);
+      throw error;
+    }
+  },
+
+  // 캘린더 게시글 상세 조회
+  async getCalendarPostDetail(
+    params: GetPostDetailParams
+  ): Promise<ApiResponse<CalendarPostDetailResponse>> {
+    try {
+      console.log('getCalendarPostDetail params:', params);
+      console.log('postId type:', typeof params.postId);
+      console.log('postId value:', params.postId);
+
+      // postId가 이미 숫자인지 확인
+      let postId: number;
+      if (typeof params.postId === 'number') {
+        postId = params.postId;
+      } else {
+        postId = parseInt(params.postId, 10);
+      }
+
+      console.log('final postId:', postId);
+
+      if (isNaN(postId) || postId <= 0) {
+        throw new Error(`Invalid post ID: ${params.postId}`);
+      }
+      return await apiClient.get<CalendarPostDetailResponse>(
+        POST_ENDPOINTS.POST_CALENDAR_DETAIL.replace(':postId', postId.toString())
+      );
+    } catch (error) {
+      console.error('getCalendarPostDetail error:', error);
       throw error;
     }
   },

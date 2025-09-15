@@ -1,5 +1,5 @@
 import { apiClient, type ApiResponse } from '../../lib/api';
-import type { LoginRequest, LoginResponse } from './types/auth';
+import type { LoginRequest, LoginResponse } from '@/types/api';
 
 // 엔드포인트 직접 정의
 const AUTH_ENDPOINTS = {
