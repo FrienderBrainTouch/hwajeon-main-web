@@ -1,21 +1,4 @@
-export interface GreetingData {
-  title: string;
-  image: {
-    alt: string;
-  };
-  greeting: {
-    line1: string;
-    line2: string;
-  };
-  content: Array<{
-    id: number;
-    text: string;
-  }>;
-  signature: {
-    title: string;
-    name: string;
-  };
-}
+import type { GreetingData } from '@/types/components/combination';
 
 export const greetingData: GreetingData = {
   title: '인사말',

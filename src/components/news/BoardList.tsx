@@ -2,19 +2,7 @@ import React from 'react';
 import CustomPagination from '@/components/ui/CustomPagination';
 import { Button } from '@/components/ui/button';
 import { Settings, Edit, Trash2 } from 'lucide-react';
-import { type BoardItem } from '@/types/components';
-
-interface BoardListProps {
-  items: BoardItem[];
-  currentPage: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
-  onItemClick?: (item: BoardItem) => void;
-  showAdminActions?: boolean;
-  onEdit?: (item: BoardItem) => void;
-  onDelete?: (item: BoardItem) => void;
-  onSettings?: () => void;
-}
+import { type BoardListProps } from '@/types/components';
 
 const BoardList: React.FC<BoardListProps> = ({
   items,

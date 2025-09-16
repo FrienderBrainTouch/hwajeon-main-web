@@ -3,47 +3,65 @@ import EventCalendar from './EventCalendar';
 import EventList from './EventList';
 import { useApi } from '@/hooks/useApi';
 import { memberPostsApi } from '@/api/member';
-import type { PostCategory } from '@/types/api';
-import { type EventData, type EventDataForCalendar } from '@/types/components';
+import {
+  type EventData,
+  type EventDataForCalendar,
+  type EventWrapperProps,
+} from '@/types/components';
 import { mapActivityTypeToEventCategory } from '@/types/ui';
-
-/**
- * 이벤트 래퍼 컴포넌트 Props
- */
-interface EventWrapperProps {
-  itemsPerPage?: number;
-}
 
 const EventWrapper: React.FC<EventWrapperProps> = ({ itemsPerPage = 4 }) => {
   const [events, setEvents] = useState<EventData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [cachedData, setCachedData] = useState<{ [year: number]: EventData[] }>({});
+  const [lastFetchedYear, setLastFetchedYear] = useState<number | null>(null);
 
   // API 호출
-  const getPostsApi = useApi(memberPostsApi.getPosts);
+  const getCalendarEventsApi = useApi(memberPostsApi.getCalendarEvents);
 
-  // API에서 데이터 가져오기
+  // 날짜에 따른 requestDate 계산 함수
+  const getRequestDate = (date: Date): string => {
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const targetYear = date.getFullYear();
+
+    if (targetYear === currentYear) {
+      // 현재 연도면 오늘 날짜 사용
+      return today.toISOString().split('T')[0];
+    } else if (targetYear < currentYear) {
+      // 이전 연도면 12월 31일
+      return `${targetYear}-12-31`;
+    } else {
+      // 이후 연도면 1월 1일
+      return `${targetYear}-01-01`;
+    }
+  };
+
+  // API에서 데이터 가져오기 (연도별 캐싱)
   useEffect(() => {
     const fetchEvents = async () => {
+      const currentYear = currentDate.getFullYear();
+
+      // 이미 해당 연도의 데이터가 캐시되어 있으면 API 호출하지 않음
+      if (cachedData[currentYear] && lastFetchedYear === currentYear) {
+        setEvents(cachedData[currentYear]);
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
         setError(null);
 
-        const response = await getPostsApi.execute({
-          postType: 'CALENDAR' as PostCategory,
-          page: 0,
-          size: 1000, // 충분한 수의 이벤트를 가져오기 위해
-        });
+        const requestDate = getRequestDate(currentDate);
+        const response = await getCalendarEventsApi.execute(requestDate);
 
-        if (response?.content) {
-          console.log('API Response:', response);
-          console.log('Content:', response.content);
-
+        if (response) {
           // API 응답을 EventData 형식으로 변환
-          const eventData: EventData[] = response.content.map((post: any) => {
-            console.log('Individual post:', post);
-            const activityDate = post.activityDate ? new Date(post.activityDate) : new Date();
+          const eventData: EventData[] = response.map((post: any) => {
+            const activityDate = post.onDate ? new Date(post.onDate) : new Date();
             const createdAt = post.createdAt ? new Date(post.createdAt) : new Date();
             return {
               id: post.postId || post.id,
@@ -54,42 +72,33 @@ const EventWrapper: React.FC<EventWrapperProps> = ({ itemsPerPage = 4 }) => {
               month: activityDate.getMonth() + 1,
               content: post.content || '',
               description: post.content || '',
-              thumbnailUrl: post.thumbnailUrl || '',
+              thumbnailUrl: post.thumbnail || '',
               createdAt: createdAt.toLocaleDateString('ko-KR', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
               }),
-              activityDate: post.activityDate || '',
+              activityDate: post.onDate || '',
               time: post.eventTime || '',
               location: post.eventLocation || '',
               author: post.author || '',
-              files:
-                post.fileUrls?.map((url: string, index: number) => ({
-                  fileId: index + 1,
-                  fileUrl: url,
-                })) || [],
+              files: [],
             };
           });
 
-          // 현재 월 기준으로 필터링
-          const currentMonth = currentDate.getMonth() + 1;
-          const currentYear = currentDate.getFullYear();
-
-          const filteredEventData = eventData.filter((event) => {
-            const eventDate = new Date(event.activityDate);
-            return (
-              eventDate.getMonth() + 1 === currentMonth && eventDate.getFullYear() === currentYear
-            );
-          });
-
-          // activityDate 기준으로 빠른 날짜 순으로 정렬
-          const sortedEventData = filteredEventData.sort((a, b) => {
+          // activityDate 기준으로 빠른 날짜 순으로 정렬 (전체 데이터)
+          const sortedEventData = eventData.sort((a, b) => {
             const dateA = new Date(a.activityDate);
             const dateB = new Date(b.activityDate);
             return dateA.getTime() - dateB.getTime();
           });
 
+          // 캐시에 저장
+          setCachedData((prev) => ({
+            ...prev,
+            [currentYear]: sortedEventData,
+          }));
+          setLastFetchedYear(currentYear);
           setEvents(sortedEventData);
         }
       } catch (error) {
@@ -101,31 +110,39 @@ const EventWrapper: React.FC<EventWrapperProps> = ({ itemsPerPage = 4 }) => {
     };
 
     fetchEvents();
-  }, []);
+  }, [currentDate]);
 
-  // EventData를 EventDataForCalendar로 변환하고 월별로 그룹화
+  // EventData를 EventDataForCalendar로 변환하고 월별로 그룹화 (현재 월만)
   const processedEvents = events.reduce<{
     [month: number]: { [day: number]: EventDataForCalendar[] };
   }>((acc, event) => {
-    const month = event.month;
-    const day = event.date;
+    const eventDate = new Date(event.activityDate);
+    const eventMonth = eventDate.getMonth() + 1;
+    const eventYear = eventDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1;
+    const currentYear = currentDate.getFullYear();
 
-    if (!acc[month]) {
-      acc[month] = {};
-    }
-    if (!acc[month][day]) {
-      acc[month][day] = [];
-    }
+    // 현재 월과 연도가 일치하는 이벤트만 처리
+    if (eventMonth === currentMonth && eventYear === currentYear) {
+      const day = eventDate.getDate();
 
-    acc[month][day].push({
-      id: event.id,
-      date: event.date,
-      category: event.category,
-      title: event.title,
-      description: event.description,
-      time: event.time,
-      location: event.location,
-    });
+      if (!acc[eventMonth]) {
+        acc[eventMonth] = {};
+      }
+      if (!acc[eventMonth][day]) {
+        acc[eventMonth][day] = [];
+      }
+
+      acc[eventMonth][day].push({
+        id: event.id,
+        date: day,
+        category: event.category,
+        title: event.title,
+        description: event.description,
+        time: event.time,
+        location: event.location,
+      });
+    }
 
     return acc;
   }, {});
@@ -137,10 +154,9 @@ const EventWrapper: React.FC<EventWrapperProps> = ({ itemsPerPage = 4 }) => {
   };
 
   // 날짜 클릭 핸들러
-  const handleDateClick = (date: number, events: any[]) => {
-    console.log(`날짜 ${date} 클릭:`, events);
-    // 여기에 상세 모달이나 다른 동작을 추가할 수 있습니다
-  };
+  // const handleDateClick = (date: number, events: any[]) => {
+  //   // 여기에 상세 모달이나 다른 동작을 추가할 수 있습니다
+  // };
 
   // 캘린더 날짜 변경 핸들러
   const handleDateChange = (date: Date) => {
@@ -192,7 +208,7 @@ const EventWrapper: React.FC<EventWrapperProps> = ({ itemsPerPage = 4 }) => {
           <div className="overflow-hidden">
             <EventCalendar
               events={getCurrentMonthEvents()}
-              onDateClick={handleDateClick}
+              // onDateClick={handleDateClick}
               showCategoryLegend={true}
               currentDate={currentDate}
               onDateChange={handleDateChange}

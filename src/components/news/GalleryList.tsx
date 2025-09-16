@@ -1,17 +1,6 @@
 import React from 'react';
 import CustomPagination from '@/components/ui/CustomPagination';
-import { type GalleryItem, type NewsItem } from '@/types/components';
-
-type GalleryItemType = GalleryItem | NewsItem;
-
-interface GalleryListProps {
-  items: GalleryItemType[];
-  currentPage: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
-  onItemClick?: (item: GalleryItemType) => void;
-  type?: 'news' | 'gallery'; // News는 카드 형태, Gallery는 이미지 위에 제목 오버레이
-}
+import { type GalleryListProps } from '@/types/components';
 
 const GalleryList: React.FC<GalleryListProps> = ({
   items,

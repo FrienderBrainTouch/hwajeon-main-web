@@ -1,17 +1,11 @@
 import React, { useEffect, useRef } from 'react';
+import type { LocationMapProps } from '@/types/components/contact';
 
 // 카카오맵 타입 선언
 declare global {
   interface Window {
     kakao: any;
   }
-}
-
-interface LocationMapProps {
-  className?: string;
-  lat?: number;
-  lng?: number;
-  level?: number;
 }
 
 const LocationMap: React.FC<LocationMapProps> = ({

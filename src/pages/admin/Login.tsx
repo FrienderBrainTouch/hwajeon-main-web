@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
-import { LoginForm } from '@/components/admin/Login';
+import { LoginForm } from '@/components/admin';
 
 export default function AdminLogin() {
   const [username, setUsername] = useState('');

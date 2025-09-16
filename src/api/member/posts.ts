@@ -1,4 +1,5 @@
-import { apiClient, type ApiResponse } from '../../lib/api';
+import { apiClient } from '@/lib/api';
+import type { ApiResponse } from '@/types/api/client';
 import type {
   PostSummaryResponse,
   PostDetailResponse,
@@ -12,6 +13,7 @@ const POST_ENDPOINTS = {
   POST_LIST: '/homepage/category',
   POST_DETAIL: '/homepage/:postId',
   POST_CALENDAR_DETAIL: '/homepage/calendar/:postId',
+  POST_CALENDAR_V2: '/homepage/calendar/v2',
 } as const;
 
 // Member용 게시글 API 함수들 (토큰 없이 호출)
@@ -40,10 +42,6 @@ export const memberPostsApi = {
   // 게시글 상세 조회 (공개 API)
   async getPostDetail(params: GetPostDetailParams): Promise<ApiResponse<PostDetailResponse>> {
     try {
-      console.log('getPostDetail params:', params);
-      console.log('postId type:', typeof params.postId);
-      console.log('postId value:', params.postId);
-
       // postId가 이미 숫자인지 확인
       let postId: number;
       if (typeof params.postId === 'number') {
@@ -51,8 +49,6 @@ export const memberPostsApi = {
       } else {
         postId = parseInt(params.postId, 10);
       }
-
-      console.log('final postId:', postId);
 
       if (isNaN(postId) || postId <= 0) {
         throw new Error(`Invalid post ID: ${params.postId}`);
@@ -71,10 +67,6 @@ export const memberPostsApi = {
     params: GetPostDetailParams
   ): Promise<ApiResponse<CalendarPostDetailResponse>> {
     try {
-      console.log('getCalendarPostDetail params:', params);
-      console.log('postId type:', typeof params.postId);
-      console.log('postId value:', params.postId);
-
       // postId가 이미 숫자인지 확인
       let postId: number;
       if (typeof params.postId === 'number') {
@@ -82,8 +74,6 @@ export const memberPostsApi = {
       } else {
         postId = parseInt(params.postId, 10);
       }
-
-      console.log('final postId:', postId);
 
       if (isNaN(postId) || postId <= 0) {
         throw new Error(`Invalid post ID: ${params.postId}`);
@@ -93,6 +83,18 @@ export const memberPostsApi = {
       );
     } catch (error) {
       console.error('getCalendarPostDetail error:', error);
+      throw error;
+    }
+  },
+
+  // 캘린더 이벤트 조회 (v2 API)
+  async getCalendarEvents(requestDate: string): Promise<ApiResponse<any[]>> {
+    try {
+      return await apiClient.get<any[]>(POST_ENDPOINTS.POST_CALENDAR_V2, {
+        requestDate,
+      });
+    } catch (error) {
+      console.error('getCalendarEvents error:', error);
       throw error;
     }
   },

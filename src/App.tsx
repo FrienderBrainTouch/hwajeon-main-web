@@ -1,29 +1,29 @@
 import { useMemo, useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 // Layout
-import MemberLayout from './routes/MemberLayout';
-import AdminLayout from './routes/AdminLayout';
+import MemberLayout from '@/routes/MemberLayout';
+import AdminLayout from '@/routes/AdminLayout';
 // Context
 import { AuthProvider } from '@/contexts/AuthContext';
 import { ToastProvider } from '@/components/ui/toast';
 import { Header, Footer } from '@/components/layout';
 // Components
 import { Hero } from '@/components/main';
-import { Main } from './pages/member';
+import { Main } from '@/pages/member';
 import HeaderImg from '@/assets/header.png';
 
 // Lazy load pages for code splitting
-const Combination = lazy(() => import('./pages/member/Combination'));
-const Business = lazy(() => import('./pages/member/Business'));
-const News = lazy(() => import('./pages/member/News'));
-const Participate = lazy(() => import('./pages/member/Participate'));
-const Contact = lazy(() => import('./pages/member/Contact'));
+const Combination = lazy(() => import('@/pages/member/Combination'));
+const Business = lazy(() => import('@/pages/member/Business'));
+const News = lazy(() => import('@/pages/member/News'));
+const Participate = lazy(() => import('@/pages/member/Participate'));
+const Contact = lazy(() => import('@/pages/member/Contact'));
 
 // Lazy load admin pages
-const AdminLogin = lazy(() => import('./pages/admin/Login'));
-const AdminDashboard = lazy(() => import('./pages/admin/Dashboard'));
-const CreatePost = lazy(() => import('./pages/admin/CreatePost'));
-const EditPost = lazy(() => import('./pages/admin/EditPost'));
+const AdminLogin = lazy(() => import('@/pages/admin/Login'));
+const AdminDashboard = lazy(() => import('@/pages/admin/Dashboard'));
+const CreatePost = lazy(() => import('@/pages/admin/CreatePost'));
+const EditPost = lazy(() => import('@/pages/admin/EditPost'));
 
 // Loading component
 const LoadingSpinner = () => (

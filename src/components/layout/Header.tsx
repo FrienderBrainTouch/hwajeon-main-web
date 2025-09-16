@@ -6,10 +6,7 @@ import { Menu, X } from 'lucide-react';
 import logo from '@/assets/logo.svg';
 import logoText from '@/assets/logo_text.svg';
 import { rafThrottle } from '@/utils/rafThrottle';
-
-interface HeaderProps {
-  variant?: 'overlay' | 'default';
-}
+import type { HeaderProps } from '@/types/components/layout';
 
 const navigationItems = [
   { label: '조합 소개', path: '/member/combination' },

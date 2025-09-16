@@ -5,14 +5,6 @@ import VolunteerApplicationModal from './VolunteerApplicationModal';
 const VolunteerApplication = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
   return (
     <div className="max-w-5xl mx-auto py-4 sm:py-6 md:py-8 px-4 sm:px-6 lg:px-8">
       {/* 헤더 섹션 */}
@@ -138,7 +130,7 @@ const VolunteerApplication = () => {
       {/* 신청 버튼 */}
       <div className="text-center">
         <button
-          onClick={handleOpenModal}
+          onClick={() => setIsModalOpen(true)}
           className="bg-white text-gray-900 px-8 sm:px-12 py-3 sm:py-4 rounded-lg hover:bg-gray-50 transition-colors text-base sm:text-lg font-semibold"
           style={{ border: '1px solid #374151' }}
         >
@@ -149,11 +141,8 @@ const VolunteerApplication = () => {
       {/* 모달 */}
       <VolunteerApplicationModal
         isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        onSubmit={(data) => {
-          console.log('자원봉사 신청 데이터:', data);
-          handleCloseModal();
-        }}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={() => setIsModalOpen(false)}
       />
     </div>
   );

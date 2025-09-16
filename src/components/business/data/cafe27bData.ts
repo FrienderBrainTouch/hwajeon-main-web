@@ -1,40 +1,10 @@
-export interface MainImage {
-  id: number;
-  name: string;
-  src: string;
-  alt: string;
-}
-
-export interface MenuItem {
-  id: number;
-  name: string;
-  price: string;
-  description: string;
-  image: string;
-}
-
-export interface ProductItem {
-  id: number;
-  name: string;
-  price: string;
-  description: string;
-  image: string;
-}
-
-export interface CateringService {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-}
-
-export interface MobileCafeService {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  isTextCard?: boolean;
-}
+import type {
+  MainImage,
+  MenuItem,
+  ProductItem,
+  CateringService,
+  MobileCafeService,
+} from '@/types/components/business';
 
 export const mainImages: MainImage[] = [
   {

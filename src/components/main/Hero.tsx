@@ -1,13 +1,13 @@
-type Props = {
-  refEl?: React.RefObject<HTMLDivElement>;
-  src: string;
-  title: string;
-  subtitle?: string;
-  heightVh?: number; // 히어로 높이 (vh)
-  progress?: number; // 0~1 (스크롤 진행도)
-};
+import type { HeroProps } from '@/types/components/main';
 
-export default function Hero({ refEl, src, title, subtitle, heightVh = 40, progress = 0 }: Props) {
+export default function Hero({
+  refEl,
+  src,
+  title,
+  subtitle,
+  heightVh = 40,
+  progress = 0,
+}: HeroProps) {
   // 진행도 기반 효과
   const translateY = progress * 30; // 아래로 0~30px
   const opacity = 1 - progress * 0.6; // 1 → 0.4

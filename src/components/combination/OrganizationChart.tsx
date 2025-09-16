@@ -1,18 +1,6 @@
-// components/OrgChart.tsx
 import React from 'react';
 import { cn } from '@/lib/utils';
-
-type Node = {
-  label: string;
-  variant?: 'filled' | 'outline' | 'primary';
-};
-
-interface OrgChartProps {
-  top: Node; // 조합장
-  second: [Node, Node, Node]; // [이사회, 사무국, 감사]
-  teams: [Node, Node, Node, Node]; // 하위 4팀
-  className?: string;
-}
+import type { Node, OrgChartProps } from '@/types/components/combination';
 
 const Pill: React.FC<{ node: Node; className?: string }> = ({ node, className }) => {
   const base =

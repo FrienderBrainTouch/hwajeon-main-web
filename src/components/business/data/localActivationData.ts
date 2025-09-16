@@ -1,22 +1,4 @@
-export interface EventImage {
-  id: number;
-  name: string;
-  src: string;
-  alt: string;
-}
-
-export interface CommunityProject {
-  id: number;
-  title: string;
-  description: string;
-  icon: string;
-}
-
-export interface EducationMethod {
-  id: number;
-  title: string;
-  description: string;
-}
+import type { EventImage, CommunityProject, EducationMethod } from '@/types/components/business';
 
 export const eventImages: EventImage[] = [
   {

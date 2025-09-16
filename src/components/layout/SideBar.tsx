@@ -4,11 +4,7 @@ import { Link } from 'react-router-dom';
 import CharacterImg from '@/assets/header_character.svg';
 import { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
-
-interface SideBarProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+import type { SideBarProps } from '@/types/components/layout';
 
 // 공통 컴포넌트
 const MenuLink = ({

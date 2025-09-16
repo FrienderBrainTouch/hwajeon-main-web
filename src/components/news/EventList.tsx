@@ -2,15 +2,10 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import CustomPagination from '@/components/ui/CustomPagination';
 import Detail from './Detail';
-import { type EventData } from '@/types/components';
+import { type EventData, type EventListProps } from '@/types/components';
 import { type CategoryFilter, LIST_CATEGORY_CONFIG } from '@/types/ui';
 import { useApi } from '../../hooks/useApi';
 import { memberPostsApi } from '../../api/member';
-
-interface EventListProps {
-  events: EventData[];
-  itemsPerPage?: number;
-}
 
 function EventList({ events, itemsPerPage = 4 }: EventListProps) {
   const [selectedCategory, setSelectedCategory] = useState<CategoryFilter>('all');

@@ -1,29 +1,4 @@
-export interface MissionVisionData {
-  header: {
-    title: string;
-    subtitle: string;
-    description: string;
-  };
-  mission: {
-    title: string;
-    subtitle: string;
-    content: string;
-  };
-  vision: {
-    title: string;
-    subtitle: string;
-    content: string;
-  };
-  values: {
-    title: string;
-    subtitle: string;
-    items: Array<{
-      id: number;
-      title: string;
-      description: string;
-    }>;
-  };
-}
+import type { MissionVisionData } from '@/types/components/combination';
 
 export const missionVisionData: MissionVisionData = {
   header: {

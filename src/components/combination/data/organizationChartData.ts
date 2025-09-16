@@ -1,13 +1,4 @@
-export interface OrganizationNode {
-  label: string;
-  variant?: 'filled' | 'outline' | 'primary';
-}
-
-export interface OrganizationChartData {
-  top: OrganizationNode;
-  second: [OrganizationNode, OrganizationNode, OrganizationNode];
-  teams: [OrganizationNode, OrganizationNode, OrganizationNode, OrganizationNode];
-}
+import type { OrganizationChartData } from '@/types/components/combination';
 
 export const organizationChartData: OrganizationChartData = {
   top: {

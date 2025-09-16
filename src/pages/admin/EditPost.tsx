@@ -1,19 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
-// import { useAuth } from '@/contexts/AuthContext';
 import { useApi } from '@/hooks/useApi';
 import { postsApi } from '@/api/admin/posts';
 import type { PostDetailResponse } from '@/types/api';
-import { EditPostForm } from '@/components/admin/EditPost';
+import { EditPostForm } from '@/components/admin';
 import { Button } from '@/components/ui/button';
-import type { PostFormData, PostCategory, Post } from './data';
-import { categoryInfo } from './data';
+import type { PostFormData, PostCategory, Post } from '@/types/api/common';
+import { categoryInfo } from '@/types/ui/admin';
 
 export default function EditPost() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [searchParams] = useSearchParams();
-  // const { user } = useAuth(); // 사용되지 않음
   const [formData, setFormData] = useState<PostFormData>({
     title: '',
     content: '',
@@ -38,13 +36,8 @@ export default function EditPost() {
 
   const fetchPostDetail = async (postId: string) => {
     try {
-      console.log('fetchPostDetail called with postId:', postId);
-      console.log('postId type:', typeof postId);
-
       const result = await getPostDetailApi.execute({ postId });
       if (result) {
-        console.log('게시글 상세 데이터:', result);
-
         // PostDetailResponse를 Post 타입으로 변환
         // postType은 URL에서 추출된 값 사용
         const postType = formData.postType;
@@ -102,7 +95,6 @@ export default function EditPost() {
   // 기존 파일 선택/해제 핸들러
   const handleExistingFileToggle = (fileId: number) => {
     if (fileId === undefined || fileId === null) {
-      console.warn('Invalid fileId:', fileId);
       return;
     }
 
@@ -138,7 +130,6 @@ export default function EditPost() {
       });
 
       if (result !== null) {
-        console.log('게시글 수정 성공:', result);
         alert('게시글이 성공적으로 수정되었습니다.');
         navigate('/admin/dashboard');
       } else {

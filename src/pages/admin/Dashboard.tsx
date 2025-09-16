@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useApi } from '@/hooks/useApi';
 import { postsApi } from '@/api/admin/posts';
-import { DashboardHeader, DashboardStats, DashboardTable } from '@/components/admin/Dashboard';
-import type { Post, PostCategory } from './data';
-import { categoryInfo } from './data';
+import { DashboardHeader, DashboardStats, DashboardTable } from '@/components/admin';
+import type { Post, PostCategory } from '@/types/api/common';
+import { categoryInfo } from '@/types/ui/admin';
 import type { GetPostsParams } from '@/types/api';
 
 export default function AdminDashboard() {
@@ -31,18 +31,10 @@ export default function AdminDashboard() {
         size: postsPerPage,
       };
 
-      console.log('게시글 조회 요청 파라미터:', params);
-      console.log('요청 카테고리:', category);
-
       const result = await getPostsApi.execute(params);
       if (result) {
-        console.log('API 응답 데이터:', result);
-
         // PostSummary를 Post 타입으로 변환
         const mappedPosts: Post[] = result.content.map((post) => {
-          console.log('게시글 데이터:', post);
-          console.log('postType:', result.postType);
-
           return {
             id: post.postId.toString(),
             title: post.title,
@@ -58,7 +50,6 @@ export default function AdminDashboard() {
           };
         });
 
-        console.log('매핑된 게시글:', mappedPosts);
         setPosts(mappedPosts);
         setTotalPages(result.totalPages);
       }

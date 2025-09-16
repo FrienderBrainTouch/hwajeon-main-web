@@ -1,4 +1,4 @@
-import type { EventCard } from './data';
+import type { EventCard } from '@/types/components/business';
 import { eventCards as defaultEventCards } from './data';
 
 interface EventsEducationProps {

@@ -1,15 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { cn } from '@/lib/utils';
-
-type TimelineItem = { year: number; bullets?: string[] };
-
-interface Props {
-  items: TimelineItem[];
-  className?: string;
-  lineColor?: string;
-  dotColor?: string;
-  accentColor?: string;
-}
+import type { TimelineZigzagProps } from '@/types/components/combination';
 
 export default function TimelineZigzag({
   items,
@@ -17,7 +8,7 @@ export default function TimelineZigzag({
   lineColor = 'rgba(255,255,255,0.9)',
   dotColor = '#ffffff',
   accentColor = '#7BD0FF',
-}: Props) {
+}: TimelineZigzagProps) {
   // 연도 오름차순 정렬
   const data = useMemo(() => [...items].sort((a, b) => a.year - b.year), [items]);
 

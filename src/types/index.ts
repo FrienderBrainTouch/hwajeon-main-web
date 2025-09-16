@@ -4,5 +4,8 @@ export * from './api';
 // 컴포넌트 Props 타입
 export * from './components';
 
+// 훅 관련 타입
+export * from './hooks';
+
 // UI 설정 타입
 export * from './ui';

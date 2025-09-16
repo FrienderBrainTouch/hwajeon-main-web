@@ -8,9 +8,14 @@ export { default as SponsorshipInquiry } from './SponsorshipInquiry';
 
 // Data exports
 export { membershipGuideData } from './data/membershipGuideData';
-export { meetingMaterialsData } from './data/meetingMaterialsData';
 export { sponsorshipUsageData, sponsorshipMethodData } from './data/sponsorshipGuideData';
 
 // Type exports
-export type { FAQItem } from './data/types';
-export type { SponsorshipUsageItem, SponsorshipMethodItem } from './data/sponsorshipGuideData';
+export type {
+  FAQItem,
+  SponsorshipUsageItem,
+  SponsorshipMethodItem,
+  VolunteerFormData,
+  FAQSectionProps,
+  VolunteerApplicationModalProps,
+} from '@/types/components/participate';

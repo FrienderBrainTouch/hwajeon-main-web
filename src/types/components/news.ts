@@ -1,5 +1,3 @@
-// 뉴스/게시판 관련 컴포넌트 Props 타입
-
 /**
  * 이벤트 카테고리 타입
  */
@@ -164,22 +162,29 @@ export interface BoardListProps {
 export interface BoardDetailProps {
   item: BoardItem;
   onBackToList: () => void;
+  onPrevious?: () => void;
+  onNext?: () => void;
+  hasPrevious?: boolean;
+  hasNext?: boolean;
   onEdit?: (item: BoardItem) => void;
   onDelete?: (item: BoardItem) => void;
   showAdminActions?: boolean;
 }
 
 /**
+ * 갤러리 아이템 타입 (GalleryItem | NewsItem)
+ */
+export type GalleryItemType = GalleryItem | NewsItem;
+
+/**
  * 갤러리 래퍼 컴포넌트 Props
  */
 export interface GalleryWrapperProps {
   title: string;
+  boardType: string; // 'news' 또는 다른 갤러리 타입
   itemsPerPage?: number;
-  onItemClick?: (item: GalleryItem) => void;
-  showAdminActions?: boolean;
-  onEdit?: (item: GalleryItem) => void;
-  onDelete?: (item: GalleryItem) => void;
-  onSettings?: () => void;
+  onItemClick?: (item: GalleryItemType) => void;
+  type?: 'news' | 'gallery'; // News는 카드 형태, Gallery는 이미지 위에 제목 오버레이
   showTitle?: boolean; // 제목 표시 여부
 }
 
@@ -187,15 +192,12 @@ export interface GalleryWrapperProps {
  * 갤러리 리스트 컴포넌트 Props
  */
 export interface GalleryListProps {
-  items: GalleryItem[];
+  items: GalleryItemType[];
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
-  onItemClick?: (item: GalleryItem) => void;
-  showAdminActions?: boolean;
-  onEdit?: (item: GalleryItem) => void;
-  onDelete?: (item: GalleryItem) => void;
-  onSettings?: () => void;
+  onItemClick?: (item: GalleryItemType) => void;
+  type?: 'news' | 'gallery'; // News는 카드 형태, Gallery는 이미지 위에 제목 오버레이
 }
 
 /**
@@ -204,15 +206,25 @@ export interface GalleryListProps {
 export interface GalleryDetailProps {
   item: GalleryItem;
   onBackToList: () => void;
-  onEdit?: (item: GalleryItem) => void;
-  onDelete?: (item: GalleryItem) => void;
-  showAdminActions?: boolean;
+  onPrevious?: () => void;
+  onNext?: () => void;
+  hasPrevious?: boolean;
+  hasNext?: boolean;
+  type?: 'news' | 'gallery';
+}
+
+/**
+ * 이벤트 래퍼 컴포넌트 Props
+ */
+export interface EventWrapperProps {
+  itemsPerPage?: number;
 }
 
 /**
  * 이벤트 리스트 컴포넌트 Props
  */
 export interface EventListProps {
+  events: EventData[];
   itemsPerPage?: number;
 }
 
@@ -220,35 +232,10 @@ export interface EventListProps {
  * 이벤트 캘린더 컴포넌트 Props
  */
 export interface EventCalendarProps {
-  events?: any; // MonthlyEventData | Record<number, EventDataForCalendar[]>
-  onDateClick?: (date: number, events: any[]) => void;
+  events?: MonthlyEventData | Record<number, EventDataForCalendar[]>;
+  onDateClick?: (date: number, events: EventDataForCalendar[]) => void;
   showCategoryLegend?: boolean;
   className?: string;
   currentDate?: Date;
   onDateChange?: (date: Date) => void;
-}
-
-/**
- * 상세 컴포넌트 Props (제네릭)
- */
-export interface BaseItem {
-  id: number;
-  title: string;
-  date: string;
-  content?: string;
-  author?: string;
-  files?: Array<{
-    fileId: number;
-    fileUrl: string;
-  }>;
-}
-
-export interface DetailProps<T extends BaseItem> {
-  item: T;
-  onBackToList: () => void;
-  onPrevious?: () => void;
-  onNext?: () => void;
-  hasPrevious?: boolean;
-  hasNext?: boolean;
-  showDate?: boolean; // 작성일 표시 여부
 }

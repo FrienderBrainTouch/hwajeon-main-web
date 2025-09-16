@@ -2,29 +2,13 @@ import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 
-import { type VolunteerApplicationModalProps } from '@/types/components';
-
-interface FormData {
-  name: string;
-  birthDate: string;
-  gender: string;
-  phone: string;
-  email: string;
-  emailDomain: string;
-  address: string;
-  activityFields: string[];
-  availableTimes: string[];
-  participationPeriod: string;
-  hasExperience: string;
-  motivation: string;
-  privacyConsent: boolean;
-}
+import { type VolunteerApplicationModalProps, type VolunteerFormData } from '@/types/components';
 
 const VolunteerApplicationModal: React.FC<VolunteerApplicationModalProps> = ({
   isOpen,
   onClose,
 }) => {
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<VolunteerFormData>({
     name: '',
     birthDate: '',
     gender: '',
@@ -64,7 +48,7 @@ const VolunteerApplicationModal: React.FC<VolunteerApplicationModalProps> = ({
     }));
   };
 
-  const handleCheckboxChange = (name: keyof FormData, value: string) => {
+  const handleCheckboxChange = (name: keyof VolunteerFormData, value: string) => {
     setFormData((prev) => {
       const currentArray = prev[name] as string[];
       const newArray = currentArray.includes(value)
@@ -77,7 +61,7 @@ const VolunteerApplicationModal: React.FC<VolunteerApplicationModalProps> = ({
     });
   };
 
-  const handleRadioChange = (name: keyof FormData, value: string) => {
+  const handleRadioChange = (name: keyof VolunteerFormData, value: string) => {
     setFormData((prev) => ({
       ...prev,
       [name]: value,

@@ -1,11 +1,7 @@
 import { useState } from 'react';
 import { ChevronUp, ChevronDown } from 'lucide-react';
-import type { Team } from './data';
+import type { OrganizationDetailsProps } from '@/types/components/combination';
 import { teams as defaultTeams } from './data';
-
-interface OrganizationDetailsProps {
-  teams?: Team[];
-}
 
 export default function OrganizationDetails({ teams = defaultTeams }: OrganizationDetailsProps) {
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
@@ -58,7 +54,7 @@ export default function OrganizationDetails({ teams = defaultTeams }: Organizati
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {team.members.map((member, memberIndex) => (
+                      {team.members.map((member: any, memberIndex: number) => (
                         <tr key={memberIndex} className="hover:bg-gray-50">
                           <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                             {member.position}

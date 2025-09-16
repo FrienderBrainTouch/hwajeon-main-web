@@ -1,16 +1,7 @@
 import { useState } from 'react';
 import emailjs from '@emailjs/browser';
 import SnsGuide from './SnsGuide';
-
-interface FormData {
-  name: string;
-  phone: string;
-  email: string;
-  emailDomain: string;
-  subject: string;
-  message: string;
-  privacy: boolean;
-}
+import type { FormData } from '@/types/components/contact';
 
 const InquiryForm = () => {
   const [formData, setFormData] = useState<FormData>({
@@ -66,13 +57,6 @@ const InquiryForm = () => {
       const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
       const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
       const toEmail = import.meta.env.VITE_EMAILJS_TO_EMAIL;
-
-      console.log('EmailJS 설정 확인:', {
-        serviceId: serviceId ? '설정됨' : '누락',
-        templateId: templateId ? '설정됨' : '누락',
-        publicKey: publicKey ? '설정됨' : '누락',
-        toEmail: toEmail ? '설정됨' : '누락',
-      });
 
       if (!serviceId || !templateId || !publicKey || !toEmail) {
         throw new Error('EmailJS 설정이 완료되지 않았습니다.');

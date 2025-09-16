@@ -1,24 +1,4 @@
-// Admin 관련 컴포넌트 Props 타입
-
-/**
- * 로그인 폼 컴포넌트 Props
- */
-export interface LoginFormProps {
-  onSubmit: (credentials: { username: string; password: string }) => void;
-  loading?: boolean;
-  error?: string;
-}
-
-/**
- * 사용자 타입
- */
-export interface User {
-  id: string;
-  username: string;
-  name: string;
-  realName: string;
-  role: 'TEACHER' | 'USER';
-}
+import type { User } from './auth';
 
 /**
  * 대시보드 헤더 컴포넌트 Props
@@ -32,43 +12,95 @@ export interface DashboardHeaderProps {
  * 대시보드 통계 컴포넌트 Props
  */
 export interface DashboardStatsProps {
-  stats: Array<{
-    label: string;
-    value: number;
-    change?: number;
-    changeType?: 'increase' | 'decrease';
-  }>;
-  className?: string;
+  selectedCategory: string;
+  searchTerm: string;
+  categoryInfo: Record<string, { name: string; viewType: string; hasThumbnail: boolean }>;
+  onCategoryChange: (value: string) => void;
+  onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onCreatePost: () => void;
 }
 
 /**
  * 대시보드 테이블 컴포넌트 Props
  */
 export interface DashboardTableProps {
-  data: any[]; // Post 타입 배열
-  onEdit: (item: any) => void;
-  onDelete: (item: any) => void;
-  loading?: boolean;
-  className?: string;
+  posts: any[]; // Post 타입 배열
+  loading: boolean;
+  error: string | null;
+  selectedCategory: string;
+  searchTerm: string;
+  totalCount: number;
+  getCategoryLabel: (category: any) => string;
+  getCategoryViewType: (category: any) => string;
+  onEdit: (post: any) => void;
+  onDelete: (post: any) => Promise<void>;
+  onPageChange: (page: number) => void;
+  currentPage: number;
+  totalPages: number;
+  deleteLoading: boolean;
+}
+
+/**
+ * 로그인 폼 컴포넌트 Props
+ */
+export interface LoginFormProps {
+  username: string;
+  password: string;
+  error: string;
+  isLoading: boolean;
+  onUsernameChange: (value: string) => void;
+  onPasswordChange: (value: string) => void;
+  onSubmit: (e: React.FormEvent) => void;
 }
 
 /**
  * 게시글 생성 폼 컴포넌트 Props
  */
 export interface CreatePostFormProps {
-  onSubmit: (data: any) => void;
+  title: string;
+  content: string;
+  postType: string;
+  eventDate: string;
+  activityType: string;
+  thumbnail: File | null;
+  attachments: File[];
+  isLoading: boolean;
+  categoryInfo: Record<string, { name: string; viewType: string; hasThumbnail: boolean }>;
+  onTitleChange: (value: string) => void;
+  onContentChange: (value: string) => void;
+  onPostTypeChange: (value: string) => void;
+  onEventDateChange: (value: string) => void;
+  onActivityTypeChange: (value: string) => void;
+  onThumbnailChange: (file: File | null) => void;
+  onAttachmentsChange: (files: File[]) => void;
+  onSubmit: (e: React.FormEvent) => void;
   onCancel: () => void;
-  loading?: boolean;
-  error?: string;
 }
 
 /**
  * 게시글 수정 폼 컴포넌트 Props
  */
 export interface EditPostFormProps {
-  initialData: any; // Post 타입
-  onSubmit: (data: any) => void;
+  formData: {
+    title: string;
+    content: string;
+    postType: string;
+    eventDate?: string;
+    activityType?: string;
+    thumbnail?: File;
+    attachments?: File[];
+  };
+  originalPost: any | null; // Post 타입
+  existingFileIds: number[];
+  selectedExistingFiles: number[];
+  updateLoading: boolean;
+  onTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onPostTypeChange: (value: string) => void;
+  onEventDateChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onFileUpload: (files: FileList | null, type: 'thumbnail' | 'attachments') => void;
+  onExistingFileToggle: (fileId: number) => void;
+  onContentChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onSubmit: (e: React.FormEvent) => void;
   onCancel: () => void;
-  loading?: boolean;
-  error?: string;
+  categoryInfo: Record<string, { name: string; viewType: string; hasThumbnail: boolean }>;
 }

@@ -1,24 +1,8 @@
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import type { Post, PostCategory } from '../../../pages/admin/data';
-
-interface DashboardTableProps {
-  posts: Post[];
-  loading: boolean;
-  error: string | null;
-  selectedCategory: string;
-  searchTerm: string;
-  totalCount: number;
-  getCategoryLabel: (category: PostCategory) => string;
-  getCategoryViewType: (category: PostCategory) => string;
-  onEdit: (post: Post) => void;
-  onDelete: (post: Post) => Promise<void>;
-  onPageChange: (page: number) => void;
-  currentPage: number;
-  totalPages: number;
-  deleteLoading: boolean;
-}
+import type { PostCategory } from '@/types/api/common';
+import type { DashboardTableProps } from '@/types/components/admin';
 
 export const DashboardTable = ({
   posts,

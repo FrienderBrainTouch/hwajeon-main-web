@@ -1,15 +1,10 @@
 import { useState, useMemo } from 'react';
-import { type EventDataForCalendar, type MonthlyEventData } from '@/types/components';
+import {
+  type EventDataForCalendar,
+  type MonthlyEventData,
+  type EventCalendarProps,
+} from '@/types/components';
 import { CALENDAR_CATEGORY_CONFIG } from '@/types/ui';
-
-interface EventCalendarProps {
-  events?: MonthlyEventData | Record<number, EventDataForCalendar[]>;
-  onDateClick?: (date: number, events: EventDataForCalendar[]) => void;
-  showCategoryLegend?: boolean;
-  className?: string;
-  currentDate?: Date;
-  onDateChange?: (date: Date) => void;
-}
 
 function EventCalendar({
   events,
