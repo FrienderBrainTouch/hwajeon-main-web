@@ -111,6 +111,11 @@ export interface BaseItem {
     fileId: number;
     fileUrl: string;
   }>;
+  fileUrls?: Array<{
+    fileId: number;
+    fileUrl: string;
+    originalFileName: string;
+  }>;
 }
 
 /**
