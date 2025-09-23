@@ -46,12 +46,6 @@ const Detail = <T extends BaseItem>({
       </div>
 
       {/* 첨부파일 섹션 */}
-      {(() => {
-        console.log('item:', item);
-        console.log('item.fileUrls:', item.fileUrls);
-        console.log('item.files:', item.files);
-        return null;
-      })()}
       {((item.fileUrls && item.fileUrls.length > 0) || (item.files && item.files.length > 0)) && (
         <div className="bg-white py-4 sm:py-8">
           <div className="space-y-4">
