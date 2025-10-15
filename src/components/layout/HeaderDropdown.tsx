@@ -58,7 +58,7 @@ const menuData = [
     description: '화전마을과 함께 성장할 수 있는 다양한 방법을 알아보세요',
     items: [
       { label: '조합원 가입 안내', path: '/member/participate?tab=membership' },
-      { label: '자원봉사 신청', path: '/member/participate?tab=volunteer' },
+      // { label: '자원봉사 신청', path: '/member/participate?tab=volunteer' },
       { label: '정기회의 자료', path: '/member/participate?tab=meeting' },
       { label: '후원 & 기부 안내', path: '/member/participate?tab=donation' },
     ],
