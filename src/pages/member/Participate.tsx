@@ -1,7 +1,7 @@
 import { TabNavigation, type TabItem } from '@/components/ui/TabNavigation';
 import { useTabState } from '@/hooks/useTabState';
 import {
-  VolunteerApplication,
+  // VolunteerApplication,
   MembershipGuide,
   MeetingMaterials,
   SponsorshipGuide,
@@ -11,7 +11,7 @@ import {
 function Participate() {
   const tabs: TabItem[] = [
     { id: 'membership', label: '조합원 가입 안내', value: 'membership' },
-    { id: 'volunteer', label: '자원봉사 신청', value: 'volunteer' },
+    // { id: 'volunteer', label: '자원봉사 신청', value: 'volunteer' },
     { id: 'meeting', label: '정기회의 자료', value: 'meeting' },
     { id: 'donation', label: '후원 & 기부 안내', value: 'donation' },
   ];
@@ -22,8 +22,8 @@ function Participate() {
     switch (activeTab) {
       case 'membership':
         return <MembershipGuide />;
-      case 'volunteer':
-        return <VolunteerApplication />;
+      // case 'volunteer':
+      //   return <VolunteerApplication />;
       case 'meeting':
         return <MeetingMaterials />;
       case 'donation':
