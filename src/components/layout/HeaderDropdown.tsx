@@ -121,20 +121,22 @@ const LeftPanel = ({ section, onClose }: { section: any; onClose: () => void }) 
     </div>
 
     {/* 1024px 미만: 세로 네비게이션 */}
-    <div className="lg:hidden w-[200px] bg-white px-6 py-8 border-r border-gray-200 flex flex-col items-center">
-      <div className="space-y-3 text-center">
-        {section.items.map((item: any, index: number) => (
-          <Link
-            key={index}
-            to={item.path}
-            onClick={onClose}
-            className="block text-base text-gray-700 hover:text-[#2B2A4C] transition-colors py-2"
-          >
-            {item.label}
-          </Link>
-        ))}
+    {section.items.length > 0 && (
+      <div className="lg:hidden w-[200px] bg-white px-6 py-8 border-r border-gray-200 flex flex-col items-center">
+        <div className="space-y-3 text-center">
+          {section.items.map((item: any, index: number) => (
+            <Link
+              key={index}
+              to={item.path}
+              onClick={onClose}
+              className="block text-base text-gray-700 hover:text-[#2B2A4C] transition-colors py-2"
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
       </div>
-    </div>
+    )}
   </>
 );
 
@@ -143,7 +145,9 @@ const RightPanel = ({ section, onClose }: { section: any; onClose: () => void })
   <>
     {/* 1024px 이상: 기존 오른쪽 패널 */}
     <div
-      className={`hidden lg:block ${section.rightPanelWidth} bg-white px-8 py-12 xl:px-6 xl:py-10 border-r border-gray-200`}
+      className={`hidden lg:block ${section.rightPanelWidth} bg-white px-8 py-12 xl:px-6 xl:py-10 ${
+        section.items.length > 0 ? 'border-r border-gray-200' : ''
+      }`}
     >
       <div className="space-y-4 xl:space-y-3">
         {section.items.map((item: any, index: number) => (

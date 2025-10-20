@@ -23,8 +23,8 @@ const MenuLink = ({
     onClick={onClick}
     className={`block hover:text-gray-700 transition-colors ${
       isTitle
-        ? 'text-[20px] xl:text-[25px] font-semibold text-gray-900'
-        : 'text-[18px] xl:text-[22px] text-gray-900'
+        ? 'text-[16px] lg:text-[18px] xl:text-[22px] font-semibold text-gray-900'
+        : 'text-[14px] lg:text-[15px] xl:text-[18px] text-gray-900'
     }`}
   >
     {children}
@@ -36,7 +36,7 @@ const menuData = [
   {
     title: '조합 소개',
     path: '/member/combination',
-    width: 'w-[100px] xl:w-[120px]',
+    width: 'w-[90px] lg:w-[100px] xl:w-[120px]',
     items: [
       { label: '인사말', path: '/member/combination?tab=greeting' },
       { label: '미션 &비전', path: '/member/combination?tab=mission' },
@@ -48,7 +48,7 @@ const menuData = [
   {
     title: '사업 안내',
     path: '/member/business',
-    width: 'w-[240px] xl:w-[288px]',
+    width: 'w-[200px] lg:w-[220px] xl:w-[288px]',
     hasBorder: true,
     items: [
       { label: '도시재생 거점공간 운영 사업', path: '/member/business?tab=urban-regeneration' },
@@ -59,14 +59,14 @@ const menuData = [
   {
     title: '카페 27b',
     path: '/member/cafe27b',
-    width: 'w-[100px] xl:w-[120px]',
+    width: 'w-[70px] lg:w-[100px] xl:w-[160px]',
     hasBorder: true,
     items: [],
   },
   {
     title: '소식과 자료',
     path: '/member/news?tab=news',
-    width: 'w-[140px] xl:w-[168px]',
+    width: 'w-[120px] lg:w-[130px] xl:w-[180px]',
     hasBorder: true,
     items: [
       { label: '공지사항', path: '/member/news?tab=notice' },
@@ -79,7 +79,7 @@ const menuData = [
   {
     title: '참여하기',
     path: '/member/participate?tab=membership',
-    width: 'w-[160px] xl:w-[196px]',
+    width: 'w-[140px] lg:w-[150px] xl:w-[196px]',
     hasBorder: true,
     items: [
       { label: '조합원 가입 안내', path: '/member/participate?tab=membership' },
@@ -91,7 +91,7 @@ const menuData = [
   {
     title: '문의하기',
     path: '/member/contact',
-    width: 'w-[120px] xl:w-[140px]',
+    width: 'w-[100px] lg:w-[110px] xl:w-[140px]',
     hasBorder: true,
     items: [
       { label: '간편 문의', path: '/member/contact?tab=inquiry' },
@@ -173,46 +173,62 @@ const VerticalNavigation = ({ isOpen, onClose }: SideBarProps) => {
         <div className="flex flex-col h-full px-8 py-16 overflow-y-auto">
           {menuData.map((section) => {
             const isExpanded = expandedSections.has(section.path);
+            const hasItems = section.items.length > 0;
 
             return (
               <div key={section.path} className="mb-6">
-                {/* 대분류 (클릭 가능) */}
-                <button
-                  onClick={() => toggleSection(section.path)}
-                  className="w-full text-left flex items-center justify-between py-3 hover:text-gray-700 transition-colors"
-                >
-                  <span className="text-[18px] font-semibold text-gray-900">{section.title}</span>
-                  <span
-                    className={`text-gray-500 transition-transform duration-200 ${
-                      isExpanded ? 'rotate-180' : ''
-                    }`}
+                {/* 탭이 없는 메뉴 (카페27b 등) - 바로 이동 */}
+                {!hasItems ? (
+                  <Link
+                    to={section.path}
+                    onClick={onClose}
+                    className="w-full text-left py-3 hover:text-gray-700 transition-colors block"
                   >
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
-                      <path
-                        d="M4 6L8 10L12 6"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        fill="none"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </span>
-                </button>
+                    <span className="text-[18px] font-semibold text-gray-900">{section.title}</span>
+                  </Link>
+                ) : (
+                  <>
+                    {/* 대분류 (클릭 가능) */}
+                    <button
+                      onClick={() => toggleSection(section.path)}
+                      className="w-full text-left flex items-center justify-between py-3 hover:text-gray-700 transition-colors"
+                    >
+                      <span className="text-[18px] font-semibold text-gray-900">
+                        {section.title}
+                      </span>
+                      <span
+                        className={`text-gray-500 transition-transform duration-200 ${
+                          isExpanded ? 'rotate-180' : ''
+                        }`}
+                      >
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                          <path
+                            d="M4 6L8 10L12 6"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            fill="none"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </span>
+                    </button>
 
-                {/* 소분류 (아코디언) */}
-                {isExpanded && (
-                  <div className="ml-4 mt-2 space-y-3 animate-in slide-in-from-top-2 duration-200">
-                    {section.items.map((item, itemIndex) => (
-                      <div key={itemIndex}>
-                        <MenuLink to={item.path} onClick={onClose}>
-                          <span className="text-[16px] text-gray-700 hover:text-gray-900 transition-colors">
-                            {item.label}
-                          </span>
-                        </MenuLink>
+                    {/* 소분류 (아코디언) */}
+                    {isExpanded && (
+                      <div className="ml-4 mt-2 space-y-3 animate-in slide-in-from-top-2 duration-200">
+                        {section.items.map((item, itemIndex) => (
+                          <div key={itemIndex}>
+                            <MenuLink to={item.path} onClick={onClose}>
+                              <span className="text-[16px] text-gray-700 hover:text-gray-900 transition-colors">
+                                {item.label}
+                              </span>
+                            </MenuLink>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
+                    )}
+                  </>
                 )}
 
                 {/* 구분선 (마지막 항목 제외) */}
@@ -234,7 +250,7 @@ const HorizontalModal = ({ isOpen, onClose }: SideBarProps) => (
   <Dialog open={isOpen} onOpenChange={(v) => (v ? undefined : onClose())}>
     <DialogOverlay className="fixed top-0 left-0 right-0 bottom-0 bg-black/85 z-[1001]" />
     <DialogContent
-      className="max-w-[1200px] xl:max-w-[1300px] h-[400px] xl:h-[500px] rounded-[30px] p-0 border-0 shadow-2xl bg-white mx-auto mt-8"
+      className="max-w-[1300px] xl:max-w-[1440px] h-[400px] xl:h-[500px] rounded-[30px] p-0 border-0 shadow-2xl bg-white mx-auto mt-8"
       hideCloseButton
     >
       {/* 닫기 버튼 */}
@@ -246,8 +262,8 @@ const HorizontalModal = ({ isOpen, onClose }: SideBarProps) => (
       </button>
 
       {/* 메뉴 컨텐츠 */}
-      <div className="h-full pl-16 pr-20 xl:pl-20 xl:pr-24">
-        <div className="flex h-full justify-start gap-8 xl:gap-12">
+      <div className="h-full pl-8 pr-16 lg:pl-10 lg:pr-18 xl:pl-16 xl:pr-24">
+        <div className="flex h-full justify-start gap-3 lg:gap-4 xl:gap-8">
           {menuData.map((section) => (
             <div
               key={section.path}
@@ -255,13 +271,15 @@ const HorizontalModal = ({ isOpen, onClose }: SideBarProps) => (
                 section.hasBorder ? 'border-l border-gray-200' : ''
               } ${section.width} ${
                 section.path === '/contact' ? 'justify-between' : 'justify-start'
-              } pt-6 xl:pt-8 ${section.hasBorder ? 'pl-8 xl:pl-10' : 'pr-3 xl:pr-4'}`}
+              } pt-6 xl:pt-8 ${
+                section.hasBorder ? 'pl-4 lg:pl-6 xl:pl-10' : 'pr-2 lg:pr-3 xl:pr-4'
+              }`}
             >
               <div className="flex flex-col items-center">
                 <MenuLink to={section.path} isTitle onClick={onClose}>
                   {section.title}
                 </MenuLink>
-                <div className="text-center pt-6 xl:pt-8 space-y-4 xl:space-y-5">
+                <div className="text-center pt-4 lg:pt-5 xl:pt-8 space-y-2 lg:space-y-3 xl:space-y-5">
                   {section.items.map((item, itemIndex) => (
                     <MenuLink key={itemIndex} to={item.path} onClick={onClose}>
                       {item.label}
