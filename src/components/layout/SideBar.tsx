@@ -48,12 +48,12 @@ const menuData = [
   {
     title: '사업 안내',
     path: '/member/business',
-    width: 'w-[200px] lg:w-[220px] xl:w-[288px]',
+    width: 'w-[180px] lg:w-[200px] xl:w-[240px]',
     hasBorder: true,
     items: [
-      { label: '도시재생 거점공간 운영 사업', path: '/member/business?tab=urban-regeneration' },
-      { label: '행사 기획 및 교육 체험 사업', path: '/member/business?tab=events-education' },
-      { label: '지역 활성화 사업', path: '/member/business?tab=local-activation' },
+      { label: '27b 사업', path: '/member/business?tab=27b-business' },
+      { label: '콘텐츠 사업', path: '/member/business?tab=contents-business' },
+      { label: '마을돌봄 사업', path: '/member/business?tab=village-care' },
     ],
   },
   {

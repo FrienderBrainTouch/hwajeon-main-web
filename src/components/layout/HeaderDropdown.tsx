@@ -28,13 +28,13 @@ const menuData = [
     path: '/member/business',
     description: '지역의 공간, 사람, 문화를 연결하는 실천 사업을 운영합니다',
     items: [
-      { label: '도시재생 거점공간 운영 사업', path: '/member/business?tab=urban-regeneration' },
-      { label: '행사 기획 및 교육 체험 사업', path: '/member/business?tab=events-education' },
-      { label: '지역 활성화 사업', path: '/member/business?tab=local-activation' },
+      { label: '27b 사업', path: '/member/business?tab=27b-business' },
+      { label: '콘텐츠 사업', path: '/member/business?tab=contents-business' },
+      { label: '마을돌봄 사업', path: '/member/business?tab=village-care' },
     ],
     hasImage: true,
     image: BusinessIcon,
-    rightPanelWidth: 'w-[300px]',
+    rightPanelWidth: 'w-[220px]',
   },
   {
     title: '카페 27b',

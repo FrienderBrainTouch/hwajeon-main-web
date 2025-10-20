@@ -1,40 +1,24 @@
 import { TabNavigation, type TabItem } from '@/components/ui/TabNavigation';
 import { useTabState } from '@/hooks/useTabState';
-import { UrbanRegenerationHub, EventsEducation, LocalActivation } from '@/components/business';
-import {
-  eventImages,
-  communityProjects,
-  educationMethods,
-  educationSummary,
-  academyCards,
-  educationCards,
-  eventCards,
-} from '@/components/business/data';
+import { Business27b, ContentsBusiness, VillageCare } from '@/components/business';
 
 function Business() {
   const tabs: TabItem[] = [
-    { id: 'urban-regeneration', label: '도시재생 거점공간 운영 사업', value: 'urban-regeneration' },
-    { id: 'events-education', label: '행사 기획 및 교육 체험 사업', value: 'events-education' },
-    { id: 'local-activation', label: '지역 활성화 사업', value: 'local-activation' },
+    { id: '27b-business', label: '27b 사업', value: '27b-business' },
+    { id: 'contents-business', label: '콘텐츠 사업', value: 'contents-business' },
+    { id: 'village-care', label: '마을돌봄 사업', value: 'village-care' },
   ];
 
-  const { activeTab, handleTabChange } = useTabState(tabs, 'urban-regeneration');
+  const { activeTab, handleTabChange } = useTabState(tabs, '27b-business');
 
   const renderTabContent = () => {
     switch (activeTab) {
-      case 'urban-regeneration':
-        return <UrbanRegenerationHub academyCards={academyCards} educationCards={educationCards} />;
-      case 'events-education':
-        return <EventsEducation eventCards={eventCards} />;
-      case 'local-activation':
-        return (
-          <LocalActivation
-            eventImages={eventImages}
-            communityProjects={communityProjects}
-            educationMethods={educationMethods}
-            educationSummary={educationSummary}
-          />
-        );
+      case '27b-business':
+        return <Business27b />;
+      case 'contents-business':
+        return <ContentsBusiness />;
+      case 'village-care':
+        return <VillageCare />;
       default:
         return null;
     }
