@@ -1,17 +1,7 @@
 import { TabNavigation, type TabItem } from '@/components/ui/TabNavigation';
 import { useTabState } from '@/hooks/useTabState';
+import { UrbanRegenerationHub, EventsEducation, LocalActivation } from '@/components/business';
 import {
-  UrbanRegenerationHub,
-  EventsEducation,
-  Cafe27b,
-  LocalActivation,
-} from '@/components/business';
-import {
-  mainImages,
-  menuItems,
-  productItems,
-  cateringServices,
-  mobileCafeServices,
   eventImages,
   communityProjects,
   educationMethods,
@@ -25,7 +15,6 @@ function Business() {
   const tabs: TabItem[] = [
     { id: 'urban-regeneration', label: '도시재생 거점공간 운영 사업', value: 'urban-regeneration' },
     { id: 'events-education', label: '행사 기획 및 교육 체험 사업', value: 'events-education' },
-    { id: 'cafe27b', label: '카페27b', value: 'cafe27b' },
     { id: 'local-activation', label: '지역 활성화 사업', value: 'local-activation' },
   ];
 
@@ -37,16 +26,6 @@ function Business() {
         return <UrbanRegenerationHub academyCards={academyCards} educationCards={educationCards} />;
       case 'events-education':
         return <EventsEducation eventCards={eventCards} />;
-      case 'cafe27b':
-        return (
-          <Cafe27b
-            mainImages={mainImages}
-            menuItems={menuItems}
-            productItems={productItems}
-            cateringServices={cateringServices}
-            mobileCafeServices={mobileCafeServices}
-          />
-        );
       case 'local-activation':
         return (
           <LocalActivation
