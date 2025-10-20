@@ -27,6 +27,17 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      # ✅ 이 부분을 추가해주세요!
+      - name: Create .env file
+        run: |
+          echo "VITE_KAKAO_API=${{ secrets.VITE_KAKAO_API }}" >> .env
+          echo "VITE_EMAILJS_SERVICE_ID=${{ secrets.VITE_EMAILJS_SERVICE_ID }}" >> .env
+          echo "VITE_EMAILJS_TEMPLATE_ID=${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}" >> .env
+          echo "VITE_EMAILJS_PUBLIC_KEY=${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}" >> .env
+          echo "VITE_EMAILJS_TO_EMAIL=${{ secrets.VITE_EMAILJS_TO_EMAIL }}" >> .env
+          echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> .env
+          echo "VITE_JWT_SECRET=${{ secrets.VITE_JWT_SECRET }}" >> .env
+          
       # 4. 프로덕션 빌드
       - name: Build project
         run: npm run build
@@ -38,6 +49,6 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "build/*"  # 'dist/*' 등 빌드 폴더 경로에 맞게 수정
+          source: "dist/*"  # 'dist/*' 등 빌드 폴더 경로에 맞게 수정
           target: "/var/www/hwajeon_main_page" # 실제 파일이 서빙될 서버 경로로 수정
           strip_components: 1 # source 경로의 최상위 폴더(build)를 제외하고 내용물만 복사
