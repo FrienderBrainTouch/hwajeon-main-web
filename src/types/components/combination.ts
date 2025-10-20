@@ -79,6 +79,7 @@ export interface Props {
 export interface GreetingData {
   title: string;
   image: {
+    src?: string;
     alt: string;
   };
   greeting: {
