@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import IntroIcon from '@/assets/intro_icon.svg';
 import BusinessIcon from '@/assets/business_icon.svg';
+import Cafe27bIcon from '@/assets/cafe27b_icon.png';
 import NewsIcon from '@/assets/news_icon.svg';
 import JoinIcon from '@/assets/join_icon.svg';
 import ContactIcon from '@/assets/contact_icon.svg';
@@ -41,7 +42,8 @@ const menuData = [
     path: '/member/cafe27b',
     description: '화전마을의 도시재생 거점공간이자 특별한 복합문화 공간',
     items: [],
-    hasImage: false,
+    hasImage: true,
+    image: Cafe27bIcon,
     rightPanelWidth: 'w-[200px]',
   },
   {

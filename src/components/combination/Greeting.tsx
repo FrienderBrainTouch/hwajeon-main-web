@@ -11,14 +11,24 @@ const Greeting: React.FC<GreetingProps> = ({ data = defaultData }) => {
       </div>
 
       <div className="max-w-6xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-8 items-center">
+        <div className="grid lg:grid-cols-2 gap-8 items-stretch">
           {/* 이미지 영역 */}
-          <div className="bg-gray-200 rounded-lg flex items-center justify-center aspect-[620/600] w-full max-w-[620px] mx-auto">
-            <span className="text-gray-500 text-lg">{data.image.alt}</span>
+          <div className="bg-white rounded-lg flex flex-col justify-start p-6">
+            <img
+              src={data.image.src}
+              alt={data.image.alt}
+              className="w-full h-auto object-contain mb-6 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl mx-auto"
+            />
+            <div className="mt-auto">
+              <p className="text-sm text-gray-600 leading-relaxed">
+                사각형의 틀은 마을을 이루고 있는 터를 상징하며 그 내부에는 꽃과 자연물을 위치시켜
+                화전의 네이밍적 표현을 디자인했다.
+              </p>
+            </div>
           </div>
 
           {/* 텍스트 영역 */}
-          <div className="space-y-8 sm:space-y-12">
+          <div className="flex flex-col justify-center space-y-8 sm:space-y-12">
             <div className="space-y-1">
               <p className="text-lg sm:text-xl">{data.greeting.line1}</p>
               <p className="text-lg sm:text-xl">{data.greeting.line2}</p>
@@ -39,7 +49,7 @@ const Greeting: React.FC<GreetingProps> = ({ data = defaultData }) => {
                 <span className="text-gray-800 font-semibold text-lg sm:text-xl">
                   {data.signature.name}
                 </span>
-                <div className="w-6 h-6 bg-red-500 rounded-sm"></div>
+                {/* <div className="w-6 h-6 bg-red-500 rounded-sm"></div> */}
               </div>
             </div>
           </div>
