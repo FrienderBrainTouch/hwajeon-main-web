@@ -25,3 +25,9 @@ dist-ssr
 
 .env
 .env.local
+
+# Test files
+*.test.tsx
+*.test.ts
+*.spec.tsx
+*.spec.ts
