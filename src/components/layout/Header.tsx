@@ -131,14 +131,17 @@ export default function Header({}: HeaderProps) {
         </Link>
 
         {/* 네비게이션 */}
-        <nav className="hidden md:flex items-center space-x-16" onPointerEnter={openWithDelay}>
+        <nav
+          className="hidden md:flex items-center space-x-4 lg:space-x-8 xl:space-x-16"
+          onPointerEnter={openWithDelay}
+        >
           {navigationItems.map((item) => (
             <Link
               key={item.path}
               to={item.path}
               data-category={item.label}
               onPointerEnter={() => setSelectedThrottled(item.label)}
-              className={`text-md font-medium transition-colors ${
+              className={`text-xs md:text-sm lg:text-base font-medium transition-colors ${
                 isMainPage ? (isCategoryOpen ? 'text-gray-900' : 'text-white') : 'text-gray-900'
               }                                                                 ${
                 selectedCategory === item.label && isCategoryOpen
