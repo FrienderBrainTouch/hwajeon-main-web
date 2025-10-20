@@ -2,44 +2,40 @@ import type { MissionVisionData } from '@/types/components/combination';
 
 export const missionVisionData: MissionVisionData = {
   header: {
-    title: '미션 & 비전',
-    subtitle: '화전마을사회적협동조합은',
+    title: '미션과 비전, 핵심가치',
+    subtitle: '화전마을관리 사회적협동조합',
     description:
-      '지역 주민이 주체가 되어 마을의 삶을 스스로 기획하고 실현하는 플랫폼을 구축하기 위해, 자립적인 공동체 기반 조성과 지속가능한 지역 순환 생태계를 만들어가고 있습니다.',
+      '화전지역의 상권 활성화와 주민 공동체의 자생력 강화를 통해 경제 문화공동체로 성장하여 화전의 안정적이고 풍요로운 삶에 기여하는 울타리가 되고자 합니다.',
   },
   mission: {
-    title: '미션',
-    subtitle: '소제목',
-    content: '모든 사용자가 디지털 환경에서 평등한 기회를 누릴 수 있도록 지원',
+    title: 'Our Mission',
+    subtitle: '우리의 미션',
+    content: '화전지역 상권 활성화와 화전 주민 공동체의 자생력 강화',
   },
   vision: {
-    title: '비전',
-    subtitle: '소제목',
-    content: '디지털 포용성을 통해 모든 사람이 연결되고 성장할 수 있는 사회 구현',
+    title: 'Our Vision',
+    subtitle: '우리의 비전',
+    content: '경제 문화공동체로 화전의 안정적이고 풍요로운 삶에 기여하는 울타리',
   },
   values: {
-    title: '핵심 가치',
-    subtitle: '소제목',
+    title: 'Core Value',
+    subtitle: '핵심 가치',
     items: [
       {
         id: 1,
-        title: '협동',
-        description: '함께 일하고 함께 성장하는 협동의 정신',
+        title: '비상하다',
+        description: '마을을 살리기 위해 늘 배우고, 익히고, 행하여 비상한다',
       },
       {
         id: 2,
-        title: '상생',
-        description: '모든 구성원이 함께 번영하는 상생의 가치',
+        title: '나누다',
+        description: '행할 수 있는 모든 것들은 나누어 함께 행하고, 행하여 얻은 것은 모두 나눈다',
       },
       {
         id: 3,
-        title: '지속가능성',
-        description: '미래 세대를 위한 지속가능한 발전',
-      },
-      {
-        id: 4,
-        title: '혁신',
-        description: '새로운 아이디어와 방법으로 문제를 해결',
+        title: '보다',
+        description:
+          '사람과 주인, 길과 집, 드러난 것과 가려진 것, 마을 공동체를 두루 살펴 소외됨 없이 함께 할 수 있도록 깨어 있는 눈으로 본다',
       },
     ],
   },

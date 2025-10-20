@@ -141,7 +141,7 @@ export interface MissionVisionData {
  */
 export interface OrganizationNode {
   label: string;
-  variant?: 'filled' | 'outline' | 'primary';
+  variant?: 'filled' | 'outline' | 'primary' | 'green' | 'yellow';
 }
 
 /**
@@ -151,6 +151,29 @@ export interface OrganizationChartData {
   top: OrganizationNode;
   second: [OrganizationNode, OrganizationNode, OrganizationNode];
   teams: [OrganizationNode, OrganizationNode, OrganizationNode, OrganizationNode];
+}
+
+/**
+ * 트리 구조 조직도 노드 타입
+ */
+export interface TreeNode {
+  name: string;
+  type?: string;
+  children?: TreeNode[];
+}
+
+/**
+ * 확장된 조직도 데이터 타입
+ */
+export interface ExtendedOrganizationData {
+  top: OrganizationNode;
+  committees: OrganizationNode[];
+  departments: {
+    name: string;
+    variant?: string;
+    teams: OrganizationNode[];
+  }[];
+  subCommittees?: OrganizationNode[];
 }
 
 /**
@@ -180,8 +203,9 @@ export interface TeamMember {
 export interface Team {
   id: number;
   name: string;
-  description: string;
-  members: TeamMember[];
+  description?: string;
+  members?: TeamMember[];
+  children?: Team[];
 }
 
 /**
@@ -210,7 +234,7 @@ export interface StoryImage {
  */
 export type Node = {
   label: string;
-  variant?: 'filled' | 'outline' | 'primary';
+  variant?: 'filled' | 'outline' | 'primary' | 'green' | 'yellow';
 };
 
 /**
