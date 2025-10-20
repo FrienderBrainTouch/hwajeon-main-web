@@ -30,12 +30,19 @@ const menuData = [
     items: [
       { label: '도시재생 거점공간 운영 사업', path: '/member/business?tab=urban-regeneration' },
       { label: '행사 기획 및 교육 체험 사업', path: '/member/business?tab=events-education' },
-      { label: '카페27b', path: '/member/business?tab=cafe27b' },
       { label: '지역 활성화 사업', path: '/member/business?tab=local-activation' },
     ],
     hasImage: true,
     image: BusinessIcon,
     rightPanelWidth: 'w-[300px]',
+  },
+  {
+    title: '카페 27b',
+    path: '/member/cafe27b',
+    description: '화전마을의 도시재생 거점공간이자 특별한 복합문화 공간',
+    items: [],
+    hasImage: false,
+    rightPanelWidth: 'w-[200px]',
   },
   {
     title: '소식과 자료',

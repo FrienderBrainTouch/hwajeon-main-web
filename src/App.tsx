@@ -15,6 +15,7 @@ import HeaderImg from '@/assets/header.png';
 // Lazy load pages for code splitting
 const Combination = lazy(() => import('@/pages/member/Combination'));
 const Business = lazy(() => import('@/pages/member/Business'));
+const Cafe27b = lazy(() => import('@/pages/member/Cafe27b'));
 const News = lazy(() => import('@/pages/member/News'));
 const Participate = lazy(() => import('@/pages/member/Participate'));
 const Contact = lazy(() => import('@/pages/member/Contact'));
@@ -52,6 +53,12 @@ const HERO_BY_ROUTE: Record<
     src: HeaderImg,
     title: '사업 안내',
     subtitle: '마을과 함께 성장하는 비즈니스',
+    heightVh: 56,
+  },
+  '/member/cafe27b': {
+    src: HeaderImg,
+    title: '카페 27b',
+    subtitle: '화전마을의 특별한 복합문화 공간',
     heightVh: 56,
   },
   '/member/news': {
@@ -147,6 +154,7 @@ function AppContent() {
             <Route path="/member" element={<MemberLayout />}>
               <Route path="combination" element={<Combination />} />
               <Route path="business" element={<Business />} />
+              <Route path="cafe27b" element={<Cafe27b />} />
               <Route path="news" element={<News />} />
               <Route path="participate" element={<Participate />} />
               <Route path="contact" element={<Contact />} />
