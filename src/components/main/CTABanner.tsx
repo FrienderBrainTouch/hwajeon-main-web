@@ -23,7 +23,7 @@ export default function CTABanner() {
             {/* 왼쪽: 메인 텍스트 */}
             <div className="flex-1 max-w-2xl">
               <h2 className="text-sm xs:text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-semibold text-white leading-tight whitespace-nowrap">
-                화전마을의 일일일일일원이 되어 함께하고 싶다면?
+                화전마을의 일원이 되어 함께하고 싶다면?
               </h2>
             </div>
 
