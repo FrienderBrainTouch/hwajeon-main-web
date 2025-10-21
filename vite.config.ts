@@ -8,4 +8,5 @@ export default defineConfig({
   resolve: {
     alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) },
   },
+  base: '/hwajeon-main-web/', // ✅ GitHub Pages용 설정
 });
