@@ -1,54 +1,82 @@
-# .github/workflows/deploy.yml
+name: Frontend CI/CD                 # 워크플로우 이름(깃허브 UI에 표시)
 
-name: Deploy Frontend
+on:                                  # 언제 실행할지(트리거)
+  pull_request:                      # PR 이벤트일 때
+    branches: [prod]                 # 대상 브랜치가 prod인 PR에서 실행
+  push:                              # 푸시 이벤트일 때
+    branches: [prod]                 # prod 브랜치로 커밋 푸시될 때 실행
 
-# prod 브랜치에 push 될 때만 실행
-on:
-  push:
-    branches:
-      - prod
+concurrency:                         # 동시 실행 제어(중복 실행 방지)
+  group: frontend-${{ github.ref }}  # 같은 ref(브랜치) 기준으로 그룹핑
+  cancel-in-progress: true           # 이전 실행 중이면 취소하고 최신 실행만 유지
 
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      # 1. 레포지토리 코드 가져오기
-      - name: Checkout code
-        uses: actions/checkout@v3
+jobs:                                # 실제 실행할 잡(작업)들
+  ci-build:                          # 첫 번째 잡: CI 및(푸시 시) 패키징 담당
+    name: CI – Build & (when push) Package  # 잡 이름(표시용)
+    runs-on: ubuntu-latest           # 우분투 최신 러너에서 실행
 
-      # 2. Node.js 환경 설정
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+    steps:                           # 잡 내 단계들(순서대로 실행)
+      - uses: actions/checkout@v4    # 1) 저장소 코드 체크아웃
+        with: { fetch-depth: 1 }     #    얕은 클론(속도 ↑)
+
+      - uses: actions/setup-node@v4  # 2) Node.js 환경 세팅
         with:
-          node-version: '18' # 프로젝트에 맞는 버전으로 수정
-          cache: 'npm'
+          node-version: 18           #    Node 18 사용
+          cache: npm                 #    npm 캐시 활성화(속도 ↑)
 
-      # 3. 의존성 설치
-      - name: Install dependencies
-        run: npm install
+      - name: Install deps           # 3) 의존성 설치
+        run: npm ci                  #    lockfile 기준 클린 설치(재현성/속도 ↑)
 
-      # ✅ 이 부분을 추가해주세요!
-      - name: Create .env file
-        run: |
-          echo "VITE_KAKAO_API=${{ secrets.VITE_KAKAO_API }}" >> .env
+      # PR: 시크릿 없이도 돌아가게(필요하면 .env.example 사용)
+      - name: Build (PR)             # 4) PR에서만 빌드(시크릿 없이 가능한 범위)
+        if: ${{ github.event_name == 'pull_request' }}  #    이벤트가 PR일 때만
+        run: npm run build --if-present                  #    build 스크립트가 있으면 실행
+
+      # push: 실제 배포용 빌드 (.env 주입)
+      - name: Create .env (push only) # 5) 푸시(=실배포)일 때 .env 파일 생성
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/prod' }} # prod에 push일 때만
+        run: |                        #    아래 줄들을 쉘 스크립트로 실행
+          echo "VITE_KAKAO_API=${{ secrets.VITE_KAKAO_API }}" >> .env               # 시크릿을 .env에 쓰기
           echo "VITE_EMAILJS_SERVICE_ID=${{ secrets.VITE_EMAILJS_SERVICE_ID }}" >> .env
           echo "VITE_EMAILJS_TEMPLATE_ID=${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}" >> .env
           echo "VITE_EMAILJS_PUBLIC_KEY=${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}" >> .env
           echo "VITE_EMAILJS_TO_EMAIL=${{ secrets.VITE_EMAILJS_TO_EMAIL }}" >> .env
           echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> .env
           echo "VITE_JWT_SECRET=${{ secrets.VITE_JWT_SECRET }}" >> .env
-          
-      # 4. 프로덕션 빌드
-      - name: Build project
-        run: npm run build
 
-      # 5. 빌드된 파일을 서버로 복사
-      - name: Deploy to Server
-        uses: appleboy/scp-action@master
+      - name: Build (deploy artifact) # 6) 배포용 빌드 실행(푸시 시)
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/prod' }}   # prod에 push일 때만
+        run: npm run build            #    .env 반영된 실제 배포 산출물(dist) 생성
+
+      # dist만 업로드(민감한 .env는 포함 금지)
+      - name: Upload dist artifact    # 7) 빌드 산출물(dist)을 아티팩트로 업로드
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/prod' }}   # prod에 push일 때만
+        uses: actions/upload-artifact@v4  #    아티팩트 업로드 액션
         with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "dist/*"  # 'dist/*' 등 빌드 폴더 경로에 맞게 수정
-          target: "/var/www/hwajeon_main_page" # 실제 파일이 서빙될 서버 경로로 수정
-          strip_components: 1 # source 경로의 최상위 폴더(build)를 제외하고 내용물만 복사
+          name: dist-${{ github.sha }}     # 아티팩트 이름(커밋 SHA로 고유화)
+          path: dist                       # 업로드할 폴더(정적 산출물)
+          if-no-files-found: error         # dist가 없으면 실패 처리
+          retention-days: 3                # 아티팩트 보관 기간(3일)
+
+  cd-deploy:                          # 두 번째 잡: CD(배포)
+    name: CD – Deploy from Artifact   # 잡 이름
+    needs: ci-build                   # ci-build 잡이 성공해야 실행
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/prod' }}  # prod에 push일 때만
+    runs-on: ubuntu-latest            # 우분투 최신 러너
+
+    steps:
+      - name: Download dist artifact  # 1) 앞 잡에서 올린 dist 아티팩트 다운로드
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-${{ github.sha }} # 업로드 시 사용한 동일 이름 지정
+          path: dist                   # 다운로드 위치
+
+      - name: Deploy to Server        # 2) 서버로 파일 배포(SCP)
+        uses: appleboy/scp-action@v0.1.7  # scp 전송 액션(버전 고정)
+        with:
+          host: ${{ secrets.SERVER_IP }}      # 서버 IP(시크릿)
+          username: ${{ secrets.SERVER_USERNAME }}  # SSH 사용자(시크릿)
+          key: ${{ secrets.SSH_PRIVATE_KEY }}       # 개인키(시크릿)
+          source: "dist/*"                   # 보낼 소스(빌드 결과)
+          target: "/var/www/hwajeon_main_page" # 서버 배포 경로
+          strip_components: 1                # 경로 최상위 폴더를 제거하고 내용만 복사
