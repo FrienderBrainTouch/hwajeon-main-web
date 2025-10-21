@@ -1,4 +1,4 @@
-import{d as l,r as m,j as e,P as c}from"./index-ncKDG_gW.js";import{u as i,T as o}from"./useTabState-uyMoMUJd.js";import{C as h,a as p}from"./chevron-up-Dw-qLyZV.js";import{B as b}from"./BoardWrapper-BWEawLLI.js";/**
+import{d as l,r as m,j as e,P as c}from"./index-CTmWnyb5.js";import{u as i,T as o}from"./useTabState-DY8hhufO.js";import{C as h,a as p}from"./chevron-up-Dn92LcJ5.js";import{B as b}from"./BoardWrapper-DNpzx49n.js";/**
  * @license lucide-react v0.542.0 - ISC
  *
  * This source code is licensed under the ISC license.
