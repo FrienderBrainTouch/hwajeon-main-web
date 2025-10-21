@@ -19,10 +19,9 @@ jobs:
     name: Preview – PR build & deploy to Pages
     runs-on: ubuntu-latest
     permissions:
-      contents: write        # gh-pages 브랜치 푸시
-      deployments: write     # Deployments 박스
-      pull-requests: write   # PR 코멘트
-
+      contents: write
+      deployments: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 1 }
@@ -38,11 +37,9 @@ jobs:
       - name: Build preview
         run: npm run build
 
-      # SPA 새로고침 404 방지
       - name: SPA 404 fallback
         run: cp dist/index.html dist/404.html || true
 
-      # gh-pages/pr-<번호>/ 에 업로드
       - name: Publish to gh-pages/pr-<num>
         uses: peaceiris/actions-gh-pages@v3
         with:
@@ -55,51 +52,39 @@ jobs:
         id: url
         run: echo "url=https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}/" >> $GITHUB_OUTPUT
 
-      # Deployments 박스 생성(start)
-      - name: Create deployment
-        id: deploy
+      # ✅ start: env 필수
+      - name: Start deployment
+        id: start_deploy
         uses: bobheadxi/deployments@v1
         with:
           step: start
           token: ${{ secrets.GITHUB_TOKEN }}
-          env: preview/pr-${{ github.event.number }}
+          env: preview/pr-${{ github.event.number }}   # << 여기!
           ref: ${{ github.head_ref || github.ref }}
           transient: true
           auto_inactive: true
 
-      # ✅ finish에 deployment_id 전달 (필수)
-      - name: Finish deployment
+      # ✅ finish: deployment_id + env 둘 다 넘겨주기
+      - name: Finish deployment (success)
         if: success()
         uses: bobheadxi/deployments@v1
         with:
           step: finish
           token: ${{ secrets.GITHUB_TOKEN }}
-          deployment_id: ${{ steps.deploy.outputs.deployment_id }}
+          deployment_id: ${{ steps.start_deploy.outputs.deployment_id }}
+          env: preview/pr-${{ github.event.number }}   # << 여기!
           status: success
           env_url: ${{ steps.url.outputs.url }}
 
-      # (선택) 실패 시 상태 표시
-      - name: Fail deployment
+      - name: Finish deployment (failure)
         if: failure()
         uses: bobheadxi/deployments@v1
         with:
           step: finish
           token: ${{ secrets.GITHUB_TOKEN }}
-          deployment_id: ${{ steps.deploy.outputs.deployment_id }}
+          deployment_id: ${{ steps.start_deploy.outputs.deployment_id }}
+          env: preview/pr-${{ github.event.number }}
           status: failure
-
-      # (선택) PR 코멘트로도 링크 남기기
-      - name: Comment preview URL
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const url = `${{ steps.url.outputs.url }}`
-            github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: `🔍 **Preview ready:** ${url}`
-            })
 
   # -------------------------
   # 2) prod push: 빌드 → 아티팩트 업로드
