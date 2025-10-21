@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect, useRef, lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 // Layout
 import MemberLayout from '@/routes/MemberLayout';
 import AdminLayout from '@/routes/AdminLayout';
@@ -182,9 +182,7 @@ function App() {
   return (
     <ToastProvider>
       <AuthProvider>
-        <BrowserRouter>
-          <AppContent />
-        </BrowserRouter>
+        <AppContent />
       </AuthProvider>
     </ToastProvider>
   );

@@ -2,27 +2,22 @@ name: Frontend CI/CD + Preview
 
 on:
   pull_request:
-    branches: [prod]      # PR → Preview
+    branches: [prod]
   push:
-    branches: [prod]      # prod push → 패키징 + 배포(Nginx)
+    branches: [prod]
 
 concurrency:
   group: frontend-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  # -------------------------
-  # 1) PR 미리보기 (GitHub Pages)
-  # -------------------------
   preview:
     if: ${{ github.event_name == 'pull_request' }}
-    name: Preview – PR build & deploy to Pages
     runs-on: ubuntu-latest
     permissions:
       contents: write
       deployments: write
       pull-requests: write
-
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 1 }
@@ -35,7 +30,7 @@ jobs:
       - name: Install deps
         run: npm ci || npm i
 
-      # ✅ 추가 ①: .env 생성 (Preview 환경에서도 VITE 변수 필요)
+      # .env 생성 (VITE_*만 클라이언트로 노출됨)
       - name: Create .env (for preview)
         run: |
           echo "VITE_KAKAO_API=${{ secrets.VITE_KAKAO_API }}" >> .env
@@ -45,16 +40,25 @@ jobs:
           echo "VITE_EMAILJS_TO_EMAIL=${{ secrets.VITE_EMAILJS_TO_EMAIL }}" >> .env
           echo "VITE_API_BASE_URL=${{ secrets.VITE_API_BASE_URL }}" >> .env
 
-      # ✅ 추가 ②: Preview 환경 변수 주입
+      # 프리뷰용 환경변수 주입(확실히)
       - name: Build preview
         env:
           NODE_ENV: production
           PREVIEW: 'true'
           PR_NUMBER: ${{ github.event.number }}
+          VITE_KAKAO_API: ${{ secrets.VITE_KAKAO_API }}
+          VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
+          VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
+          VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
+          VITE_EMAILJS_TO_EMAIL: ${{ secrets.VITE_EMAILJS_TO_EMAIL }}
+          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
         run: npm run build
 
       - name: SPA 404 fallback
         run: cp dist/index.html dist/404.html || true
+
+      - name: Add .nojekyll
+        run: echo > dist/.nojekyll
 
       - name: Publish to gh-pages/pr-<num>
         uses: peaceiris/actions-gh-pages@v3
@@ -63,12 +67,8 @@ jobs:
           publish_branch: gh-pages
           publish_dir: dist
           destination_dir: pr-${{ github.event.number }}
+          keep_files: true
 
-      - name: Set preview URL
-        id: url
-        run: echo "url=https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}/" >> $GITHUB_OUTPUT
-
-      # ✅ start: env 필수
       - name: Start deployment
         id: start_deploy
         uses: bobheadxi/deployments@v1
@@ -80,7 +80,6 @@ jobs:
           transient: true
           auto_inactive: true
 
-      # ✅ finish: deployment_id + env 둘 다 넘겨주기
       - name: Finish deployment (success)
         if: success()
         uses: bobheadxi/deployments@v1
@@ -92,6 +91,7 @@ jobs:
           status: success
           env_url: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}/
 
+
       - name: Finish deployment (failure)
         if: failure()
         uses: bobheadxi/deployments@v1
@@ -102,8 +102,9 @@ jobs:
           env: preview/pr-${{ github.event.number }}
           status: failure
 
-      # ✅ 마지막: PR 코멘트로 프리뷰 링크 남기기
+      # 성공시에만 코멘트 달기 (죽은 링크 방지)
       - name: Comment preview URL
+        if: success()
         uses: actions/github-script@v7
         with:
           script: |
