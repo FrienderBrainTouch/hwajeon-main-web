@@ -28,7 +28,9 @@ export default function LocationSection() {
             <div className="space-y-4 text-center">
               <div className="flex items-center gap-3">
                 <MapPin className="w-5 h-5 text-black" />
-                <span className="text-sm text-black">경기 고양시 덕양구 화랑로 3 1층</span>
+                <span className="text-sm text-black">
+                  경기도 고양시 덕양구 화랑로57-27 고양드론앵커센터 1층
+                </span>
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-black" />
@@ -36,7 +38,7 @@ export default function LocationSection() {
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-black" />
-                <span className="text-sm text-black">hhh@aaa.com</span>
+                <span className="text-sm text-black">hwajeoncoop@naver.com</span>
               </div>
             </div>
             <div className="flex justify-center mt-8">
