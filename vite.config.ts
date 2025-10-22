@@ -13,8 +13,8 @@ export default defineConfig(({ mode }) => {
   // 기본은 Nginx(도메인 루트)라고 생각하면 실수 줄어듦
   let base = '/';
 
-  // GitHub Pages일 때만 서브경로 사용
-  if (target === 'pages') {
+  // GitHub Pages일 때만 서브경로 사용 (개발 환경에서는 루트 사용)
+  if (target === 'pages' && mode === 'production') {
     base = isPreview && pr ? `/hwajeon-main-web/pr-${pr}/` : `/hwajeon-main-web/`;
   }
 
