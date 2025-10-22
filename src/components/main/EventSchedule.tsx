@@ -1,10 +1,160 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EventCalendar } from '../news';
+import { useApi } from '@/hooks/useApi';
+import { memberPostsApi } from '@/api/member';
+import { type EventData } from '@/types/components';
+import { mapActivityTypeToEventCategory } from '@/types/ui';
 
 function EventSchedule() {
   const navigate = useNavigate();
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [events, setEvents] = useState<EventData[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // API 호출
+  const getCalendarEventsApi = useApi(memberPostsApi.getCalendarEvents);
+
+  // 날짜에 따른 requestDate 계산 함수
+  const getRequestDate = (date: Date): string => {
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const targetYear = date.getFullYear();
+
+    if (targetYear === currentYear) {
+      return today.toISOString().split('T')[0];
+    } else if (targetYear < currentYear) {
+      return `${targetYear}-12-31`;
+    } else {
+      return `${targetYear}-01-01`;
+    }
+  };
+
+  // API에서 데이터 가져오기
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const requestDate = getRequestDate(currentDate);
+        const response = await getCalendarEventsApi.execute(requestDate);
+
+        if (response) {
+          const eventData: EventData[] = response.map((post: any) => {
+            const activityDate = post.onDate ? new Date(post.onDate) : new Date();
+            const createdAt = post.createdAt ? new Date(post.createdAt) : new Date();
+            return {
+              id: post.postId || post.id,
+              postId: post.postId || post.id,
+              title: post.title,
+              category: mapActivityTypeToEventCategory(post.activityType || 'NONE'),
+              date: activityDate.getDate(),
+              month: activityDate.getMonth() + 1,
+              content: post.content || '',
+              description: post.content || '',
+              thumbnailUrl: post.thumbnail || '',
+              createdAt: createdAt.toLocaleDateString('ko-KR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+              }),
+              activityDate: post.onDate || '',
+              time: post.eventTime || '',
+              location: post.eventLocation || '',
+              author: post.author || '',
+              files: [],
+            };
+          });
+
+          const sortedEventData = eventData.sort((a, b) => {
+            const dateA = new Date(a.activityDate);
+            const dateB = new Date(b.activityDate);
+            return dateA.getTime() - dateB.getTime();
+          });
+
+          setEvents(sortedEventData);
+        }
+      } catch (error) {
+        console.error('이벤트 데이터를 가져오는 중 오류 발생:', error);
+        setError('데이터를 불러오는 중 오류가 발생했습니다.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvents();
+  }, [currentDate]);
+
+  // 카테고리별 count 계산
+  const getCategoryCounts = () => {
+    const currentMonth = currentDate.getMonth() + 1;
+    const currentYear = currentDate.getFullYear();
+
+    const currentMonthEvents = events.filter((event) => {
+      const eventDate = new Date(event.activityDate);
+      return eventDate.getMonth() + 1 === currentMonth && eventDate.getFullYear() === currentYear;
+    });
+
+    const counts = {
+      '마을 축제': 0,
+      '원데이 클래스': 0,
+      '회의 일정': 0,
+    };
+
+    currentMonthEvents.forEach((event) => {
+      switch (event.category) {
+        case 'festival':
+          counts['마을 축제']++;
+          break;
+        case 'class':
+          counts['원데이 클래스']++;
+          break;
+        case 'meeting':
+          counts['회의 일정']++;
+          break;
+      }
+    });
+
+    return counts;
+  };
+
+  const categoryCounts = getCategoryCounts();
+
+  // 현재 월의 이벤트를 EventCalendar 형식으로 변환
+  const getCurrentMonthEvents = () => {
+    const currentMonth = currentDate.getMonth() + 1;
+    const currentYear = currentDate.getFullYear();
+
+    const currentMonthEvents = events.filter((event) => {
+      const eventDate = new Date(event.activityDate);
+      return eventDate.getMonth() + 1 === currentMonth && eventDate.getFullYear() === currentYear;
+    });
+
+    const processedEvents: { [day: number]: any[] } = {};
+
+    currentMonthEvents.forEach((event) => {
+      const eventDate = new Date(event.activityDate);
+      const day = eventDate.getDate();
+
+      if (!processedEvents[day]) {
+        processedEvents[day] = [];
+      }
+
+      processedEvents[day].push({
+        id: event.id,
+        date: day,
+        category: event.category,
+        title: event.title,
+        description: event.description,
+        time: event.time,
+        location: event.location,
+      });
+    });
+
+    return processedEvents;
+  };
 
   return (
     <section
@@ -33,17 +183,17 @@ function EventSchedule() {
                 {[
                   {
                     label: '마을 축제',
-                    count: 0,
+                    count: categoryCounts['마을 축제'],
                     color: '#2C2E5A',
                   },
                   {
                     label: '원데이 클래스',
-                    count: 0,
+                    count: categoryCounts['원데이 클래스'],
                     color: '#A692D1',
                   },
                   {
                     label: '회의 일정',
-                    count: 0,
+                    count: categoryCounts['회의 일정'],
                     color: '#FFA484',
                   },
                 ].map((category, i) => (
@@ -52,7 +202,9 @@ function EventSchedule() {
                       className="w-1 h-6 rounded-full"
                       style={{ backgroundColor: category.color }}
                     />
-                    <span className="text-gray-900 font-medium">{category.label}</span>
+                    <span className="text-gray-900 font-medium">
+                      {category.label} ({category.count})
+                    </span>
                   </div>
                 ))}
               </div>
@@ -69,11 +221,22 @@ function EventSchedule() {
           </div>
 
           {/* 오른쪽: 캘린더 */}
-          <EventCalendar
-            showCategoryLegend={false}
-            currentDate={currentDate}
-            onDateChange={(date: Date) => setCurrentDate(date)}
-          />
+          {loading ? (
+            <div className="bg-white rounded-lg p-6 flex items-center justify-center">
+              <div className="text-gray-500">로딩 중...</div>
+            </div>
+          ) : error ? (
+            <div className="bg-white rounded-lg p-6 flex items-center justify-center">
+              <div className="text-red-500">{error}</div>
+            </div>
+          ) : (
+            <EventCalendar
+              events={getCurrentMonthEvents()}
+              showCategoryLegend={false}
+              currentDate={currentDate}
+              onDateChange={(date: Date) => setCurrentDate(date)}
+            />
+          )}
         </div>
       </div>
     </section>
