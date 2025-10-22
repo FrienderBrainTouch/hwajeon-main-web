@@ -14,7 +14,7 @@ export default function Hero({
 
   return (
     <header ref={refEl} className="relative w-full">
-      <div className="relative overflow-hidden rounded-b-[150px]">
+      <div className="relative overflow-hidden rounded-b-[50px] sm:rounded-b-[75px] md:rounded-b-[100px] lg:rounded-b-[125px] xl:rounded-b-[150px]">
         {/* 배경 이미지 */}
         <div
           className="absolute inset-0 will-change-transform"
@@ -30,13 +30,17 @@ export default function Hero({
 
         {/* 카피/버튼 영역 */}
         <div
-          className="relative z-10 flex items-end pl-32 pb-10"
+          className="relative z-10 flex items-end justify-center sm:justify-start px-2 sm:pl-8 md:pl-16 lg:pl-32 pb-4 sm:pb-10"
           style={{ height: `${heightVh}vh` }}
         >
-          <div className="pb-10 text-white drop-shadow">
-            <h1 className="text-3xl md:text-5xl font-bold leading-tight">{title}</h1>
-            {subtitle && <p className="mt-3 text-base md:text-lg opacity-90">{subtitle}</p>}
-            <button className="mt-3 text-base md:text-lg bg-white text-black px-4 py-2 w-48 rounded-full">
+          <div className="pb-4 sm:pb-10 text-white drop-shadow text-center sm:text-left max-w-xs sm:max-w-none">
+            <h1 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight">
+              {title}
+            </h1>
+            {subtitle && (
+              <p className="mt-2 sm:mt-3 text-xs sm:text-base md:text-lg opacity-90">{subtitle}</p>
+            )}
+            <button className="mt-2 sm:mt-3 text-xs sm:text-base md:text-lg bg-white text-black px-2 sm:px-4 py-1.5 sm:py-2 w-24 sm:w-40 md:w-48 rounded-full">
               자세히 보기
             </button>
           </div>
