@@ -1,6 +1,9 @@
 import React from 'react';
 import type { MissionVisionProps } from '@/types/components/combination';
 import { missionVisionData as defaultData } from './data';
+import missionVision1 from '@/assets/mission_vision_1.jpg';
+import missionVision2 from '@/assets/mission_vision_2.jpg';
+import missionVision3 from '@/assets/mission_vision_3.jpg';
 
 const MissionVision: React.FC<MissionVisionProps> = ({ data = defaultData }) => {
   return (
@@ -52,15 +55,20 @@ const MissionVision: React.FC<MissionVisionProps> = ({ data = defaultData }) => 
           <p className="text-sm sm:text-base text-gray-500">{data.values.subtitle}</p>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-6xl mx-auto">
-          {data.values.items.map((item: any) => (
-            <div key={item.id} className="bg-gray-100 p-4 sm:p-6 rounded-lg text-center">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gray-300 rounded-lg mx-auto mb-4 flex items-center justify-center">
-                <span className="text-gray-500 text-xs sm:text-sm">이미지</span>
+          {data.values.items.map((item: any, index: number) => {
+            const images = [missionVision1, missionVision2, missionVision3];
+            const imageSrc = images[index] || images[0];
+
+            return (
+              <div key={item.id} className="bg-gray-100 p-4 sm:p-6 rounded-lg text-center">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg mx-auto mb-4 overflow-hidden">
+                  <img src={imageSrc} alt={item.title} className="w-full h-full object-cover" />
+                </div>
+                <p className="text-sm sm:text-base text-gray-700 font-medium mb-2">{item.title}</p>
+                <p className="text-xs sm:text-sm text-gray-600">{item.description}</p>
               </div>
-              <p className="text-sm sm:text-base text-gray-700 font-medium mb-2">{item.title}</p>
-              <p className="text-xs sm:text-sm text-gray-600">{item.description}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { LocationMap } from '@/components/contact';
+import locationImage from '@/assets/location.jpg';
 
 const LocationInfo: React.FC = () => {
   return (
@@ -15,9 +16,13 @@ const LocationInfo: React.FC = () => {
           <div>
             <h3 className="text-xl font-bold text-gray-900 mb-4">화전마을 사회적협동조합</h3>
 
-            {/* 이미지 플레이스홀더 */}
-            <div className="bg-gray-200 h-48 rounded-lg flex items-center justify-center mb-6">
-              <span className="text-gray-500">이미지</span>
+            {/* 건물 이미지 */}
+            <div className="h-48 rounded-lg overflow-hidden mb-6">
+              <img
+                src={locationImage}
+                alt="고양드론앵커센터 건물"
+                className="w-full h-full object-cover"
+              />
             </div>
 
             {/* 연락처 정보 */}
@@ -33,7 +38,9 @@ const LocationInfo: React.FC = () => {
                   </svg>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">경기 고양시 덕양구 화랑로 31층</p>
+                  <p className="text-sm text-gray-600">
+                    경기 고양시 덕양구 화랑로57-27 고양드론앵커센터 1층
+                  </p>
                 </div>
               </div>
 
@@ -64,9 +71,14 @@ const LocationInfo: React.FC = () => {
               </div>
             </div>
 
-            {/* 대중교통 안내 */}
-            <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-              <p className="text-sm text-gray-700">한국항공대역 1번 출구 도보 5분 거리</p>
+            {/* 대중교통 및 주차 안내 */}
+            <div className="mt-6 space-y-3">
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <p className="text-sm text-gray-700">한국항공대역 1번 출구 도보 5분 거리</p>
+              </div>
+              <div className="p-4 bg-blue-50 rounded-lg">
+                <p className="text-sm text-blue-700 font-medium">주차 가능</p>
+              </div>
             </div>
           </div>
         </div>
