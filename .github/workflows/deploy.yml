@@ -21,7 +21,6 @@ jobs:
       contents: write
       deployments: write
       pull-requests: write
-    # ✅ 공통 환경변수(시크릿) — 이 job 전체에서 사용 가능
     env:
       VITE_KAKAO_API:           ${{ secrets.VITE_KAKAO_API }}
       VITE_EMAILJS_SERVICE_ID:  ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
@@ -37,14 +36,16 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20          # ★ Node 20
+          node-version: 20
           cache: npm
           cache-dependency-path: package-lock.json
 
       - name: Install deps
         run: npm ci --no-audit --progress=false || npm i --no-audit --progress=false
 
-      # .env 생성 (VITE_*만 클라이언트 노출)
+      # -------------------------
+      # .env 파일 생성
+      # -------------------------
       - name: Create .env (for preview)
         run: |
           {
@@ -79,8 +80,11 @@ jobs:
           destination_dir: pr-${{ github.event.number }}
           keep_files: true
 
+      # -------------------------
+      # GitHub Deployments (상태 관리)
+      # -------------------------
       - name: Start deployment
-        id: start_deploy
+        id: deploy
         uses: bobheadxi/deployments@v1
         with:
           step: start
@@ -90,24 +94,27 @@ jobs:
           transient: true
           auto_inactive: true
 
+      - name: Debug deployment id
+        run: echo "deployment_id=${{ steps.deploy.outputs.deployment_id }}"
+
       - name: Finish deployment (success)
-        if: success()
+        if: ${{ success() && steps.deploy.outputs.deployment_id != '' }}
         uses: bobheadxi/deployments@v1
         with:
           step: finish
           token: ${{ secrets.GITHUB_TOKEN }}
-          deployment_id: ${{ steps.start_deploy.outputs.deployment_id }}
+          deployment_id: ${{ steps.deploy.outputs.deployment_id }}
           env: preview/pr-${{ github.event.number }}
           status: success
           env_url: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/pr-${{ github.event.number }}/
 
       - name: Finish deployment (failure)
-        if: failure()
+        if: ${{ failure() && steps.deploy.outputs.deployment_id != '' }}
         uses: bobheadxi/deployments@v1
         with:
           step: finish
           token: ${{ secrets.GITHUB_TOKEN }}
-          deployment_id: ${{ steps.start_deploy.outputs.deployment_id }}
+          deployment_id: ${{ steps.deploy.outputs.deployment_id }}
           env: preview/pr-${{ github.event.number }}
           status: failure
 
@@ -131,7 +138,7 @@ jobs:
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/prod' }}
     name: Package – Build artifact (prod)
     runs-on: ubuntu-latest
-    env:   # ✅ 공통 시크릿 한 번에
+    env:
       VITE_KAKAO_API:           ${{ secrets.VITE_KAKAO_API }}
       VITE_EMAILJS_SERVICE_ID:  ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
       VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
@@ -139,6 +146,7 @@ jobs:
       VITE_EMAILJS_TO_EMAIL:    ${{ secrets.VITE_EMAILJS_TO_EMAIL }}
       VITE_API_BASE_URL:        ${{ secrets.VITE_API_BASE_URL }}
       VITE_JWT_SECRET:          ${{ secrets.VITE_JWT_SECRET }}
+
     steps:
       - uses: actions/checkout@v4
         with: { fetch-depth: 1 }
@@ -166,7 +174,7 @@ jobs:
 
       - name: Build (prod artifact)
         env:
-          DEPLOY_TARGET: nginx     # ★ Nginx 배포 → Vite base '/'
+          DEPLOY_TARGET: nginx
           NODE_ENV: production
         run: npm run build
 
@@ -179,7 +187,7 @@ jobs:
           retention-days: 3
 
   # -------------------------
-  # 3) prod push: 아티팩트 내려받아 서버 배포(Nginx)
+  # 3) prod push: 서버 배포 (from artifact)
   # -------------------------
   deploy:
     needs: package
