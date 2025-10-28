@@ -8,15 +8,7 @@ import {
   OrganizationDetails,
   HwajeonStory,
 } from '@/components/combination';
-import {
-  historyData,
-  teams,
-  cards,
-  storyImages,
-  mainStoryImage,
-  missionVisionData,
-  greetingData,
-} from '@/components/combination/data';
+import { historyData, teams, missionVisionData, greetingData } from '@/components/combination/data';
 
 function Combination() {
   const tabs: TabItem[] = [
@@ -49,9 +41,7 @@ function Combination() {
           </div>
         );
       case 'story':
-        return (
-          <HwajeonStory cards={cards} storyImages={storyImages} mainStoryImage={mainStoryImage} />
-        );
+        return <HwajeonStory />;
       default:
         return null;
     }
