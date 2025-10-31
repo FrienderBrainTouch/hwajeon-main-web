@@ -9,7 +9,7 @@ import { ToastProvider } from '@/components/ui/toast';
 import { Header, Footer } from '@/components/layout';
 // Components
 import { Hero } from '@/components/main';
-import { Main } from '@/pages/member';
+import { Main, Journey } from '@/pages/member';
 import HeaderImg from '@/assets/header.png';
 
 // Lazy load pages for code splitting
@@ -135,14 +135,16 @@ function AppContent() {
           <Header />
 
           {/* 히어로 (일반 페이지만) */}
-          <Hero
-            refEl={heroRef}
-            src={HeaderImg}
-            title={heroConf.title}
-            subtitle={heroConf.subtitle}
-            heightVh={heroConf.heightVh ?? 40}
-            progress={progress}
-          />
+          {route !== '/' && (
+            <Hero
+              refEl={heroRef}
+              src={HeaderImg}
+              title={heroConf.title}
+              subtitle={heroConf.subtitle}
+              heightVh={heroConf.heightVh ?? 40}
+              progress={progress}
+            />
+          )}
         </>
       )}
 
@@ -153,6 +155,7 @@ function AppContent() {
             <Route path="/" element={<Main />} />
             <Route path="/member" element={<MemberLayout />}>
               <Route path="combination" element={<Combination />} />
+              <Route path="journey/:step" element={<Journey />} />
               <Route path="business" element={<Business />} />
               <Route path="cafe27b" element={<Cafe27b />} />
               <Route path="news" element={<News />} />
