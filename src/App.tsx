@@ -107,7 +107,7 @@ function AppContent() {
     );
   }, [route]);
 
-  const [progress, setProgress] = useState(0); // 0~1
+  const [_progress, setProgress] = useState(0); // 0~1
   const heroRef = useRef<HTMLDivElement>(null!);
 
   // 스크롤 진행도(히어로 페이드/패럴랙스에 사용)
@@ -135,14 +135,7 @@ function AppContent() {
           <Header />
 
           {/* 히어로 */}
-          <Hero
-            refEl={heroRef}
-            src={HeaderImg}
-            title={heroConf.title}
-            subtitle={heroConf.subtitle}
-            heightVh={heroConf.heightVh ?? 40}
-            progress={progress}
-          />
+          <Hero title={heroConf.title} subtitle={heroConf.subtitle} route={route} />
         </>
       )}
 
