@@ -35,20 +35,20 @@ export default function Hero({ title, subtitle, route }: HeroProps = {} as HeroP
   return (
     <div className="mt-15 xs:mt-18 sm:mt-20 md:mt-20 lg:mt-25 xl:mt-25 2xl:mt-25">
       {/* Header 높이만큼 상단 공백을 가진 Hero 컴포넌트 */}
-      <div className="flex w-full overflow-hidden rounded-br-[50px] rounded-bl-[50px] sm:rounded-br-[75px] sm:rounded-bl-[75px] md:rounded-br-[100px] md:rounded-bl-[100px] lg:rounded-br-[125px] lg:rounded-bl-[125px] xl:rounded-br-[150px] xl:rounded-bl-[150px]">
+      <div className="flex w-full overflow-hidden rounded-br-[30px] rounded-bl-[30px] xs:rounded-br-[40px] xs:rounded-bl-[40px] sm:rounded-br-[50px] sm:rounded-bl-[50px] md:rounded-br-[75px] md:rounded-bl-[75px] lg:rounded-br-[100px] lg:rounded-bl-[100px] xl:rounded-br-[125px] xl:rounded-bl-[125px] 2xl:rounded-br-[150px] 2xl:rounded-bl-[150px]">
         {/* 왼쪽 4/5: 단색 div + 텍스트 */}
         <div
-          className="w-4/5 h-[200px] sm:h-[240px] lg:h-[280px] flex items-center px-6 sm:px-8 md:px-12 lg:px-16"
+          className="w-4/5 h-[180px] xs:h-[200px] sm:h-[220px] md:h-[240px] lg:h-[260px] xl:h-[280px] 2xl:h-[300px] flex items-center px-4 xs:px-5 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20"
           style={{ backgroundColor: bgColor }}
         >
-          <div className="text-white">
+          <div className="text-white w-full">
             {title && (
-              <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight drop-shadow">
+              <h1 className="text-base xs:text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold leading-tight drop-shadow">
                 {title}
               </h1>
             )}
             {subtitle && (
-              <p className="mt-2 sm:mt-3 text-sm sm:text-base md:text-lg lg:text-xl opacity-90">
+              <p className="mt-1 xs:mt-1.5 sm:mt-2 md:mt-2.5 lg:mt-3 text-xs xs:text-sm sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-xl opacity-90">
                 {subtitle}
               </p>
             )}
@@ -56,7 +56,7 @@ export default function Hero({ title, subtitle, route }: HeroProps = {} as HeroP
         </div>
 
         {/* 오른쪽 1/5: 하얀색 배경 위에 로고 */}
-        <div className="w-1/5 h-[200px] sm:h-[240px] lg:h-[280px] bg-white overflow-hidden">
+        <div className="w-1/5 h-[180px] xs:h-[200px] sm:h-[220px] md:h-[240px] lg:h-[260px] xl:h-[280px] 2xl:h-[300px] bg-white overflow-hidden">
           <img src={selectedLogo} alt="화전마을 로고" className="h-full w-full object-cover" />
         </div>
       </div>

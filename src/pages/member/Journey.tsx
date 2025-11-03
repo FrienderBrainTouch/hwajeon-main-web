@@ -158,18 +158,18 @@ export default function Journey() {
                   마을의 정체성을 담은 캐릭터와 로고를 완성하며, 화전의 새로운 얼굴을 만들다.
                 </p>
                 <div className="mt-4 grid grid-cols-2 sm:grid-cols-2 gap-4">
-                  <div className="h-36 sm:h-40 rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
+                  <div className="h-48 sm:h-56 md:h-64 rounded-lg overflow-hidden bg-gray-100 border border-gray-200 flex items-center justify-center">
                     <img
                       src={leapImages[4]}
                       alt="도약 이미지 5"
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                     />
                   </div>
-                  <div className="h-36 sm:h-40 rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
+                  <div className="h-48 sm:h-56 md:h-64 rounded-lg overflow-hidden bg-gray-100 border border-gray-200 flex items-center justify-center">
                     <img
                       src={leapImages[5]}
                       alt="도약 이미지 6"
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                     />
                   </div>
                 </div>
