@@ -1,56 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-
-// 인라인 SVG 아이콘들 (섹션 이미지 컨텐츠)
-const SunriseIcon = () => (
-  <svg viewBox="0 0 128 128" className="w-12 h-12" aria-hidden>
-    <rect width="128" height="128" rx="16" fill="#FFFFFF" />
-    <g fill="#F26D21">
-      <circle cx="96" cy="28" r="5" />
-      <circle cx="24" cy="84" r="6" />
-      <circle cx="32" cy="36" r="6" />
-    </g>
-    <g fill="#F59A52">
-      <path d="M28 88c0-22 18-40 40-40s40 18 40 40H28z" />
-      <rect x="24" y="92" width="80" height="6" rx="3" />
-      <rect x="32" y="102" width="64" height="6" rx="3" />
-    </g>
-  </svg>
-);
-
-const ChainIcon = () => (
-  <svg viewBox="0 0 128 128" className="w-12 h-12" aria-hidden>
-    <rect width="128" height="128" rx="16" fill="#FFFFFF" />
-    <g fill="#EA4335">
-      <rect x="22" y="54" width="44" height="20" rx="10" />
-      <rect x="62" y="54" width="44" height="20" rx="10" />
-      <rect x="50" y="40" width="28" height="48" rx="14" />
-    </g>
-  </svg>
-);
-
-const SproutIcon = () => (
-  <svg viewBox="0 0 128 128" className="w-12 h-12" aria-hidden>
-    <rect width="128" height="128" rx="16" fill="#FFFFFF" />
-    <path d="M64 90c-10 0-22 4-28 10h56c-6-6-18-10-28-10z" fill="#8B5E3C" />
-    <path
-      d="M64 78c0-16 8-30 22-36 6-2 14-2 22 0-6 12-16 20-28 22-6 2-10 6-16 14z"
-      fill="#1F9D55"
-    />
-    <path
-      d="M64 78c0-12-8-24-20-30-6-2-14-2-22 0 6 10 16 16 28 18 6 2 10 6 14 12z"
-      fill="#34D399"
-    />
-  </svg>
-);
-
-const HandshakeIcon = () => (
-  <svg viewBox="0 0 128 128" className="w-12 h-12" aria-hidden>
-    <rect width="128" height="128" rx="16" fill="#FFFFFF" />
-    <path d="M20 76l22-18 16 12 16-12 22 18-14 14-10-8-10 8-10-8-10 8-12-14z" fill="#F2B415" />
-  </svg>
-);
+import leapIcon from '@/assets/도약_아이콘.png';
+import cooperationIcon from '@/assets/협동_아이콘.png';
+import changeIcon from '@/assets/변화_아이콘.png';
+import sustainIcon from '@/assets/지속_아이콘.png';
 
 function GlanceCards() {
   const navigate = useNavigate();
@@ -61,29 +14,37 @@ function GlanceCards() {
       title: '도약 – 전환의 시작',
       lines: ['도시재생 종료 이후, 지역이 스스로 지속을 설계하며 자립의 기반을 세우다.'],
       key: 'A',
-      image: <SunriseIcon />,
+      image: leapIcon,
       route: 'leap',
+      bgSize: 'contain',
+      bgPosition: 'center center',
     },
     {
       title: '협동 – 사회적 경제의 기반',
       lines: ['주민조직이 사회적협동조합으로 성장하여, 마을운영을 기업형 시스템으로 전환하다.'],
       key: 'B',
-      image: <ChainIcon />,
+      image: cooperationIcon,
       route: 'cooperation',
+      bgSize: 'contain',
+      bgPosition: 'center center',
     },
     {
       title: '변화 – 지역자원이 사회적가치로 순환되는 구조',
       lines: ['카페·케이터링·교육·돌봄 등 생활기반 사업을 통해 사회적경제 생태계를 구축하다.'],
       key: 'C',
-      image: <SproutIcon />,
+      image: changeIcon,
       route: 'change',
+      bgSize: 'contain',
+      bgPosition: 'center center',
     },
     {
       title: '지속 – 지속가능한 지역모델 정착',
       lines: ['일자리·공간·관계를 연결하며, 사람이 머무는 지역경제 플랫폼으로 완성되다.'],
       key: 'D',
-      image: <HandshakeIcon />,
+      image: sustainIcon,
       route: 'sustain',
+      bgSize: 'contain',
+      bgPosition: 'center center',
     },
   ];
 
@@ -114,9 +75,17 @@ function GlanceCards() {
                   // selected ? 'border-2 border-[#4C8CF5] shadow-sm' : 'border-transparent',
                 ].join(' ')}
               >
-                <div className="h-12 w-12 shrink-0 rounded-xl bg-white flex items-center justify-center">
-                  {c.image}
-                </div>
+                <div
+                  className="h-12 w-12 shrink-0 rounded-xl bg-white overflow-hidden"
+                  style={{
+                    backgroundImage: `url(${c.image})`,
+                    backgroundSize: c.bgSize || 'contain',
+                    backgroundPosition: c.bgPosition || 'center center',
+                    backgroundRepeat: 'no-repeat',
+                  }}
+                  role="img"
+                  aria-label={c.title}
+                />
                 <div>
                   <div className="text-sm font-semibold text-gray-900">{c.title}</div>
                   <div className="mt-2 space-y-0.5 text-xs text-gray-600">

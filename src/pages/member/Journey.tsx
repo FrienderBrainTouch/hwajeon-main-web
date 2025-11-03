@@ -203,18 +203,6 @@ export default function Journey() {
                       className="w-full h-full object-cover"
                     />
                   </div>
-                </div>
-              </section>
-
-              {/* 2) 정기총회와 주민 협의의 장 */}
-              <section>
-                <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
-                  정기총회와 주민 협의의 장
-                </h2>
-                <p className="text-sm sm:text-base text-gray-600">
-                  조합원들이 한자리에 모여 성과를 공유하고, 마을의 미래를 함께 결정하다.
-                </p>
-                <div className="mt-4 grid grid-cols-1 gap-4">
                   <div className="h-48 sm:h-56 md:h-64 rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
                     <img
                       src={cooperationImages[2]}
@@ -225,14 +213,13 @@ export default function Journey() {
                 </div>
               </section>
 
-              {/* 3) 기업 성장을 위한 컨설팅과 역량 강화 교육 */}
+              {/* 2) 정기총회와 주민 협의의 장 */}
               <section>
                 <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
-                  기업 성장을 위한 컨설팅과 역량 강화 교육
+                  정기총회와 주민 협의의 장
                 </h2>
                 <p className="text-sm sm:text-base text-gray-600">
-                  전문가 컨설팅과 교육을 통해 경영 체계를 다지고, 사회적경제 기업으로 성장의 방향을
-                  세우다.
+                  조합원들이 한자리에 모여 성과를 공유하고, 마을의 미래를 함께 결정하다.
                 </p>
                 <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="h-44 sm:h-52 md:h-60 rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
@@ -252,13 +239,14 @@ export default function Journey() {
                 </div>
               </section>
 
-              {/* 4) 행사 운영/참여 */}
+              {/* 3) 기업 성장을 위한 컨설팅과 역량 강화 교육 */}
               <section>
                 <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
-                  행사 운영/참여
+                  기업 성장을 위한 컨설팅과 역량 강화 교육
                 </h2>
                 <p className="text-sm sm:text-base text-gray-600">
-                  지역 축제·행사에 참여하고 운영하며, 협력 네트워크를 넓히고 조합 활동을 알리다.
+                  전문가 컨설팅과 교육을 통해 경영 체계를 다지고, 사회적경제 기업으로 성장의 방향을
+                  세우다.
                 </p>
                 <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="h-48 sm:h-56 md:h-64 rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
@@ -306,6 +294,13 @@ export default function Journey() {
                       className="w-full h-full object-cover"
                     />
                   </div>
+                  <div className="h-44 sm:h-52 md:h-60 rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
+                    <img
+                      src={changeImages[2]}
+                      alt="변화 이미지 3"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 </div>
               </section>
 
@@ -320,15 +315,15 @@ export default function Journey() {
                 <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="h-44 sm:h-52 md:h-60 rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
                     <img
-                      src={changeImages[2]}
-                      alt="변화 이미지 3"
+                      src={changeImages[3]}
+                      alt="변화 이미지 4"
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div className="h-44 sm:h-52 md:h-60 rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
+                  <div className="h-48 sm:h-56 md:h-64 rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
                     <img
-                      src={changeImages[3]}
-                      alt="변화 이미지 4"
+                      src={changeImages[4]}
+                      alt="변화 이미지 5"
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -347,15 +342,15 @@ export default function Journey() {
                 <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="h-48 sm:h-56 md:h-64 rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
                     <img
-                      src={changeImages[4]}
-                      alt="변화 이미지 5"
+                      src={changeImages[5]}
+                      alt="변화 이미지 6"
                       className="w-full h-full object-cover"
                     />
                   </div>
-                  <div className="h-48 sm:h-56 md:h-64 rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
+                  <div className="h-44 sm:h-52 md:h-60 rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
                     <img
-                      src={changeImages[5]}
-                      alt="변화 이미지 6"
+                      src={changeImages[6]}
+                      alt="변화 이미지 7"
                       className="w-full h-full object-cover"
                     />
                   </div>
