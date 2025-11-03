@@ -134,17 +134,15 @@ function AppContent() {
           {/* 고정 헤더 */}
           <Header />
 
-          {/* 히어로 (일반 페이지만) */}
-          {route !== '/' && (
-            <Hero
-              refEl={heroRef}
-              src={HeaderImg}
-              title={heroConf.title}
-              subtitle={heroConf.subtitle}
-              heightVh={heroConf.heightVh ?? 40}
-              progress={progress}
-            />
-          )}
+          {/* 히어로 */}
+          <Hero
+            refEl={heroRef}
+            src={HeaderImg}
+            title={heroConf.title}
+            subtitle={heroConf.subtitle}
+            heightVh={heroConf.heightVh ?? 40}
+            progress={progress}
+          />
         </>
       )}
 
