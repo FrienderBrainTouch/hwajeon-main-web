@@ -45,7 +45,7 @@ const HERO_BY_ROUTE: Record<
   },
   '/member/combination': {
     src: HeaderImg,
-    title: '조합 소개',
+    title: '기업 소개',
     subtitle: '우리가 함께 만드는 지역의 힘',
     heightVh: 56,
   },

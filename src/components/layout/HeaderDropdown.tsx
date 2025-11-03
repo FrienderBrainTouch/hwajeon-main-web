@@ -10,7 +10,7 @@ import type { HeaderDropdownProps } from '@/types/components/layout';
 // 메뉴 데이터
 const menuData = [
   {
-    title: '조합 소개',
+    title: '기업 소개',
     path: '/member/combination',
     description: '다양한 생각이 하나로 모이는 우리 조합의 이야기',
     items: [

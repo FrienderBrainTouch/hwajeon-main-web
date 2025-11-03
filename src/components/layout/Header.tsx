@@ -9,7 +9,7 @@ import { rafThrottle } from '@/utils/rafThrottle';
 import type { HeaderProps } from '@/types/components/layout';
 
 const navigationItems = [
-  { label: '조합 소개', path: '/member/combination' },
+  { label: '기업 소개', path: '/member/combination' },
   { label: '사업 안내', path: '/member/business' },
   { label: '카페 27b', path: '/member/cafe27b' },
   { label: '소식과 자료', path: '/member/news?tab=news' },

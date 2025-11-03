@@ -86,7 +86,7 @@ function HeroCarousel() {
     <section className="relative mt-10 xs:mt-12 sm:mt-14 md:mt-16 lg:mt-18 xl:mt-20 2xl:mt-24 bg-[#EEEAF4]">
       <div className="mx-auto w-full max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl px-4 xs:px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 py-5 xs:py-6 sm:py-7 md:py-8 lg:py-9 xl:py-10 2xl:py-11">
         <h3 className="text-base xs:text-lg sm:text-lg md:text-lg lg:text-xl xl:text-xl 2xl:text-2xl font-semibold text-gray-900">
-          조합 소개
+          기업 소개
         </h3>
         <p className="mt-1 text-xs xs:text-sm sm:text-sm md:text-sm lg:text-base xl:text-base 2xl:text-lg text-gray-500">
           주민이 함께 만들어가는 마을공동체
