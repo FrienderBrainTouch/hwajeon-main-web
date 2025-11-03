@@ -45,7 +45,7 @@ const HERO_BY_ROUTE: Record<
   },
   '/member/combination': {
     src: HeaderImg,
-    title: '조합 소개',
+    title: '기업 소개',
     subtitle: '우리가 함께 만드는 지역의 힘',
     heightVh: 56,
   },
@@ -107,7 +107,7 @@ function AppContent() {
     );
   }, [route]);
 
-  const [progress, setProgress] = useState(0); // 0~1
+  const [_progress, setProgress] = useState(0); // 0~1
   const heroRef = useRef<HTMLDivElement>(null!);
 
   // 스크롤 진행도(히어로 페이드/패럴랙스에 사용)
@@ -134,17 +134,8 @@ function AppContent() {
           {/* 고정 헤더 */}
           <Header />
 
-          {/* 히어로 (일반 페이지만) */}
-          {route !== '/' && (
-            <Hero
-              refEl={heroRef}
-              src={HeaderImg}
-              title={heroConf.title}
-              subtitle={heroConf.subtitle}
-              heightVh={heroConf.heightVh ?? 40}
-              progress={progress}
-            />
-          )}
+          {/* 히어로 */}
+          <Hero title={heroConf.title} subtitle={heroConf.subtitle} route={route} />
         </>
       )}
 

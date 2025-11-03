@@ -34,7 +34,7 @@ const MenuLink = ({
 // 메뉴 데이터
 const menuData = [
   {
-    title: '조합 소개',
+    title: '기업 소개',
     path: '/member/combination',
     width: 'w-[90px] lg:w-[100px] xl:w-[120px]',
     items: [
@@ -102,7 +102,7 @@ const menuData = [
 
 // 1024px 이하용 세로 메뉴 데이터
 // const verticalMenuData = [
-//   { title: '조합 소개', path: '/combination' },
+//   { title: '기업 소개', path: '/combination' },
 //   { title: '사업 안내', path: '/business' },
 //   { title: '소식과 자료', path: '/news' },
 //   { title: '참여하기', path: '/participate' },

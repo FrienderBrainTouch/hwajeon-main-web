@@ -6,7 +6,7 @@ function QuickLinks() {
 
   const quickLinks = useMemo(
     () => [
-      { label: '조합 소개', path: '/member/combination', emoji: '👥' },
+      { label: '기업 소개', path: '/member/combination', emoji: '👥' },
       { label: '사업 안내', path: '/member/business', emoji: '📦' },
       { label: '카페 27b', path: '/member/cafe27b', emoji: '☕️' },
       { label: '소식', path: '/member/news?tab=news', emoji: '📰' },

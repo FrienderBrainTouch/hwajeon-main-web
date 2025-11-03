@@ -3,13 +3,14 @@ import { Link, useLocation } from 'react-router-dom';
 import HeaderDropdown from './HeaderDropdown';
 import SideBar from './SideBar';
 import { Menu, X } from 'lucide-react';
-import logo from '@/assets/logo.svg';
+// 투명 -> 화이트 전환 관련 코드 주석 처리
+// import logo from '@/assets/logo.svg';
 import logoText from '@/assets/logo_text.svg';
 import { rafThrottle } from '@/utils/rafThrottle';
 import type { HeaderProps } from '@/types/components/layout';
 
 const navigationItems = [
-  { label: '조합 소개', path: '/member/combination' },
+  { label: '기업 소개', path: '/member/combination' },
   { label: '사업 안내', path: '/member/business' },
   { label: '카페 27b', path: '/member/cafe27b' },
   { label: '소식과 자료', path: '/member/news?tab=news' },
@@ -25,7 +26,8 @@ export default function Header({}: HeaderProps) {
   const [headerHeight, setHeaderHeight] = useState(0);
 
   const location = useLocation();
-  const isMainPage = location.pathname === '/';
+  // 투명 -> 화이트 전환 관련 코드 주석 처리
+  // const isMainPage = location.pathname === '/';
 
   const headerRef = useRef<HTMLElement>(null);
   const lastScrollYRef = useRef(0);
@@ -36,19 +38,25 @@ export default function Header({}: HeaderProps) {
       const current = window.scrollY;
       const last = lastScrollYRef.current;
 
-      if (isMainPage) {
-        setIsVisible(current <= 10);
-      } else {
-        // 아래로 빠르게 내릴 때만 숨김
-        if (current > last && current > 120) setIsVisible(false);
-        else setIsVisible(true);
-      }
+      // 투명 -> 화이트 전환 관련 코드 주석 처리
+      // if (isMainPage) {
+      //   setIsVisible(current <= 10);
+      // } else {
+      //   // 아래로 빠르게 내릴 때만 숨김
+      //   if (current > last && current > 120) setIsVisible(false);
+      //   else setIsVisible(true);
+      // }
+
+      // 모든 페이지에서 동일하게 처리
+      if (current > last && current > 120) setIsVisible(false);
+      else setIsVisible(true);
+
       lastScrollYRef.current = current;
     };
     // passive로 성능 개선
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
-  }, [isMainPage]);
+  }, []);
 
   // 헤더 높이 측정 (ResizeObserver 1회 세팅)
   useEffect(() => {
@@ -108,24 +116,22 @@ export default function Header({}: HeaderProps) {
       ref={headerRef}
       className={`fixed top-0 z-[1000] w-full transition-transform duration-300 ${
         isVisible ? 'translate-y-0' : '-translate-y-full'
-      } ${
-        isMainPage
-          ? `${
-              isCategoryOpen || isMenuOpen ? 'bg-white text-gray-900' : 'bg-transparent text-white'
-            } ${isCategoryOpen || isMenuOpen ? '' : 'border-b border-white/60'}`
-          : `bg-white text-gray-900 ${isMenuOpen ? '' : 'border-b border-gray-100'}`
-      }`}
+      } bg-white text-gray-900 ${isMenuOpen ? '' : 'border-b border-gray-100'}`}
     >
       <div className="mx-auto w-full px-4 xs:px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 flex items-center justify-between h-15 xs:h-18 sm:h-20 md:h-20 lg:h-25 xl:h-25 2xl:h-25">
         {/* 로고 */}
         <Link to="/" className="flex items-center space-x-2">
           <img
-            src={isMainPage ? logo : logoText}
+            // 투명 -> 화이트 전환 관련 코드 주석 처리
+            // src={isMainPage ? logo : logoText}
+            src={logoText}
             alt="화전마을 로고"
             className={
-              isMainPage
-                ? 'w-8 h-8 xs:w-9 xs:h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 xl:w-14 xl:h-14 2xl:w-14 2xl:h-14'
-                : 'w-24 h-8 xs:w-24 xs:h-8 sm:w-28 sm:h-10 md:w-32 md:h-12 lg:w-33 lg:h-14 xl:w-42 xl:h-14 2xl:w-42 2xl:h-14'
+              // 투명 -> 화이트 전환 관련 코드 주석 처리
+              // isMainPage
+              //   ? 'w-8 h-8 xs:w-9 xs:h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 xl:w-14 xl:h-14 2xl:w-14 2xl:h-14'
+              //   :
+              'w-24 h-8 xs:w-24 xs:h-8 sm:w-28 sm:h-10 md:w-32 md:h-12 lg:w-33 lg:h-14 xl:w-42 xl:h-14 2xl:w-42 2xl:h-14'
             }
           />
         </Link>
@@ -141,9 +147,7 @@ export default function Header({}: HeaderProps) {
               to={item.path}
               data-category={item.label}
               onPointerEnter={() => setSelectedThrottled(item.label)}
-              className={`text-xs md:text-sm lg:text-base font-medium transition-colors ${
-                isMainPage ? (isCategoryOpen ? 'text-gray-900' : 'text-white') : 'text-gray-900'
-              }                                                                 ${
+              className={`text-xs md:text-sm lg:text-base font-medium transition-colors text-gray-900 ${
                 selectedCategory === item.label && isCategoryOpen
                   ? 'text-[#2B2A4C] border-b-2 border-[#2B2A4C]'
                   : ''
@@ -157,28 +161,14 @@ export default function Header({}: HeaderProps) {
         {/* 우측 영역 */}
         <div className="flex items-center space-x-4">
           <button
-            className={`p-2 rounded-lg transition-colors ${
-              isMainPage
-                ? isCategoryOpen
-                  ? 'hover:bg-gray-100 text-gray-900'
-                  : 'hover:bg-white/10 text-white'
-                : 'hover:bg-gray-100 text-gray-900'
-            }`}
+            className="p-2 rounded-lg transition-colors hover:bg-gray-100 text-gray-900"
             onClick={() => setIsMenuOpen((v) => !v)}
             aria-label="Toggle menu"
           >
             {isMenuOpen ? (
-              <X
-                className={`w-6 h-6 ${
-                  isMainPage ? (isCategoryOpen ? 'text-gray-900' : 'text-white') : 'text-gray-900'
-                }`}
-              />
+              <X className="w-6 h-6 text-gray-900" />
             ) : (
-              <Menu
-                className={`w-6 h-6 ${
-                  isMainPage ? (isCategoryOpen ? 'text-gray-900' : 'text-white') : 'text-gray-900'
-                }`}
-              />
+              <Menu className="w-6 h-6 text-gray-900" />
             )}
           </button>
         </div>
