@@ -31,3 +31,5 @@ dist-ssr
 *.test.ts
 *.spec.tsx
 *.spec.ts
+
+.vite/

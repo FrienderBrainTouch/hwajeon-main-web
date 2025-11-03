@@ -4,20 +4,11 @@ import {
   Greeting,
   MissionVision,
   History,
-  OrganizationChart,
+  TreeOrganizationChart,
   OrganizationDetails,
   HwajeonStory,
 } from '@/components/combination';
-import {
-  historyData,
-  teams,
-  cards,
-  storyImages,
-  mainStoryImage,
-  missionVisionData,
-  greetingData,
-  organizationChartData,
-} from '@/components/combination/data';
+import { historyData, teams, missionVisionData, greetingData } from '@/components/combination/data';
 
 function Combination() {
   const tabs: TabItem[] = [
@@ -45,18 +36,12 @@ function Combination() {
       case 'organization':
         return (
           <div className="max-w-5xl mx-auto space-y-8">
-            <OrganizationChart
-              top={organizationChartData.top}
-              second={organizationChartData.second}
-              teams={organizationChartData.teams}
-            />
+            <TreeOrganizationChart />
             <OrganizationDetails teams={teams} />
           </div>
         );
       case 'story':
-        return (
-          <HwajeonStory cards={cards} storyImages={storyImages} mainStoryImage={mainStoryImage} />
-        );
+        return <HwajeonStory />;
       default:
         return null;
     }

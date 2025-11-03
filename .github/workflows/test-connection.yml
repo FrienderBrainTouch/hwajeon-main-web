@@ -1,0 +1,28 @@
+name: Test SSH Connection
+
+# 수동으로 직접 실행할 수 있도록 설정
+on:
+  workflow_dispatch:
+
+jobs:
+  ssh-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Test SSH connection and run command
+        # SSH 접속을 쉽게 해주는 유명한 GitHub Action
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_IP }}            # GitHub Secret에 등록한 서버 IP
+          username: ${{ secrets.SERVER_USERNAME }}  # GitHub Secret에 등록한 서버 사용자 이름 (예: root)
+          key: ${{ secrets.SSH_PRIVATE_KEY }}       # 방금 등록한 SSH 개인키
+
+          # 서버에 접속해서 실행할 간단한 명령어
+          script: |
+            echo "🎉 SSH connection successful from GitHub Actions!"
+            echo "-----------------------------------------------"
+            echo "Current directory is:"
+            pwd
+            echo "-----------------------------------------------"
+            echo "Files in home directory are:"
+            ls -al ~/

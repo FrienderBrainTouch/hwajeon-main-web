@@ -1,12 +1,16 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import donationImage from '@/assets/donation.png';
 
 const SponsorshipInquiry: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="mt-12 sm:mt-16">
       <div
         className="relative rounded-lg p-6 sm:p-8 lg:p-12 h-64 sm:h-80 lg:h-96 flex items-center justify-center"
         style={{
-          backgroundImage: 'url(/src/assets/header.png)',
+          backgroundImage: `url(${donationImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
@@ -25,7 +29,10 @@ const SponsorshipInquiry: React.FC = () => {
               조용하지만 깊은 변화의 손길을 보태주세요.
             </p>
             <div className="pt-2">
-              <button className="bg-blue-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-blue-800 transition-colors text-base sm:text-lg font-semibold">
+              <button
+                onClick={() => navigate('/member/contact')}
+                className="bg-blue-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-blue-800 transition-colors text-base sm:text-lg font-semibold"
+              >
                 문의하기
               </button>
             </div>

@@ -1,10 +1,11 @@
 import React from 'react';
-import { FileText, Phone, DollarSign, Users } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import FAQSection from './FAQSection';
 import { membershipGuideData } from './data/membershipGuideData';
 
 const MembershipGuide: React.FC = () => {
   const { faqData } = membershipGuideData;
+  const navigate = useNavigate();
 
   return (
     <div className="py-4 sm:py-6 md:py-8 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -22,35 +23,49 @@ const MembershipGuide: React.FC = () => {
       {/* 조합원 혜택 섹션 */}
       <div className="mb-12 sm:mb-16">
         <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-6 text-left">
-          조합원이 되면 참여할 수 있는 일
+          조합원이 되면 함께 할 수 있는 일
         </h2>
-        <p className="text-sm sm:text-base text-gray-600 text-left mb-8 max-w-3xl">
-          다양한 마을 활동에 우선적으로 참여하고 함께 기획하고 실행할 수 있는 기회가 열려 있습니다.
-        </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-          <div className="rounded-lg p-6 text-center" style={{ backgroundColor: '#E8E4DB' }}>
-            <h3 className="text-base sm:text-lg font-medium text-gray-900">
-              마을 회의 및 의사결정 참여
+        <div className="space-y-4 sm:space-y-6">
+          {/* 회의 및 의사결정 참여 */}
+          <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-3">
+              회의 및 의사결정 참여
             </h3>
+            <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+              정기총회, 조합원회의, 기획회의 등에 참여하여 마을의 중요한 의사결정 참여
+            </p>
           </div>
 
-          <div className="rounded-lg p-6 text-center" style={{ backgroundColor: '#E8E4DB' }}>
-            <h3 className="text-base sm:text-lg font-medium text-gray-900">
-              프로젝트 및 행사 제안 및 실행
+          {/* 프로젝트 및 행사 제안·실행 */}
+          <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-3">
+              프로젝트 및 행사 제안·실행
             </h3>
+            <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+              축제, 전시, 교육, 체험 프로그램 등 아이디어 제안과 실행 가능
+            </p>
           </div>
 
-          <div className="rounded-lg p-6 text-center" style={{ backgroundColor: '#E8E4DB' }}>
-            <h3 className="text-base sm:text-lg font-medium text-gray-900">
-              마을사업 우선 참여 (예: 클래스, 여행, 교육 등)
+          {/* 마을사업 우선 참여 */}
+          <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-3">
+              마을사업 우선 참여
             </h3>
+            <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+              클래스·여행·교육·워크숍 등 조합이 운영하는 프로그램에 우선적으로 참여
+            </p>
           </div>
 
-          <div className="rounded-lg p-6 text-center" style={{ backgroundColor: '#E8E4DB' }}>
-            <h3 className="text-base sm:text-lg font-medium text-gray-900">
-              기타 조합원 전용 혜택 제공 (할인, 우선예약 등)
+          {/* 조합원 전용 혜택 제공 */}
+          <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 sm:mb-3">
+              조합원 전용 혜택 제공
             </h3>
+            <div className="text-sm sm:text-base text-gray-600 leading-relaxed space-y-1">
+              <p>• 카페27b 포인트 적립 및 생일 쿠폰 제공</p>
+              <p>• 카페27b 공간 우선예약 (소모임, 회의, 워크숍 등)</p>
+            </div>
           </div>
         </div>
       </div>
@@ -64,64 +79,39 @@ const MembershipGuide: React.FC = () => {
           가입은 간단하고 투명하게 진행됩니다.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          {/* 01단계 */}
-          <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
-            <div className="w-12 h-12 bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-white font-bold text-lg">01</span>
+        <div className="space-y-4 sm:space-y-6">
+          {/* 가입절차 */}
+          <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">
+              가입절차
+            </h3>
+            <div className="space-y-2 sm:space-y-3 text-sm sm:text-base text-gray-600">
+              <p>1. 가입신청서와 가입회비 제출</p>
+              <p>2. 자격 심사</p>
+              <p>3. 승인 통보</p>
+              <p>4. 출자금 납부</p>
+              <p className="text-gray-500 text-xs sm:text-sm mt-3">
+                승인 후 2주 이내에 출자금을 납부하면 조합원 자격이 확정됩니다.
+              </p>
             </div>
-            <div className="w-12 h-12 mx-auto mb-4 flex items-center justify-center">
-              <FileText className="w-8 h-8 text-gray-900" />
-            </div>
-            <p className="text-sm sm:text-base font-medium text-gray-900">가입 신청서 작성</p>
           </div>
 
-          {/* 02단계 */}
-          <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
-            <div className="w-12 h-12 bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-white font-bold text-lg">02</span>
-            </div>
-            <div className="w-12 h-12 mx-auto mb-4 flex items-center justify-center">
-              <Phone className="w-8 h-8 text-gray-900" />
-            </div>
-            <p className="text-sm sm:text-base font-medium text-gray-900">담당자 연락 및 확인</p>
+          {/* 문의하기 버튼 */}
+          <div className="text-center">
+            <button
+              onClick={() => navigate('/member/contact')}
+              className="bg-blue-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-blue-800 transition-colors text-base sm:text-lg font-semibold"
+            >
+              문의하기
+            </button>
           </div>
-
-          {/* 03단계 */}
-          <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
-            <div className="w-12 h-12 bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-white font-bold text-lg">03</span>
-            </div>
-            <div className="w-12 h-12 mx-auto mb-4 flex items-center justify-center">
-              <DollarSign className="w-8 h-8 text-gray-900" />
-            </div>
-            <p className="text-sm sm:text-base font-medium text-gray-900">출자금 납부</p>
-          </div>
-
-          {/* 04단계 */}
-          <div className="bg-white border border-gray-200 rounded-lg p-6 text-center">
-            <div className="w-12 h-12 bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-white font-bold text-lg">04</span>
-            </div>
-            <div className="w-12 h-12 mx-auto mb-4 flex items-center justify-center">
-              <Users className="w-8 h-8 text-gray-900" />
-            </div>
-            <p className="text-sm sm:text-base font-medium text-gray-900">조합 가입 완료</p>
-          </div>
-        </div>
-
-        {/* 문의하기 버튼 */}
-        <div className="text-center mt-8">
-          <button className="bg-blue-900 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-blue-800 transition-colors text-base sm:text-lg font-semibold">
-            문의하기
-          </button>
         </div>
       </div>
 
       {/* FAQ 섹션 */}
       <div className="mb-8">
         <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-8 text-left">
-          자주 묻는 질문
+          조합원 자주 묻는 질문(FAQ)
         </h2>
         <FAQSection faqData={faqData} />
       </div>

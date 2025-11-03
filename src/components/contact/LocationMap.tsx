@@ -10,8 +10,8 @@ declare global {
 
 const LocationMap: React.FC<LocationMapProps> = ({
   className = '',
-  lat = 37.6584,
-  lng = 126.832,
+  lat = 37.6043611,
+  lng = 126.8672439,
   level = 3,
 }) => {
   const mapRef = useRef(null);
