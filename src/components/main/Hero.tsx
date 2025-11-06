@@ -1,4 +1,4 @@
-import logo from '@/assets/logo.svg';
+import logoSummer from '@/assets/logo-summer.svg';
 import logoSpring from '@/assets/logo-spring.svg';
 import logoFall from '@/assets/logo-fall.svg';
 import logoWinter from '@/assets/logo-winter.svg';
@@ -27,7 +27,7 @@ export default function Hero({ title, subtitle, route }: HeroProps = {} as HeroP
       return { logo: logoWinter, bgColor: '#717795' };
     }
     // 기본: 기본 로고 + 청록색 배경
-    return { logo: logo, bgColor: '#00ACCD' };
+    return { logo: logoSummer, bgColor: '#00ACCD' };
   };
 
   const { logo: selectedLogo, bgColor } = getLogoAndBgColor();
@@ -56,7 +56,7 @@ export default function Hero({ title, subtitle, route }: HeroProps = {} as HeroP
         </div>
 
         {/* 오른쪽 1/5: 하얀색 배경 위에 로고 */}
-        <div className="w-1/5 h-[180px] xs:h-[200px] sm:h-[220px] md:h-[240px] lg:h-[260px] xl:h-[280px] 2xl:h-[300px] bg-white overflow-hidden">
+        <div className="w-1/5 h-[180px] xs:h-[200px] sm:h-[220px] md:h-[240px] lg:h-[260px] xl:h-[280px] 2xl:h-[300px] bg-white overflow-hidden flex items-center justify-center">
           <img src={selectedLogo} alt="화전마을 로고" className="h-full w-full object-cover" />
         </div>
       </div>
