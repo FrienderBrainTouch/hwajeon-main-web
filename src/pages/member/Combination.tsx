@@ -16,7 +16,7 @@ function Combination() {
     { id: 'mission', label: '미션 & 비전', value: 'mission' },
     { id: 'history', label: '연혁', value: 'history' },
     { id: 'organization', label: '조직도', value: 'organization' },
-    { id: 'story', label: '화전 이야기', value: 'story' },
+    { id: 'story', label: '화전 도시재생', value: 'story' },
   ];
 
   const { activeTab, handleTabChange } = useTabState(tabs, 'greeting');

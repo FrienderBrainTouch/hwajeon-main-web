@@ -42,7 +42,7 @@ const menuData = [
       { label: '미션 &비전', path: '/member/combination?tab=mission' },
       { label: '연혁', path: '/member/combination?tab=history' },
       { label: '조직도', path: '/member/combination?tab=organization' },
-      { label: '화전 이야기', path: '/member/combination?tab=story' },
+      { label: '화전 도시재생', path: '/member/combination?tab=story' },
     ],
   },
   {
