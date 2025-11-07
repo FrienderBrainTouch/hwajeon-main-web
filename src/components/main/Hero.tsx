@@ -27,7 +27,7 @@ export default function Hero({ title, subtitle, route }: HeroProps = {} as HeroP
       return { logo: logoWinter, bgColor: '#717795' };
     }
     // 기본: 기본 로고 + 청록색 배경
-    return { logo: logoSummer, bgColor: '#00ACCD' };
+    return { logo: logoSummer, bgColor: '#02ADCD' };
   };
 
   const { logo: selectedLogo, bgColor } = getLogoAndBgColor();
@@ -51,13 +51,17 @@ export default function Hero({ title, subtitle, route }: HeroProps = {} as HeroP
               <p className="mt-1 xs:mt-1.5 sm:mt-2 md:mt-2.5 lg:mt-3 text-xs xs:text-sm sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-xl opacity-90">
                 {subtitle}
               </p>
-            )}
+            )}  
           </div>
         </div>
 
         {/* 오른쪽 1/5: 하얀색 배경 위에 로고 */}
         <div className="w-1/5 h-[180px] xs:h-[200px] sm:h-[220px] md:h-[240px] lg:h-[260px] xl:h-[280px] 2xl:h-[300px] bg-white overflow-hidden flex items-center justify-center">
-          <img src={selectedLogo} alt="화전마을 로고" className="h-full w-full object-cover" />
+          <img 
+            src={selectedLogo} 
+            alt="화전마을 로고" 
+            className="h-full w-full object-cover scale-110 translate-x-[15px]" 
+          />
         </div>
       </div>
     </div>
