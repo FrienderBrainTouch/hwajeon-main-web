@@ -5,7 +5,7 @@ import image4 from '@/assets/business/1_27b-business_4.jpg';
 import image5 from '@/assets/business/1_27b-business_5.jpg';
 import image6 from '@/assets/business/1_27b-business_6.jpg';
 import image7 from '@/assets/business/1_27b-business_7.jpg';
-import image8 from '@/assets/fix/27b사업/27b_사업1.png';
+import image8 from '@/assets/fix/27b-business/27b_business.png';
 
 // 카페운영 사업 데이터
 const cafeServices = [

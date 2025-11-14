@@ -1,9 +1,9 @@
 import React from 'react';
 import type { MissionVisionProps } from '@/types/components/combination';
 import { missionVisionData as defaultData } from './data';
-import missionVision1 from '@/assets/fix/core value/보다.png';
-import missionVision2 from '@/assets/fix/core value/나누다.png';
-import missionVision3 from '@/assets/fix/core value/비상하다.png';
+import missionVision1 from '@/assets/fix/core-value/see.png';
+import missionVision2 from '@/assets/fix/core-value/share.png';
+import missionVision3 from '@/assets/fix/core-value/soar.png';
 
 const MissionVision: React.FC<MissionVisionProps> = ({ data = defaultData }) => {
   return (

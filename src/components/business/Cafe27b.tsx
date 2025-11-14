@@ -2,17 +2,17 @@ import { useState } from 'react';
 import cafe27b_1 from '@/assets/cafe27b/cafe27b_1.jpg';
 import cafe27b_2 from '@/assets/cafe27b/cafe27b_2.jpg';
 import cafe27b_3 from '@/assets/cafe27b/cafe27b_3.jpg';
-import cafe27b_4 from '@/assets/fix/카페메뉴/1하늘에이드.png';
-import cafe27b_5 from '@/assets/fix/카페메뉴/2크로플망고주스.png';
-import cafe27b_6 from '@/assets/fix/카페메뉴/3샌드위치.png';
-import cafe27b_7 from '@/assets/fix/카페메뉴/4파스타.png';
+import cafe27b_4 from '@/assets/fix/cafe-menu/menu_ade.png';
+import cafe27b_5 from '@/assets/fix/cafe-menu/menu_mango.png';
+import cafe27b_6 from '@/assets/fix/cafe-menu/menu_sandwich.png';
+import cafe27b_7 from '@/assets/fix/cafe-menu/menu_pasta.png';
 import cafe27b_8 from '@/assets/cafe27b/cafe27b_8.jpg';
 import cafe27b_9 from '@/assets/cafe27b/cafe27b_9.jpg';
 import cafe27b_10 from '@/assets/cafe27b/cafe27b_10.jpg';
 import cafe27b_11 from '@/assets/cafe27b/cafe27b_11.jpg';
-import cafe27b_12 from '@/assets/fix/공간대관/1테라스.png';
-import cafe27b_13 from '@/assets/fix/공간대관/2카페내부.png';
-import cafe27b_14 from '@/assets/fix/공간대관/3미팅룸.png';
+import cafe27b_12 from '@/assets/fix/space-rental/space_terrace.png';
+import cafe27b_13 from '@/assets/fix/space-rental/space_interior.png';
+import cafe27b_14 from '@/assets/fix/space-rental/space_meeting.png';
 
 const Cafe27b = () => {
   const [currentImage, setCurrentImage] = useState(0);

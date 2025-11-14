@@ -1,11 +1,11 @@
 import image1 from '@/assets/business/2_contents-business_1.jpg';
 import image3 from '@/assets/business/2_contents-business_3.jpg';
-import edu1 from '@/assets/fix/교육콘텐츠/2-1체험교양클래스.png';
-import edu2 from '@/assets/fix/교육콘텐츠/2-2대상별맞춤교육.png';
-import edu3 from '@/assets/fix/교육콘텐츠/2-3지역특화교육.png';
-import program1 from '@/assets/fix/교육콘텐츠/3-1카페운영아카데미.png';
-import program2 from '@/assets/fix/교육콘텐츠/3-2선진지답사.png';
-import program3 from '@/assets/fix/교육콘텐츠/3-3도시재생교육.png';
+import edu1 from '@/assets/fix/education-contents/edu_lifestyle.png';
+import edu2 from '@/assets/fix/education-contents/edu_custom.png';
+import edu3 from '@/assets/fix/education-contents/edu_regional.png';
+import program1 from '@/assets/fix/education-contents/3-1카페운영아카데미.png';
+import program2 from '@/assets/fix/education-contents/3-2선진지답사.png';
+import program3 from '@/assets/fix/education-contents/3-3도시재생교육.png';
 
 // 콘텐츠 사업 데이터
 const contentSections = [
