@@ -1,0 +1,1 @@
+import{u as h,r}from"./index-CtxrVraO.js";function f(e,c){const[t,o]=h(),[n,s]=r.useState(c);return r.useEffect(()=>{const a=t.get("tab");a&&e.some(u=>u.value===a)&&s(a)},[t,e]),{activeTab:n,handleTabChange:a=>{s(a),o({tab:a})}}}export{f as u};
