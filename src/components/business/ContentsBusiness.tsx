@@ -1,6 +1,11 @@
 import image1 from '@/assets/business/2_contents-business_1.jpg';
-import image2 from '@/assets/business/2_contents-business_2.jpg';
 import image3 from '@/assets/business/2_contents-business_3.jpg';
+import edu1 from '@/assets/fix/education-contents/edu_lifestyle.png';
+import edu2 from '@/assets/fix/education-contents/edu_custom.png';
+import edu3 from '@/assets/fix/education-contents/edu_regional.png';
+import program1 from '@/assets/fix/education-contents/3-1카페운영아카데미.png';
+import program2 from '@/assets/fix/education-contents/3-2선진지답사.png';
+import program3 from '@/assets/fix/education-contents/3-3도시재생교육.png';
 
 // 콘텐츠 사업 데이터
 const contentSections = [
@@ -15,16 +20,6 @@ const contentSections = [
     imageAlt: '행사기획 사업',
   },
   {
-    id: 'education-content',
-    title: '교육콘텐츠 사업',
-    description: [
-      '사회적경제, 협동조합, 지역문화, 창의교육 등 다양한 주제의 교육 프로그램을 개발·운영',
-      '대상별 맞춤형 교육콘텐츠를 제공하며 학습과 실천이 연결되는 교육 플랫폼 구축',
-    ],
-    image: image2,
-    imageAlt: '교육콘텐츠 사업',
-  },
-  {
     id: 'urban-regeneration',
     title: '도시재생·선진지교육 사업',
     description: [
@@ -36,11 +31,42 @@ const contentSections = [
   },
 ];
 
+// 교육콘텐츠 사업 데이터
+const educationServices = [
+  {
+    title: '취미·교양 원데이 클래스',
+    subtitle: '라이프스타일 교육',
+    description: '공예·드로잉·나만의 굿즈 만들기, 향·커피·푸드 메이킹 클래스',
+    image: edu1,
+  },
+  {
+    title: '역량·실무 중심 맞춤 교육',
+    subtitle: '대상별 전문교실',
+    description: '어르신 디지털 역량교실, 창업·메이커 교실 등',
+    image: edu2,
+  },
+  {
+    title: '지역기반 실천 프로젝트형 교육',
+    subtitle: '마을디자인랩, 로컬콘텐츠 발굴교육',
+    description: '환경·기후·우주과학 체험 프로젝트, 지역축제 연계',
+    image: edu3,
+  },
+];
+
 // 프로그램 카드 데이터
 const programs = [
-  '도시재생형\n카페운영 실무아카데미',
-  '선진지\n탐방 프로그램',
-  '현장 실무자\n워크숍',
+  {
+    title: '도시재생형\n카페운영 실무아카데미',
+    image: program1,
+  },
+  {
+    title: '선진지\n탐방 프로그램',
+    image: program2,
+  },
+  {
+    title: '현장 실무자\n워크숍',
+    image: program3,
+  },
 ];
 
 export default function ContentsBusiness() {
@@ -63,67 +89,134 @@ export default function ContentsBusiness() {
           </div>
         </section>
 
-        {/* 콘텐츠 사업 섹션들 */}
-        {contentSections.map((section, index) => (
-          <section
-            key={section.id}
-            className={index === contentSections.length - 1 ? 'mb-16' : 'mb-20'}
-          >
-            <div className="mb-10">
-              <h3 className="text-2xl md:text-3xl font-bold mb-4 text-gray-900">{section.title}</h3>
-              <div className="space-y-2">
-                {section.description.map((desc, descIndex) => (
-                  <p
-                    key={descIndex}
-                    className={
-                      descIndex === 0
-                        ? 'text-base text-gray-600 leading-relaxed font-light'
-                        : 'text-sm text-gray-500 leading-relaxed'
-                    }
-                  >
-                    {desc}
+        {/* 행사기획 사업 */}
+        <section className="mb-20">
+          <div className="mb-10">
+            <h3 className="text-2xl md:text-3xl font-bold mb-4 text-gray-900">
+              {contentSections[0].title}
+            </h3>
+            <div className="space-y-2">
+              {contentSections[0].description.map((desc, descIndex) => (
+                <p
+                  key={descIndex}
+                  className={
+                    descIndex === 0
+                      ? 'text-base text-gray-600 leading-relaxed font-light'
+                      : 'text-sm text-gray-500 leading-relaxed'
+                  }
+                >
+                  {desc}
+                </p>
+              ))}
+            </div>
+          </div>
+
+          <div className="w-full h-96 overflow-hidden rounded-2xl shadow-lg">
+            <img
+              src={contentSections[0].image}
+              alt={contentSections[0].imageAlt}
+              className="w-full h-full object-cover object-center"
+            />
+          </div>
+        </section>
+
+        {/* 교육콘텐츠 사업 */}
+        <section className="mb-20">
+          <div className="mb-10">
+            <h3 className="text-2xl md:text-3xl font-bold mb-4 text-gray-900">교육콘텐츠 사업</h3>
+            <div className="space-y-2">
+              <p className="text-base text-gray-600 leading-relaxed font-light">
+                사회적경제, 협동조합, 지역문화, 창의교육 등 다양한 주제의 교육 프로그램을 개발·운영
+              </p>
+              <p className="text-sm text-gray-500 leading-relaxed">
+                대상별 맞춤형 교육콘텐츠를 제공하며 학습과 실천이 연결되는 교육 플랫폼 구축
+              </p>
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {educationServices.map((service, index) => (
+              <div
+                key={index}
+                className="bg-gradient-to-br from-blue-50 to-blue-100/30 p-7 rounded-2xl flex flex-col border border-blue-200/50 shadow-sm hover:shadow-md transition-shadow"
+              >
+                <h4 className="text-xl font-bold mb-2 text-gray-900">{service.title}</h4>
+                <p className="text-base font-semibold text-blue-700 mb-3">{service.subtitle}</p>
+                <p className="text-sm text-gray-600 mb-5 leading-relaxed">{service.description}</p>
+                <div className="w-full aspect-square overflow-hidden rounded-xl mt-auto shadow-md">
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* 도시재생·선진지교육 사업 */}
+        <section className="mb-16">
+          <div className="mb-10">
+            <h3 className="text-2xl md:text-3xl font-bold mb-4 text-gray-900">
+              {contentSections[1].title}
+            </h3>
+            <div className="space-y-2">
+              {contentSections[1].description.map((desc, descIndex) => (
+                <p
+                  key={descIndex}
+                  className={
+                    descIndex === 0
+                      ? 'text-base text-gray-600 leading-relaxed font-light'
+                      : 'text-sm text-gray-500 leading-relaxed'
+                  }
+                >
+                  {desc}
+                </p>
+              ))}
+            </div>
+          </div>
+
+          <div className="w-full h-96 overflow-hidden rounded-2xl shadow-lg mb-10">
+            <img
+              src={contentSections[1].image}
+              alt={contentSections[1].imageAlt}
+              className="w-full h-full object-cover object-center"
+              style={
+                contentSections[1].objectPosition
+                  ? { objectPosition: contentSections[1].objectPosition }
+                  : undefined
+              }
+            />
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {programs.map((program, programIndex) => (
+              <div
+                key={programIndex}
+                className="bg-gradient-to-br from-green-50 to-green-100/30 border border-green-200/50 rounded-2xl shadow-sm hover:shadow-md transition-shadow overflow-hidden"
+              >
+                <div className="p-6 text-center">
+                  <p className="text-lg font-bold text-gray-900 leading-relaxed">
+                    {program.title.split('\n').map((line, lineIndex) => (
+                      <span key={lineIndex}>
+                        {line}
+                        {lineIndex < program.title.split('\n').length - 1 && <br />}
+                      </span>
+                    ))}
                   </p>
-                ))}
+                </div>
+                <div className="w-full aspect-square overflow-hidden">
+                  <img
+                    src={program.image}
+                    alt={program.title}
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
               </div>
-            </div>
-
-            <div
-              className={`w-full h-96 overflow-hidden rounded-2xl shadow-lg ${
-                index === contentSections.length - 1 ? 'mb-10' : ''
-              }`}
-            >
-              <img
-                src={section.image}
-                alt={section.imageAlt}
-                className="w-full h-full object-cover object-center"
-                style={
-                  section.objectPosition ? { objectPosition: section.objectPosition } : undefined
-                }
-              />
-            </div>
-
-            {/* 프로그램 카드 (마지막 섹션에만) */}
-            {index === contentSections.length - 1 && (
-              <div className="grid md:grid-cols-3 gap-6">
-                {programs.map((program, programIndex) => (
-                  <div
-                    key={programIndex}
-                    className="bg-gradient-to-br from-green-50 to-green-100/30 border border-green-200/50 p-6 rounded-2xl text-center shadow-sm hover:shadow-md transition-shadow"
-                  >
-                    <p className="text-lg font-bold text-gray-900 leading-relaxed">
-                      {program.split('\n').map((line, lineIndex) => (
-                        <span key={lineIndex}>
-                          {line}
-                          {lineIndex < program.split('\n').length - 1 && <br />}
-                        </span>
-                      ))}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            )}
-          </section>
-        ))}
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   );
