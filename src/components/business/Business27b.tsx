@@ -1,10 +1,11 @@
-import image1 from '@/assets/business/1_27b-business_1.png';
+// import image1 from '@/assets/business/1_27b-business_1.png';
 import image2 from '@/assets/business/1_27b-business_2.png';
 import image3 from '@/assets/business/1_27b-business_3.jpg';
 import image4 from '@/assets/business/1_27b-business_4.jpg';
 import image5 from '@/assets/business/1_27b-business_5.jpg';
 import image6 from '@/assets/business/1_27b-business_6.jpg';
 import image7 from '@/assets/business/1_27b-business_7.jpg';
+import image8 from '@/assets/fix/27b사업/27b_사업1.png';
 
 // 카페운영 사업 데이터
 const cafeServices = [
@@ -12,7 +13,7 @@ const cafeServices = [
     title: '27b Signature & Menu',
     subtitle: "'로컬에서 만나는 스페이스 감성'",
     description: '커피, 차, 에이드, 스무디, 주스, 샌드위치, 쿠키, 마카롱',
-    image: image1,
+    image: image8,
   },
   {
     title: 'The Store at 27b',
@@ -99,7 +100,7 @@ export default function Business27b() {
                 <p className="text-base text-gray-600 mb-5 leading-relaxed">
                   {service.description}
                 </p>
-                <div className="w-full h-[312px] overflow-hidden rounded-xl shadow-md">
+                <div className="w-full h-[524px] overflow-hidden rounded-xl shadow-md">
                   <img
                     src={service.image}
                     alt={service.title}

@@ -1,9 +1,9 @@
 import React from 'react';
 import type { MissionVisionProps } from '@/types/components/combination';
 import { missionVisionData as defaultData } from './data';
-import missionVision1 from '@/assets/mission_vision_1.jpg';
-import missionVision2 from '@/assets/mission_vision_2.jpg';
-import missionVision3 from '@/assets/mission_vision_3.jpg';
+import missionVision1 from '@/assets/fix/core value/보다.png';
+import missionVision2 from '@/assets/fix/core value/나누다.png';
+import missionVision3 from '@/assets/fix/core value/비상하다.png';
 
 const MissionVision: React.FC<MissionVisionProps> = ({ data = defaultData }) => {
   return (
@@ -49,23 +49,32 @@ const MissionVision: React.FC<MissionVisionProps> = ({ data = defaultData }) => 
       </div>
 
       {/* 핵심가치 섹션 */}
-      <div className="max-w-5xl mx-auto mt-16">
-        <div className="mb-8">
-          <h3 className="text-lg sm:text-xl font-bold mb-2">{data.values.title}</h3>
-          <p className="text-sm sm:text-base text-gray-500">{data.values.subtitle}</p>
+      <div className="max-w-5xl mx-auto mt-16 px-4">
+        <div className="mb-12 text-center">
+          <h3 className="text-2xl sm:text-3xl font-bold mb-3">{data.values.title}</h3>
+          <p className="text-base sm:text-lg text-gray-500">{data.values.subtitle}</p>
         </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 justify-items-center">
           {data.values.items.map((item: any, index: number) => {
             const images = [missionVision1, missionVision2, missionVision3];
             const imageSrc = images[index] || images[0];
 
             return (
-              <div key={item.id} className="bg-gray-100 p-4 sm:p-6 rounded-lg text-center">
-                <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg mx-auto mb-4 overflow-hidden">
-                  <img src={imageSrc} alt={item.title} className="w-full h-full object-cover" />
+              <div
+                key={item.id}
+                className="bg-gray-100 p-8 rounded-2xl text-center hover:shadow-lg transition-shadow"
+              >
+                <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-xl mx-auto mb-6 overflow-hidden bg-white flex items-center justify-center">
+                  <img
+                    src={imageSrc}
+                    alt={item.title}
+                    className="w-full h-full object-contain p-4"
+                  />
                 </div>
-                <p className="text-sm sm:text-base text-gray-700 font-medium mb-2">{item.title}</p>
-                <p className="text-xs sm:text-sm text-gray-600">{item.description}</p>
+                <p className="text-lg sm:text-xl text-gray-900 font-bold mb-3">{item.title}</p>
+                <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
+                  {item.description}
+                </p>
               </div>
             );
           })}

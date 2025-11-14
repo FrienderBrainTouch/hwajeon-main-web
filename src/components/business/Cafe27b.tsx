@@ -2,17 +2,17 @@ import { useState } from 'react';
 import cafe27b_1 from '@/assets/cafe27b/cafe27b_1.jpg';
 import cafe27b_2 from '@/assets/cafe27b/cafe27b_2.jpg';
 import cafe27b_3 from '@/assets/cafe27b/cafe27b_3.jpg';
-import cafe27b_4 from '@/assets/cafe27b/cafe27b_4.jpg';
-import cafe27b_5 from '@/assets/cafe27b/cafe27b_5.jpg';
-import cafe27b_6 from '@/assets/cafe27b/cafe27b_6.jpg';
-import cafe27b_7 from '@/assets/cafe27b/cafe27b_7.jpg';
+import cafe27b_4 from '@/assets/fix/카페메뉴/1하늘에이드.png';
+import cafe27b_5 from '@/assets/fix/카페메뉴/2크로플망고주스.png';
+import cafe27b_6 from '@/assets/fix/카페메뉴/3샌드위치.png';
+import cafe27b_7 from '@/assets/fix/카페메뉴/4파스타.png';
 import cafe27b_8 from '@/assets/cafe27b/cafe27b_8.jpg';
 import cafe27b_9 from '@/assets/cafe27b/cafe27b_9.jpg';
 import cafe27b_10 from '@/assets/cafe27b/cafe27b_10.jpg';
 import cafe27b_11 from '@/assets/cafe27b/cafe27b_11.jpg';
-import cafe27b_12 from '@/assets/cafe27b/cafe27b_12.png';
-import cafe27b_13 from '@/assets/cafe27b/cafe27b_13.png';
-import cafe27b_14 from '@/assets/cafe27b/cafe27b_14.jpg';
+import cafe27b_12 from '@/assets/fix/공간대관/1테라스.png';
+import cafe27b_13 from '@/assets/fix/공간대관/2카페내부.png';
+import cafe27b_14 from '@/assets/fix/공간대관/3미팅룸.png';
 
 const Cafe27b = () => {
   const [currentImage, setCurrentImage] = useState(0);
@@ -132,16 +132,16 @@ const Cafe27b = () => {
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
-          <div className="rounded-lg h-48 sm:h-52 md:h-56 lg:h-60 overflow-hidden">
+          <div className="rounded-lg h-64 sm:h-72 md:h-80 lg:h-96 overflow-hidden">
             <img src={cafe27b_4} alt="시그니처 1" className="w-full h-full object-cover" />
           </div>
-          <div className="rounded-lg h-48 sm:h-52 md:h-56 lg:h-60 overflow-hidden">
+          <div className="rounded-lg h-64 sm:h-72 md:h-80 lg:h-96 overflow-hidden">
             <img src={cafe27b_5} alt="시그니처 2" className="w-full h-full object-cover" />
           </div>
-          <div className="rounded-lg h-48 sm:h-52 md:h-56 lg:h-60 overflow-hidden">
+          <div className="rounded-lg h-64 sm:h-72 md:h-80 lg:h-96 overflow-hidden">
             <img src={cafe27b_6} alt="시그니처 3" className="w-full h-full object-cover" />
           </div>
-          <div className="rounded-lg h-48 sm:h-52 md:h-56 lg:h-60 overflow-hidden">
+          <div className="rounded-lg h-64 sm:h-72 md:h-80 lg:h-96 overflow-hidden">
             <img src={cafe27b_7} alt="시그니처 4" className="w-full h-full object-cover" />
           </div>
         </div>
@@ -216,13 +216,13 @@ const Cafe27b = () => {
         </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 mb-6">
-          <div className="rounded-lg h-40 sm:h-44 md:h-48 lg:h-52 overflow-hidden">
+          <div className="rounded-lg aspect-square overflow-hidden">
             <img src={cafe27b_12} alt="공간 대관 이미지 1" className="w-full h-full object-cover" />
           </div>
-          <div className="rounded-lg h-40 sm:h-44 md:h-48 lg:h-52 overflow-hidden">
+          <div className="rounded-lg aspect-square overflow-hidden">
             <img src={cafe27b_13} alt="공간 대관 이미지 2" className="w-full h-full object-cover" />
           </div>
-          <div className="rounded-lg h-40 sm:h-44 md:h-48 lg:h-52 overflow-hidden sm:col-span-2 lg:col-span-1">
+          <div className="rounded-lg aspect-square overflow-hidden sm:col-span-2 lg:col-span-1">
             <img src={cafe27b_14} alt="공간 대관 이미지 3" className="w-full h-full object-cover" />
           </div>
         </div>
