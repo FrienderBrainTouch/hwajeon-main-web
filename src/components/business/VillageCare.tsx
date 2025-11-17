@@ -37,7 +37,7 @@ export default function VillageCare() {
           </div>
           <div className="flex gap-4 flex-wrap justify-start mb-6">
             <div className="bg-white border-2 border-blue-300 px-6 py-3 rounded-xl shadow-sm hover:shadow-md transition-shadow">
-              <p className="text-base font-semibold text-gray-900">활돌봄 네트워크 운영</p>
+              <p className="text-base font-semibold text-gray-900">마을기반 돌봄네트워크 운영</p>
             </div>
             <div className="bg-white border-2 border-blue-300 px-6 py-3 rounded-xl shadow-sm hover:shadow-md transition-shadow">
               <p className="text-base font-semibold text-gray-900">세대공감 문화프로그램</p>

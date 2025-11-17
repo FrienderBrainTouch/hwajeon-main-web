@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 // 이미지 import
 import cafe27b_1 from '@/assets/cafe27b/cafe27b_1.jpg';
 import cafe27b_2 from '@/assets/cafe27b/cafe27b_2.jpg';
-import business_1 from '@/assets/business/1_27b-business_1.png';
+import business_1 from '@/assets/fix/27b-business/27b_business.png';
 import business_2 from '@/assets/business/2_contents-business_1.jpg';
 import business_3 from '@/assets/business/3_village-care_1.jpg';
 

@@ -177,7 +177,7 @@ export default function ContentsBusiness() {
             </div>
           </div>
 
-          <div className="w-full h-96 overflow-hidden rounded-2xl shadow-lg mb-10">
+          {/* <div className="w-full h-96 overflow-hidden rounded-2xl shadow-lg mb-10">
             <img
               src={contentSections[1].image}
               alt={contentSections[1].imageAlt}
@@ -188,7 +188,7 @@ export default function ContentsBusiness() {
                   : undefined
               }
             />
-          </div>
+          </div> */}
 
           <div className="grid md:grid-cols-3 gap-6">
             {programs.map((program, programIndex) => (
