@@ -5,7 +5,7 @@ import { BoardWrapper, GalleryWrapper, EventWrapper } from '@/components/news';
 function News() {
   const tabs: TabItem[] = [
     { id: 'announcements', label: '공지사항', value: 'announcements' },
-    { id: 'news', label: '회전 소식', value: 'news' },
+    { id: 'news', label: '기업 소식', value: 'news' },
     { id: 'gallery', label: '활동 갤러리', value: 'gallery' },
     { id: 'calendar', label: '행사 캘린더', value: 'calendar' },
     { id: 'archive', label: '자료실', value: 'archive' },
@@ -24,7 +24,7 @@ function News() {
       case 'news':
         return (
           <div className="py-8">
-            <GalleryWrapper title="화전 소식" boardType="news" type="news" />
+            <GalleryWrapper title="기업 소식" boardType="news" type="news" />
           </div>
         );
       case 'gallery':
