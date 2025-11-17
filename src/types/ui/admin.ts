@@ -21,7 +21,7 @@ export const categoryInfo: Record<PostCategory, CategoryInfo> = {
   NOTICE: { name: '공지사항', viewType: 'LIST', hasThumbnail: false },
   ARCHIVE: { name: '자료실', viewType: 'LIST', hasThumbnail: false },
   MEETING: { name: '정기회의', viewType: 'LIST', hasThumbnail: false },
-  NEWS: { name: '화전 소식', viewType: 'THUMBNAIL', hasThumbnail: true },
+  NEWS: { name: '기업 소식', viewType: 'THUMBNAIL', hasThumbnail: true },
   GALLERY: { name: '활동 갤러리', viewType: 'THUMBNAIL', hasThumbnail: true },
   CALENDAR: { name: '행사 캘린더', viewType: 'THUMBNAIL', hasThumbnail: true, hasEventDate: true },
 };

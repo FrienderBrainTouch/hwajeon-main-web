@@ -70,7 +70,7 @@ const menuData = [
     hasBorder: true,
     items: [
       { label: '공지사항', path: '/member/news?tab=notice' },
-      { label: '화전 소식', path: '/member/news?tab=news' },
+      { label: '기업 소식', path: '/member/news?tab=news' },
       { label: '활동 갤러리', path: '/member/news?tab=gallery' },
       { label: '행사 캘린더', path: '/member/news?tab=calendar' },
       { label: '자료실', path: '/member/news?tab=archive' },
