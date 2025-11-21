@@ -85,6 +85,7 @@ function NewsSection() {
               {news.map((item) => (
                 <div
                   key={item.postId}
+                  onClick={() => navigate(`/member/news?tab=news&news_id=${item.postId}`)}
                   className="bg-white rounded-xl p-4 xs:p-5 sm:p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer group"
                 >
                   <div className="aspect-[4/3] bg-gradient-to-br from-blue-50 to-purple-50 rounded-lg mb-4 flex items-center justify-center text-4xl group-hover:scale-105 transition-transform duration-300">
