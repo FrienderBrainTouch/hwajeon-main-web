@@ -81,6 +81,9 @@ function NoticeSection() {
               {notices.map((item) => (
                 <div
                   key={item.postId}
+                  onClick={() =>
+                    navigate(`/member/news?tab=notice&announcements_id=${item.postId}`)
+                  }
                   className="flex items-center justify-between py-3 xs:py-4 border-b border-gray-100 last:border-b-0 hover:bg-gray-50 transition-colors cursor-pointer"
                 >
                   <h3 className="text-sm xs:text-base text-gray-900 hover:text-gray-700 transition-colors">
