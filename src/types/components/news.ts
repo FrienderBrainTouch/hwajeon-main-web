@@ -1,3 +1,5 @@
+import type { LinkMeta } from '../api/common';
+
 /**
  * 이벤트 카테고리 타입
  */
@@ -63,6 +65,7 @@ export interface BoardItem {
     fileId: number;
     fileUrl: string;
   }>;
+  linkMeta?: LinkMeta;
 }
 
 /**
@@ -79,6 +82,7 @@ export interface GalleryItem {
     fileId: number;
     fileUrl: string;
   }>;
+  linkMeta?: LinkMeta;
 }
 
 /**
@@ -96,16 +100,7 @@ export interface NewsItem {
     fileId: number;
     fileUrl: string;
   }>;
-}
-
-/**
- * 링크 메타 정보 타입
- */
-export interface LinkMeta {
-  linkUrl?: string;
-  linkTitle?: string;
-  linkImage?: string;
-  linkDescription?: string;
+  linkMeta?: LinkMeta;
 }
 
 /**
