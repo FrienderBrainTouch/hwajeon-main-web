@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useApi } from '@/hooks/useApi';
 import { postsApi } from '@/api/admin/posts';
-import type { PostDetailResponse } from '@/types/api';
+import type { PostDetailResponse, LinkMeta } from '@/types/api';
 import { EditPostForm } from '@/components/admin';
 import { Button } from '@/components/ui/button';
 import type { PostFormData, PostCategory, Post } from '@/types/api/common';
@@ -16,10 +16,12 @@ export default function EditPost() {
     title: '',
     content: '',
     postType: (searchParams.get('postType') as PostCategory) || 'NOTICE',
+    linkUrl: '',
   });
   const [originalPost, setOriginalPost] = useState<Post | null>(null);
   const [existingFileIds, setExistingFileIds] = useState<number[]>([]);
   const [selectedExistingFiles, setSelectedExistingFiles] = useState<number[]>([]);
+  const [linkMeta, setLinkMeta] = useState<LinkMeta | undefined>(undefined);
 
   // API 훅들
   const getPostDetailApi = useApi(postsApi.getPostDetail);
@@ -49,6 +51,9 @@ export default function EditPost() {
         const fileIds = resultData.fileUrls.map((file: any) => file.fileId);
         const fileUrls = resultData.fileUrls.map((file: any) => file.fileUrl);
 
+        const isNews = postType === 'NEWS';
+        const linkMetaData = isNews ? resultData.linkMeta : undefined;
+
         const post: Post = {
           id: postId,
           title: resultData.title,
@@ -61,15 +66,19 @@ export default function EditPost() {
           thumbnail: fileUrls.length > 0 ? fileUrls[0] : undefined,
           attachments: fileUrls,
           eventDate: undefined, // 상세 조회에는 eventDate가 없음
+          linkMeta: linkMetaData,
         };
 
         setOriginalPost(post);
+        setLinkMeta(linkMetaData);
         setFormData({
           title: post.title,
           content: post.content,
           postType: post.category,
           eventDate: post.eventDate,
           activityType: undefined, // 상세 조회에는 activityType이 없음
+          linkUrl: isNews ? linkMetaData?.linkUrl || '' : '',
+          linkMeta: linkMetaData,
         });
 
         // 기존 파일 ID들을 설정
@@ -122,6 +131,7 @@ export default function EditPost() {
         activityType: formData.activityType,
         existingFileIds: selectedExistingFiles, // 선택된 기존 파일들만
         newFiles: formData.attachments || [],
+        linkUrl: formData.postType === 'NEWS' ? formData.linkUrl ?? '' : undefined,
       };
 
       const result = await updatePostApi.execute(id, {
@@ -196,9 +206,11 @@ export default function EditPost() {
       onFileUpload={handleFileUpload}
       onExistingFileToggle={handleExistingFileToggle}
       onContentChange={(e) => setFormData({ ...formData, content: e.target.value })}
+      onLinkUrlChange={(e) => setFormData({ ...formData, linkUrl: e.target.value })}
       onSubmit={handleSubmit}
       onCancel={handleCancel}
       categoryInfo={categoryInfo}
+      linkMeta={linkMeta}
     />
   );
 }

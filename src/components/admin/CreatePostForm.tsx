@@ -34,6 +34,8 @@ export const CreatePostForm = ({
   onSubmit,
   onCancel,
 }: CreatePostFormProps) => {
+  const isNews = postType === 'NEWS';
+
   return (
     <div className="min-h-screen bg-gray-50 py-6">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -142,21 +144,23 @@ export const CreatePostForm = ({
                 )}
               </div>
 
-              {/* 링크 URL */}
-              <div className="space-y-2">
-                <Label htmlFor="linkUrl">링크 URL</Label>
-                <Input
-                  id="linkUrl"
-                  type="url"
-                  value={linkUrl}
-                  onChange={(e) => onLinkUrlChange(e.target.value)}
-                  placeholder="https://example.com (OG 태그를 자동으로 파싱합니다)"
-                  disabled={isLoading}
-                />
-                <p className="text-xs text-gray-500">
-                  링크를 입력하면 OG 태그를 자동으로 파싱하여 카드뉴스 형태로 표시됩니다.
-                </p>
-              </div>
+              {/* 링크 URL (NEWS 전용) */}
+              {isNews && (
+                <div className="space-y-2">
+                  <Label htmlFor="linkUrl">링크 URL</Label>
+                  <Input
+                    id="linkUrl"
+                    type="url"
+                    value={linkUrl}
+                    onChange={(e) => onLinkUrlChange(e.target.value)}
+                    placeholder="https://example.com (OG 태그를 자동으로 파싱합니다)"
+                    disabled={isLoading}
+                  />
+                  <p className="text-xs text-gray-500">
+                    링크는 화전 소식 게시글(NEWS)에만 추가할 수 있습니다.
+                  </p>
+                </div>
+              )}
 
               {/* 내용 */}
               <div className="space-y-2">

@@ -20,6 +20,17 @@ export type PostCategory = 'NOTICE' | 'ARCHIVE' | 'MEETING' | 'NEWS' | 'GALLERY'
 export type ViewType = 'LIST' | 'THUMBNAIL';
 
 /**
+ * 링크 메타 정보 타입
+ * @description OG 태그 파싱 결과를 나타내는 타입
+ */
+export type LinkMeta = {
+  linkUrl?: string;
+  linkTitle?: string;
+  linkImage?: string;
+  linkDescription?: string;
+};
+
+/**
  * 게시글 데이터 타입
  * @description 게시글의 기본 정보를 나타내는 타입
  */
@@ -35,6 +46,7 @@ export type Post = {
   thumbnail?: string; // 썸네일 이미지 URL
   attachments?: string[]; // 첨부파일 목록
   eventDate?: string; // 행사 날짜 (CALENDAR 카테고리용)
+  linkMeta?: LinkMeta; // 링크 메타 정보
 };
 
 /**
@@ -50,4 +62,5 @@ export type PostFormData = {
   eventDate?: string; // 행사 날짜
   activityType?: ActivityType; // 갤러리용 활동 타입
   linkUrl?: string; // 링크 URL (OG 태그 파싱용)
+  linkMeta?: LinkMeta; // 조회된 링크 메타 정보
 };

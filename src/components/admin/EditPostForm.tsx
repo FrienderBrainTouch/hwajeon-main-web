@@ -17,12 +17,14 @@ export const EditPostForm = ({
   existingFileIds,
   selectedExistingFiles,
   updateLoading,
+  linkMeta,
   onTitleChange,
   onPostTypeChange,
   onEventDateChange,
   onFileUpload,
   onExistingFileToggle,
   onContentChange,
+  onLinkUrlChange,
   onSubmit,
   onCancel,
   categoryInfo,
@@ -201,6 +203,83 @@ export const EditPostForm = ({
                 </div>
               )}
             </div>
+
+            {/* 링크 URL (NEWS 전용) */}
+            {formData.postType === 'NEWS' && (
+              <div>
+                <Label htmlFor="linkUrl">링크 URL</Label>
+                <Input
+                  id="linkUrl"
+                  type="url"
+                  value={formData.linkUrl || ''}
+                  onChange={onLinkUrlChange}
+                  placeholder="https://example.com (OG 태그를 자동으로 파싱합니다)"
+                  className="mt-1"
+                />
+                <p className="text-xs text-gray-500 mt-1">화전 소식 게시글에서만 링크를 추가하거나 변경할 수 있습니다.</p>
+
+                {linkMeta?.linkUrl && (
+                  <div className="mt-4 border border-gray-200 rounded-lg overflow-hidden">
+                    <a
+                      href={linkMeta.linkUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex flex-col sm:flex-row hover:bg-gray-50 transition-colors"
+                    >
+                      {linkMeta.linkImage && (
+                        <div className="w-full sm:w-56 h-40 sm:h-auto flex-shrink-0">
+                          <img
+                            src={linkMeta.linkImage}
+                            alt={linkMeta.linkTitle || '링크 미리보기'}
+                            className="w-full h-full object-cover"
+                            onError={(e) => {
+                              e.currentTarget.style.display = 'none';
+                            }}
+                          />
+                        </div>
+                      )}
+                      <div className="flex-1 p-4">
+                        {linkMeta.linkTitle && (
+                          <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2">
+                            {linkMeta.linkTitle}
+                          </h3>
+                        )}
+                        {linkMeta.linkDescription && (
+                          <p className="text-sm text-gray-600 mb-2 line-clamp-2">
+                            {linkMeta.linkDescription}
+                          </p>
+                        )}
+                        <div className="flex items-center text-xs text-gray-500">
+                          <span className="truncate">
+                            {(() => {
+                              try {
+                                const url = new URL(linkMeta.linkUrl!);
+                                return url.hostname;
+                              } catch {
+                                return linkMeta.linkUrl;
+                              }
+                            })()}
+                          </span>
+                          <svg
+                            className="w-4 h-4 ml-2 text-gray-400"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* 내용 */}
             <div>

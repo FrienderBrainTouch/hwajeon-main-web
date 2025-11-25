@@ -1,4 +1,5 @@
 import type { User } from './auth';
+import type { LinkMeta } from '@/types/api';
 
 /**
  * 대시보드 헤더 컴포넌트 Props
@@ -91,17 +92,21 @@ export interface EditPostFormProps {
     activityType?: string;
     thumbnail?: File;
     attachments?: File[];
+    linkUrl?: string;
+    linkMeta?: LinkMeta;
   };
   originalPost: any | null; // Post 타입
   existingFileIds: number[];
   selectedExistingFiles: number[];
   updateLoading: boolean;
+  linkMeta?: LinkMeta;
   onTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onPostTypeChange: (value: string) => void;
   onEventDateChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onFileUpload: (files: FileList | null, type: 'thumbnail' | 'attachments') => void;
   onExistingFileToggle: (fileId: number) => void;
   onContentChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onLinkUrlChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: React.FormEvent) => void;
   onCancel: () => void;
   categoryInfo: Record<string, { name: string; viewType: string; hasThumbnail: boolean }>;

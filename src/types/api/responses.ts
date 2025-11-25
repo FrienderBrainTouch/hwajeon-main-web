@@ -1,6 +1,6 @@
 // API 응답 타입 정의
 
-import type { PostCategory, ActivityType } from './common';
+import type { PostCategory, ActivityType, LinkMeta } from './common';
 
 /**
  * 게시글 요약 정보 타입
@@ -34,21 +34,6 @@ export type PostSummaryResponse = {
   pageNumber: number;
   isLast: boolean;
   content: PostSummary[];
-};
-
-/**
- * 링크 메타 정보 타입
- * @interface LinkMeta
- * @property {string} linkUrl - 링크 URL
- * @property {string} linkTitle - 링크 제목
- * @property {string} linkImage - 링크 이미지 URL
- * @property {string} linkDescription - 링크 설명
- */
-export type LinkMeta = {
-  linkUrl?: string;
-  linkTitle?: string;
-  linkImage?: string;
-  linkDescription?: string;
 };
 
 /**

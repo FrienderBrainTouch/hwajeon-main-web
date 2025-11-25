@@ -137,4 +137,5 @@ export type UpdatePostRequest = {
   attachments?: File[];
   existingFileIds?: number[];
   newFiles?: File[];
+  linkUrl?: string; // 링크 URL (OG 태그 파싱용)
 };

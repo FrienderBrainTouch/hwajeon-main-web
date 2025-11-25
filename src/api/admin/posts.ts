@@ -36,7 +36,7 @@ export const postsApi = {
         formData.append('activeDate', request.eventDate);
       }
 
-      if (request.linkUrl) {
+      if (request.postType === 'NEWS' && request.linkUrl) {
         formData.append('linkUrl', request.linkUrl);
       }
 
@@ -73,8 +73,8 @@ export const postsApi = {
         formData.append('activeDate', request.eventDate);
       }
 
-      if (request.linkUrl) {
-        formData.append('linkUrl', request.linkUrl);
+      if (request.postType === 'NEWS') {
+        formData.append('linkUrl', request.linkUrl ?? '');
       }
 
       // 썸네일이 있으면 files의 맨 앞에 추가
@@ -185,6 +185,10 @@ export const postsApi = {
 
       if (request.activityType) {
         formData.append('activityType', request.activityType);
+      }
+
+      if (request.linkUrl) {
+        formData.append('linkUrl', request.linkUrl);
       }
 
       // 기존 파일 IDs 추가

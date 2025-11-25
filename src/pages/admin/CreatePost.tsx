@@ -68,7 +68,14 @@ export default function CreatePost() {
       categoryInfo={categoryInfo}
       onTitleChange={(value) => setFormData({ ...formData, title: value })}
       onContentChange={(value) => setFormData({ ...formData, content: value })}
-      onPostTypeChange={(value) => setFormData({ ...formData, postType: value as PostCategory })}
+      onPostTypeChange={(value) => {
+        const newType = value as PostCategory;
+        setFormData((prev) => ({
+          ...prev,
+          postType: newType,
+          linkUrl: newType === 'NEWS' ? prev.linkUrl || '' : '',
+        }));
+      }}
       onEventDateChange={(value) => setFormData({ ...formData, eventDate: value })}
       onActivityTypeChange={(value) =>
         setFormData({ ...formData, activityType: value as ActivityType })
