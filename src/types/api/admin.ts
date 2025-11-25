@@ -90,6 +90,7 @@ export type LoginResponse = {
  * @property {ActivityType} [activityType] - 활동 타입 (GALLERY 카테고리용)
  * @property {File} [thumbnail] - 썸네일 이미지 파일
  * @property {File[]} [attachments] - 첨부파일 목록
+ * @property {string} [linkUrl] - 링크 URL (OG 태그 파싱용)
  */
 export type CreatePostRequest = {
   title: string;
@@ -99,6 +100,7 @@ export type CreatePostRequest = {
   activityType?: ActivityType; // GALLERY 카테고리용
   thumbnail?: File;
   attachments?: File[];
+  linkUrl?: string; // 링크 URL (OG 태그 파싱용)
 };
 
 /**

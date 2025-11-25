@@ -49,4 +49,5 @@ export type PostFormData = {
   attachments?: File[]; // 첨부파일들
   eventDate?: string; // 행사 날짜
   activityType?: ActivityType; // 갤러리용 활동 타입
+  linkUrl?: string; // 링크 URL (OG 태그 파싱용)
 };

@@ -45,6 +45,73 @@ const Detail = <T extends BaseItem>({
         </div>
       </div>
 
+      {/* 링크 메타 카드뉴스 섹션 */}
+      {item.linkMeta && item.linkMeta.linkUrl && (
+        <div className="bg-white py-4 sm:py-8">
+          <a
+            href={item.linkMeta.linkUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
+          >
+            <div className="flex flex-col sm:flex-row">
+              {/* 이미지 영역 */}
+              {item.linkMeta.linkImage && (
+                <div className="w-full sm:w-64 h-48 sm:h-auto flex-shrink-0">
+                  <img
+                    src={item.linkMeta.linkImage}
+                    alt={item.linkMeta.linkTitle || '링크 미리보기'}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      // 이미지 로드 실패 시 숨김
+                      e.currentTarget.style.display = 'none';
+                    }}
+                  />
+                </div>
+              )}
+              {/* 텍스트 영역 */}
+              <div className="flex-1 p-4 sm:p-6">
+                {item.linkMeta.linkTitle && (
+                  <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
+                    {item.linkMeta.linkTitle}
+                  </h3>
+                )}
+                {item.linkMeta.linkDescription && (
+                  <p className="text-sm sm:text-base text-gray-600 mb-2 line-clamp-2">
+                    {item.linkMeta.linkDescription}
+                  </p>
+                )}
+                <div className="flex items-center mt-2">
+                  <span className="text-xs sm:text-sm text-gray-500 truncate">
+                    {(() => {
+                      try {
+                        const url = new URL(item.linkMeta.linkUrl!);
+                        return url.hostname;
+                      } catch {
+                        return item.linkMeta.linkUrl;
+                      }
+                    })()}
+                  </span>
+                  <svg
+                    className="w-4 h-4 ml-2 text-gray-400"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      )}
+
       {/* 첨부파일 섹션 */}
       {((item.fileUrls && item.fileUrls.length > 0) || (item.files && item.files.length > 0)) && (
         <div className="bg-white py-4 sm:py-8">

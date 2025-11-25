@@ -64,6 +64,7 @@ export interface CreatePostFormProps {
   activityType: string;
   thumbnail: File | null;
   attachments: File[];
+  linkUrl: string;
   isLoading: boolean;
   categoryInfo: Record<string, { name: string; viewType: string; hasThumbnail: boolean }>;
   onTitleChange: (value: string) => void;
@@ -73,6 +74,7 @@ export interface CreatePostFormProps {
   onActivityTypeChange: (value: string) => void;
   onThumbnailChange: (file: File | null) => void;
   onAttachmentsChange: (files: File[]) => void;
+  onLinkUrlChange: (value: string) => void;
   onSubmit: (e: React.FormEvent) => void;
   onCancel: () => void;
 }

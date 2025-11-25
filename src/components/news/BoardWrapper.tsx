@@ -81,6 +81,7 @@ const BoardWrapper: React.FC<BoardWrapperProps> = ({
         content: detailData.content,
         date: detailData.createAt.split('T')[0], // 날짜만 추출 (YYYY-MM-DD)
         files: detailData.fileUrls, // 파일 정보 추가
+        linkMeta: detailData.linkMeta, // 링크 메타 정보 추가
       };
       setSelectedItem(item);
     }

@@ -20,6 +20,7 @@ export const CreatePostForm = ({
   activityType,
   thumbnail,
   attachments,
+  linkUrl,
   isLoading,
   categoryInfo,
   onTitleChange,
@@ -29,6 +30,7 @@ export const CreatePostForm = ({
   onActivityTypeChange,
   onThumbnailChange,
   onAttachmentsChange,
+  onLinkUrlChange,
   onSubmit,
   onCancel,
 }: CreatePostFormProps) => {
@@ -138,6 +140,22 @@ export const CreatePostForm = ({
                     선택된 파일: {attachments.map((f) => f.name).join(', ')}
                   </div>
                 )}
+              </div>
+
+              {/* 링크 URL */}
+              <div className="space-y-2">
+                <Label htmlFor="linkUrl">링크 URL</Label>
+                <Input
+                  id="linkUrl"
+                  type="url"
+                  value={linkUrl}
+                  onChange={(e) => onLinkUrlChange(e.target.value)}
+                  placeholder="https://example.com (OG 태그를 자동으로 파싱합니다)"
+                  disabled={isLoading}
+                />
+                <p className="text-xs text-gray-500">
+                  링크를 입력하면 OG 태그를 자동으로 파싱하여 카드뉴스 형태로 표시됩니다.
+                </p>
               </div>
 
               {/* 내용 */}

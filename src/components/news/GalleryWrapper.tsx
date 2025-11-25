@@ -87,6 +87,7 @@ const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
         date: detailData.createAt.split('T')[0], // 날짜만 추출 (YYYY-MM-DD)
         imageUrl: (detailData as any).thumbnailUrl || '',
         files: detailData.fileUrls || [],
+        linkMeta: detailData.linkMeta, // 링크 메타 정보 추가
       };
       setSelectedItem(item);
     }

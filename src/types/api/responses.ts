@@ -37,6 +37,21 @@ export type PostSummaryResponse = {
 };
 
 /**
+ * 링크 메타 정보 타입
+ * @interface LinkMeta
+ * @property {string} linkUrl - 링크 URL
+ * @property {string} linkTitle - 링크 제목
+ * @property {string} linkImage - 링크 이미지 URL
+ * @property {string} linkDescription - 링크 설명
+ */
+export type LinkMeta = {
+  linkUrl?: string;
+  linkTitle?: string;
+  linkImage?: string;
+  linkDescription?: string;
+};
+
+/**
  * 게시글 상세 정보 타입
  * @interface PostDetailResponse
  * @property {string} title - 게시글 제목
@@ -44,6 +59,7 @@ export type PostSummaryResponse = {
  * @property {string} createAt - 생성일시
  * @property {string} modifiedAt - 수정일시
  * @property {Array<{fileId: number, fileUrl: string}>} fileUrls - 파일 정보 목록
+ * @property {LinkMeta} [linkMeta] - 링크 메타 정보 (OG 태그 파싱 결과)
  */
 export type PostDetailResponse = {
   title: string;
@@ -54,6 +70,7 @@ export type PostDetailResponse = {
     fileId: number;
     fileUrl: string;
   }>;
+  linkMeta?: LinkMeta;
 };
 
 /**
@@ -66,6 +83,7 @@ export type PostDetailResponse = {
  * @property {Array<{fileId: number, fileUrl: string}>} fileUrls - 파일 정보 목록
  * @property {string} eventDate - 행사 날짜
  * @property {ActivityType} activityType - 활동 타입
+ * @property {LinkMeta} [linkMeta] - 링크 메타 정보 (OG 태그 파싱 결과)
  */
 export type CalendarPostDetailResponse = {
   title: string;
@@ -78,4 +96,5 @@ export type CalendarPostDetailResponse = {
   }>;
   eventDate: string;
   activityType: ActivityType;
+  linkMeta?: LinkMeta;
 };

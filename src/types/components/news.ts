@@ -99,6 +99,16 @@ export interface NewsItem {
 }
 
 /**
+ * 링크 메타 정보 타입
+ */
+export interface LinkMeta {
+  linkUrl?: string;
+  linkTitle?: string;
+  linkImage?: string;
+  linkDescription?: string;
+}
+
+/**
  * 공통 아이템 타입 (BoardItem과 GalleryItem의 공통 필드)
  */
 export interface BaseItem {
@@ -116,6 +126,7 @@ export interface BaseItem {
     fileUrl: string;
     originalFileName: string;
   }>;
+  linkMeta?: LinkMeta;
 }
 
 /**

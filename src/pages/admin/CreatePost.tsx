@@ -12,6 +12,7 @@ export default function CreatePost() {
     title: '',
     content: '',
     postType: 'NOTICE',
+    linkUrl: '',
   });
 
   // API 훅들
@@ -62,6 +63,7 @@ export default function CreatePost() {
       activityType={formData.activityType || 'NONE'}
       thumbnail={formData.thumbnail || null}
       attachments={formData.attachments || []}
+      linkUrl={formData.linkUrl || ''}
       isLoading={createPostApi.loading || createCalendarApi.loading}
       categoryInfo={categoryInfo}
       onTitleChange={(value) => setFormData({ ...formData, title: value })}
@@ -73,6 +75,7 @@ export default function CreatePost() {
       }
       onThumbnailChange={(file) => setFormData({ ...formData, thumbnail: file || undefined })}
       onAttachmentsChange={(files) => setFormData({ ...formData, attachments: files })}
+      onLinkUrlChange={(value) => setFormData({ ...formData, linkUrl: value })}
       onSubmit={handleSubmit}
       onCancel={handleCancel}
     />

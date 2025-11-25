@@ -36,6 +36,10 @@ export const postsApi = {
         formData.append('activeDate', request.eventDate);
       }
 
+      if (request.linkUrl) {
+        formData.append('linkUrl', request.linkUrl);
+      }
+
       // 썸네일이 있으면 files의 맨 앞에 추가
       if (request.thumbnail) {
         formData.append('files', request.thumbnail);
@@ -67,6 +71,10 @@ export const postsApi = {
 
       if (request.eventDate) {
         formData.append('activeDate', request.eventDate);
+      }
+
+      if (request.linkUrl) {
+        formData.append('linkUrl', request.linkUrl);
       }
 
       // 썸네일이 있으면 files의 맨 앞에 추가
