@@ -86,11 +86,11 @@ const EventWrapper: React.FC<EventWrapperProps> = ({ itemsPerPage = 4 }) => {
             };
           });
 
-          // activityDate 기준으로 빠른 날짜 순으로 정렬 (전체 데이터)
+          // activityDate 기준으로 최신순 정렬 (내림차순)
           const sortedEventData = eventData.sort((a, b) => {
             const dateA = new Date(a.activityDate);
             const dateB = new Date(b.activityDate);
-            return dateA.getTime() - dateB.getTime();
+            return dateB.getTime() - dateA.getTime(); // 최신순 (내림차순)
           });
 
           // 캐시에 저장

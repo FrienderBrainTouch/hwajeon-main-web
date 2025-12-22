@@ -71,7 +71,7 @@ function EventSchedule() {
           const sortedEventData = eventData.sort((a, b) => {
             const dateA = new Date(a.activityDate);
             const dateB = new Date(b.activityDate);
-            return dateA.getTime() - dateB.getTime();
+            return dateB.getTime() - dateA.getTime(); // 최신순 (내림차순)
           });
 
           setEvents(sortedEventData);
