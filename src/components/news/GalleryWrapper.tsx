@@ -53,25 +53,29 @@ const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
     });
   }, [boardType, currentPage, itemsPerPage, postType]);
 
-  // API 데이터를 GalleryItemType으로 변환
+  // API 데이터를 GalleryItemType으로 변환 (작성일 기준 최신순 정렬)
   const items: GalleryItemType[] =
-    getPostsApi.data?.content.map((post: any, index: number) => {
-      const totalElements = getPostsApi.data?.totalElements || 0;
-      const pageNumber = getPostsApi.data?.pageNumber || 0;
-      // 내림차순 번호 계산: totalElements - (pageNumber × itemsPerPage) - index
-      const displayNumber = totalElements - pageNumber * itemsPerPage - index;
+    getPostsApi.data?.content
+      // 작성일(createdAt) 기준 최신순 정렬
+      .slice()
+      .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+      .map((post: any, index: number) => {
+        const totalElements = getPostsApi.data?.totalElements || 0;
+        const pageNumber = getPostsApi.data?.pageNumber || 0;
+        // 내림차순 번호 계산: totalElements - (pageNumber × itemsPerPage) - index
+        const displayNumber = totalElements - pageNumber * itemsPerPage - index;
 
-      return {
-        id: post.postId,
-        title: post.title,
-        content: post.content || '',
-        author: post.author || '',
-        date: post.createdAt.split('T')[0], // 날짜만 추출 (YYYY-MM-DD)
-        imageUrl: post.thumbnailUrl || '',
-        files: post.fileUrls || [],
-        displayNumber,
-      };
-    }) || [];
+        return {
+          id: post.postId,
+          title: post.title,
+          content: post.content || '',
+          author: post.author || '',
+          date: post.createdAt.split('T')[0], // 날짜만 추출 (YYYY-MM-DD)
+          imageUrl: post.thumbnailUrl || '',
+          files: post.fileUrls || [],
+          displayNumber,
+        };
+      }) || [];
 
   // URL 파라미터에서 아이템 ID 확인
   const itemId = searchParams.get(`${boardType}_id`);
