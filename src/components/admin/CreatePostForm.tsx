@@ -102,9 +102,10 @@ export const CreatePostForm = ({
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="NONE">없음</SelectItem>
-                      <SelectItem value="FESTIVAL">축제</SelectItem>
+                      <SelectItem value="FESTIVAL">행사</SelectItem>
                       <SelectItem value="ONE_DAY_CLASS">원데이클래스</SelectItem>
                       <SelectItem value="CONFERENCE">회의</SelectItem>
+                      <SelectItem value="ETC">기타</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

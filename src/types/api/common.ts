@@ -3,7 +3,7 @@
  * @type {string}
  * @description 캘린더의 활동 분류를 나타내는 타입
  */
-export type ActivityType = 'NONE' | 'FESTIVAL' | 'ONE_DAY_CLASS' | 'CONFERENCE';
+export type ActivityType = 'NONE' | 'FESTIVAL' | 'ONE_DAY_CLASS' | 'CONFERENCE' | 'ETC';
 
 /**
  * 게시글 카테고리 타입
@@ -47,6 +47,28 @@ export type Post = {
   attachments?: string[]; // 첨부파일 목록
   eventDate?: string; // 행사 날짜 (CALENDAR 카테고리용)
   linkMeta?: LinkMeta; // 링크 메타 정보
+};
+
+/**
+ * ActivityType을 한국어로 변환하는 함수
+ * @param activityType - 활동 타입
+ * @returns 한국어 표시명
+ */
+export const getActivityTypeLabel = (activityType: ActivityType): string => {
+  switch (activityType) {
+    case 'NONE':
+      return '없음';
+    case 'FESTIVAL':
+      return '행사';
+    case 'ONE_DAY_CLASS':
+      return '원데이클래스';
+    case 'CONFERENCE':
+      return '회의';
+    case 'ETC':
+      return '기타';
+    default:
+      return '없음';
+  }
 };
 
 /**

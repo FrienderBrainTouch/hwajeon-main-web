@@ -48,6 +48,8 @@ export const mapActivityTypeToEventCategory = (activityType: string): EventCateg
       return 'class';
     case 'CONFERENCE':
       return 'meeting';
+    case 'ETC':
+      return 'meeting'; // 기타는 회의로 분류
     case 'NONE':
     default:
       return 'meeting'; // 기본값
