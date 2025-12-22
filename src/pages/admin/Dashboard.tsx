@@ -33,8 +33,14 @@ export default function AdminDashboard() {
 
       const result = await getPostsApi.execute(params);
       if (result) {
+        const totalElements = result.totalElements || 0;
+        const pageNumber = result.pageNumber || 0;
+
         // PostSummary를 Post 타입으로 변환
-        const mappedPosts: Post[] = result.content.map((post) => {
+        const mappedPosts: Post[] = result.content.map((post, index) => {
+          // 내림차순 번호 계산: totalElements - (pageNumber × postsPerPage) - index
+          const displayNumber = totalElements - pageNumber * postsPerPage - index;
+
           return {
             id: post.postId.toString(),
             title: post.title,
@@ -47,6 +53,7 @@ export default function AdminDashboard() {
             thumbnail: post.thumbnailUrl,
             attachments: [], // PostSummary에는 attachments가 없음
             eventDate: undefined, // PostSummary에는 eventDate가 없음
+            displayNumber,
           };
         });
 

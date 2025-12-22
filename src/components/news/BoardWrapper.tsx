@@ -43,14 +43,22 @@ const BoardWrapper: React.FC<BoardWrapperProps> = ({
 
   // API 데이터를 BoardItem 형태로 변환
   const items: BoardItem[] =
-    getPostsApi.data?.content.map((post: any) => ({
-      id: post.postId,
-      title: post.title,
-      content: '', // PostSummary에는 content가 없음
-      author: '', // PostSummary에는 author가 없음
-      date: post.createdAt.split('T')[0], // 날짜만 추출 (YYYY-MM-DD)
-      views: 0, // 기본값
-    })) || [];
+    getPostsApi.data?.content.map((post: any, index: number) => {
+      const totalElements = getPostsApi.data?.totalElements || 0;
+      const pageNumber = getPostsApi.data?.pageNumber || 0;
+      // 내림차순 번호 계산: totalElements - (pageNumber × itemsPerPage) - index
+      const displayNumber = totalElements - pageNumber * itemsPerPage - index;
+
+      return {
+        id: post.postId,
+        title: post.title,
+        content: '', // PostSummary에는 content가 없음
+        author: '', // PostSummary에는 author가 없음
+        date: post.createdAt.split('T')[0], // 날짜만 추출 (YYYY-MM-DD)
+        views: 0, // 기본값
+        displayNumber,
+      };
+    }) || [];
 
   // boardType이 변경될 때마다 API 호출
   useEffect(() => {

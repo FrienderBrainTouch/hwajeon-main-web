@@ -47,6 +47,7 @@ export type Post = {
   attachments?: string[]; // 첨부파일 목록
   eventDate?: string; // 행사 날짜 (CALENDAR 카테고리용)
   linkMeta?: LinkMeta; // 링크 메타 정보
+  displayNumber?: number; // 페이지 내 표시 번호 (내림차순)
 };
 
 /**

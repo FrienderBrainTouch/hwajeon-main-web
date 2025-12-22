@@ -40,7 +40,9 @@ const BoardList: React.FC<BoardListProps> = ({
                 className="hover:bg-gray-50 cursor-pointer"
                 onClick={() => onItemClick?.(item)}
               >
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{item.id}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  {item.displayNumber ?? item.id}
+                </td>
                 <td className="px-6 py-4 text-sm text-gray-900">{item.title}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">
                   {item.date}
@@ -60,7 +62,7 @@ const BoardList: React.FC<BoardListProps> = ({
             onClick={() => onItemClick?.(item)}
           >
             <div className="flex justify-between items-start mb-2">
-              <span className="text-sm text-gray-500">#{item.id}</span>
+              <span className="text-sm text-gray-500">#{item.displayNumber ?? item.id}</span>
               <span className="text-xs text-gray-500">{item.date}</span>
             </div>
             <h3 className="text-base font-medium text-gray-900 line-clamp-2">{item.title}</h3>

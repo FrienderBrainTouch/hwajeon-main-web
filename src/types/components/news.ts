@@ -1,9 +1,5 @@
 import type { LinkMeta } from '../api/common';
-
-/**
- * 이벤트 카테고리 타입
- */
-export type EventCategory = 'festival' | 'class' | 'meeting';
+import type { EventCategory } from '../ui/calendar';
 
 /**
  * 이벤트 데이터 타입
@@ -61,6 +57,7 @@ export interface BoardItem {
   date: string;
   content?: string;
   author?: string;
+  displayNumber?: number; // 페이지 내 표시 번호 (내림차순)
   files?: Array<{
     fileId: number;
     fileUrl: string;
@@ -78,6 +75,7 @@ export interface GalleryItem {
   date: string;
   imageUrl?: string;
   author?: string;
+  displayNumber?: number; // 페이지 내 표시 번호 (내림차순)
   files?: Array<{
     fileId: number;
     fileUrl: string;

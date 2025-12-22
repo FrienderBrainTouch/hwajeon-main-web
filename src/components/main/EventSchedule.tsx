@@ -4,7 +4,7 @@ import { EventCalendar } from '../news';
 import { useApi } from '@/hooks/useApi';
 import { memberPostsApi } from '@/api/member';
 import { type EventData } from '@/types/components';
-import { mapActivityTypeToEventCategory } from '@/types/ui';
+import { mapActivityTypeToEventCategory, CALENDAR_CATEGORY_CONFIG } from '@/types/ui';
 
 function EventSchedule() {
   const navigate = useNavigate();
@@ -97,23 +97,17 @@ function EventSchedule() {
       return eventDate.getMonth() + 1 === currentMonth && eventDate.getFullYear() === currentYear;
     });
 
-    const counts = {
-      '마을 축제': 0,
-      '원데이 클래스': 0,
-      '회의 일정': 0,
+    const counts: Record<string, number> = {
+      none: 0,
+      festival: 0,
+      class: 0,
+      meeting: 0,
+      etc: 0,
     };
 
     currentMonthEvents.forEach((event) => {
-      switch (event.category) {
-        case 'festival':
-          counts['마을 축제']++;
-          break;
-        case 'class':
-          counts['원데이 클래스']++;
-          break;
-        case 'meeting':
-          counts['회의 일정']++;
-          break;
+      if (event.category in counts) {
+        counts[event.category]++;
       }
     });
 
@@ -180,30 +174,14 @@ function EventSchedule() {
                 행사 카테고리
               </h3>
               <div className="space-y-4">
-                {[
-                  {
-                    label: '마을 축제',
-                    count: categoryCounts['마을 축제'],
-                    color: '#2C2E5A',
-                  },
-                  {
-                    label: '원데이 클래스',
-                    count: categoryCounts['원데이 클래스'],
-                    color: '#A692D1',
-                  },
-                  {
-                    label: '회의 일정',
-                    count: categoryCounts['회의 일정'],
-                    color: '#FFA484',
-                  },
-                ].map((category, i) => (
-                  <div key={i} className="flex items-center gap-3">
+                {Object.entries(CALENDAR_CATEGORY_CONFIG).map(([key, config]) => (
+                  <div key={key} className="flex items-center gap-3">
                     <div
                       className="w-1 h-6 rounded-full"
-                      style={{ backgroundColor: category.color }}
+                      style={{ backgroundColor: config.color }}
                     />
                     <span className="text-gray-900 font-medium">
-                      {category.label} ({category.count})
+                      {config.name} ({categoryCounts[key] || 0})
                     </span>
                   </div>
                 ))}
