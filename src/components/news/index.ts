@@ -11,10 +11,9 @@ export { default as Detail } from './Detail';
 
 export type {
   BoardItem,
-  EventCategory,
   EventData,
   EventDataForCalendar,
   MonthlyEventData,
 } from '@/types/components';
-export type { CategoryFilter, CategoryConfig } from '@/types/ui';
+export type { CategoryFilter, CategoryConfig, EventCategory } from '@/types/ui';
 export { CALENDAR_CATEGORY_CONFIG, LIST_CATEGORY_CONFIG } from '@/types/ui';
