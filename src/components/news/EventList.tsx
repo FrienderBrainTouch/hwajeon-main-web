@@ -42,15 +42,27 @@ function EventList({ events, itemsPerPage = 4 }: EventListProps) {
 
           if (response) {
             // 상세 데이터로 이벤트 정보 업데이트
+            const fileUrls = (response as any).fileUrls || [];
             const updatedEvent: EventData = {
               ...selectedEvent,
               content: response.content || selectedEvent.content,
               author: (response as any).author || '',
-              files:
-                (response as any).fileUrls?.map((url: string, index: number) => ({
+              files: fileUrls.map((file: any, index: number) => {
+                // file이 객체인 경우 (fileId, fileUrl 포함)
+                if (typeof file === 'object' && file.fileUrl) {
+                  return {
+                    fileId: file.fileId || index + 1,
+                    fileUrl: file.fileUrl,
+                    originalFileName: file.originalFileName || undefined,
+                  };
+                }
+                // file이 문자열인 경우 (URL만)
+                return {
                   fileId: index + 1,
-                  fileUrl: url,
-                })) || [],
+                  fileUrl: file,
+                  originalFileName: undefined,
+                };
+              }),
             };
             setSelectedEvent(updatedEvent);
           }
@@ -146,19 +158,21 @@ function EventList({ events, itemsPerPage = 4 }: EventListProps) {
       <div className="bg-white rounded-lg p-6">
         {/* 카테고리 탭 */}
         <div className="flex gap-2 mb-6">
-          {Object.entries(LIST_CATEGORY_CONFIG).map(([key, config]) => (
-            <button
-              key={key}
-              onClick={() => handleCategoryChange(key as CategoryFilter)}
-              className={`px-4 py-2 rounded-lg text-md font-semibold transition-colors ${
-                selectedCategory === key
-                  ? 'bg-gray-900 text-white'
-                  : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-              }`}
-            >
-              {config.name}
-            </button>
-          ))}
+          {Object.entries(LIST_CATEGORY_CONFIG)
+            .filter(([key]) => key !== 'none')
+            .map(([key, config]) => (
+              <button
+                key={key}
+                onClick={() => handleCategoryChange(key as CategoryFilter)}
+                className={`px-4 py-2 rounded-lg text-md font-semibold transition-colors ${
+                  selectedCategory === key
+                    ? 'bg-gray-900 text-white'
+                    : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
+                }`}
+              >
+                {config.name}
+              </button>
+            ))}
         </div>
 
         {/* 이벤트 리스트 */}
@@ -170,12 +184,18 @@ function EventList({ events, itemsPerPage = 4 }: EventListProps) {
               className="flex flex-col sm:flex-row gap-4 p-4 border border-gray-200 rounded-lg hover:shadow-md transition-shadow cursor-pointer"
             >
               {/* 이미지 영역 */}
-              <div className="flex-shrink-0 w-full sm:w-32 h-32 sm:h-24 bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden">
-                {event.thumbnailUrl ? (
+              <div className="flex-shrink-0 w-full sm:w-32 h-32 sm:h-24 bg-gray-200 rounded-lg flex items-center justify-center overflow-hidden relative">
+                {event.thumbnailUrl &&
+                typeof event.thumbnailUrl === 'string' &&
+                event.thumbnailUrl.trim() !== '' ? (
                   <img
                     src={event.thumbnailUrl}
                     alt={event.title}
                     className="w-full h-full object-cover rounded-lg"
+                    onError={(e) => {
+                      // 이미지 로드 실패 시 대체 텍스트 표시
+                      e.currentTarget.style.display = 'none';
+                    }}
                   />
                 ) : (
                   <span className="text-gray-500 text-sm">이미지</span>

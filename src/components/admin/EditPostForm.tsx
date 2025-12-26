@@ -21,6 +21,7 @@ export const EditPostForm = ({
   onTitleChange,
   onPostTypeChange,
   onEventDateChange,
+  onActivityTypeChange,
   onFileUpload,
   onExistingFileToggle,
   onContentChange,
@@ -94,6 +95,28 @@ export const EditPostForm = ({
                 />
               </div>
             )}
+
+            {/* 활동 유형 (GALLERY 또는 CALENDAR 카테고리일 때만) */}
+            {(formData.postType === 'GALLERY' || formData.postType === 'CALENDAR') &&
+              onActivityTypeChange && (
+                <div>
+                  <Label htmlFor="activityType">활동 유형</Label>
+                  <Select
+                    value={formData.activityType || 'FESTIVAL'}
+                    onValueChange={onActivityTypeChange}
+                  >
+                    <SelectTrigger className="mt-1">
+                      <SelectValue placeholder="활동 유형을 선택하세요" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="FESTIVAL">행사</SelectItem>
+                      <SelectItem value="EDUCATION">교육</SelectItem>
+                      <SelectItem value="CONFERENCE">회의</SelectItem>
+                      <SelectItem value="ETC">기타</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
 
             {/* 썸네일 업로드 (THUMBNAIL 뷰타입만) */}
             {formData.postType && categoryInfo[formData.postType]?.hasThumbnail && (
@@ -216,7 +239,9 @@ export const EditPostForm = ({
                   placeholder="https://example.com (OG 태그를 자동으로 파싱합니다)"
                   className="mt-1"
                 />
-                <p className="text-xs text-gray-500 mt-1">화전 소식 게시글에서만 링크를 추가하거나 변경할 수 있습니다.</p>
+                <p className="text-xs text-gray-500 mt-1">
+                  화전 소식 게시글에서만 링크를 추가하거나 변경할 수 있습니다.
+                </p>
 
                 {linkMeta?.linkUrl && (
                   <div className="mt-4 border border-gray-200 rounded-lg overflow-hidden">

@@ -25,7 +25,7 @@ export default function CreatePost() {
     try {
       if (formData.postType === 'CALENDAR') {
         // 캘린더 게시글 생성 (활동 타입 포함)
-        if (!formData.activityType || formData.activityType === 'NONE') {
+        if (!formData.activityType) {
           alert('캘린더 게시글은 활동 타입을 선택해야 합니다.');
           return;
         }
@@ -43,7 +43,9 @@ export default function CreatePost() {
 
       // result가 null이어도 성공으로 처리 (201 Created 응답의 경우)
       alert('게시글이 성공적으로 생성되었습니다.');
-      navigate('/admin/dashboard');
+      // 마지막 선택한 카테고리로 이동
+      const lastCategory = localStorage.getItem('admin_last_selected_category') || 'NOTICE';
+      navigate(`/admin/dashboard?category=${lastCategory}`);
     } catch (error) {
       console.error('게시글 생성 실패:', error);
       alert('게시글 생성 중 오류가 발생했습니다.');
@@ -51,7 +53,9 @@ export default function CreatePost() {
   };
 
   const handleCancel = () => {
-    navigate('/admin/dashboard');
+    // 마지막 선택한 카테고리로 이동
+    const lastCategory = localStorage.getItem('admin_last_selected_category') || 'NOTICE';
+    navigate(`/admin/dashboard?category=${lastCategory}`);
   };
 
   return (
@@ -60,7 +64,7 @@ export default function CreatePost() {
       content={formData.content}
       postType={formData.postType}
       eventDate={formData.eventDate || ''}
-      activityType={formData.activityType || 'NONE'}
+      activityType={formData.activityType || 'FESTIVAL'}
       thumbnail={formData.thumbnail || null}
       attachments={formData.attachments || []}
       linkUrl={formData.linkUrl || ''}

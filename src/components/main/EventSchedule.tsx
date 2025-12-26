@@ -42,31 +42,52 @@ function EventSchedule() {
         const response = await getCalendarEventsApi.execute(requestDate);
 
         if (response) {
-          const eventData: EventData[] = response.map((post: any) => {
-            const activityDate = post.onDate ? new Date(post.onDate) : new Date();
-            const createdAt = post.createdAt ? new Date(post.createdAt) : new Date();
-            return {
-              id: post.postId || post.id,
-              postId: post.postId || post.id,
-              title: post.title,
-              category: mapActivityTypeToEventCategory(post.activityType || 'NONE'),
-              date: activityDate.getDate(),
-              month: activityDate.getMonth() + 1,
-              content: post.content || '',
-              description: post.content || '',
-              thumbnailUrl: post.thumbnail || '',
-              createdAt: createdAt.toLocaleDateString('ko-KR', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              }),
-              activityDate: post.onDate || '',
-              time: post.eventTime || '',
-              location: post.eventLocation || '',
-              author: post.author || '',
-              files: [],
-            };
-          });
+          // API 응답이 배열인지 확인 (페이지네이션 응답일 수 있음)
+          let responseArray: any[] = [];
+
+          if (Array.isArray(response)) {
+            responseArray = response;
+          } else if (response && typeof response === 'object') {
+            // 페이지네이션 응답 형태: { content: [...], totalElements: ... }
+            responseArray = (response as any).content || (response as any).data || [];
+          }
+
+          const eventData: EventData[] = responseArray
+            .filter((post: any) => {
+              // onDate가 있고 유효한 날짜인지 확인 (API 응답에서 onDate 사용)
+              const dateField = post.onDate || post.activityDate;
+              if (!post || !dateField) return false;
+              const activityDate = new Date(dateField);
+              return !isNaN(activityDate.getTime());
+            })
+            .map((post: any) => {
+              // API 응답에서 onDate 사용 (activityDate는 fallback)
+              const dateField = post.onDate || post.activityDate;
+              const activityDate = new Date(dateField);
+              const createdAt = post.createdAt ? new Date(post.createdAt) : new Date();
+
+              return {
+                id: post.postId || post.id,
+                postId: post.postId || post.id,
+                title: post.title || '',
+                category: mapActivityTypeToEventCategory(post.activityType || 'FESTIVAL'),
+                date: activityDate.getDate(),
+                month: activityDate.getMonth() + 1,
+                content: post.content || '',
+                description: post.content || '',
+                thumbnailUrl: post.thumbnail || post.thumbnailUrl,
+                createdAt: createdAt.toLocaleDateString('ko-KR', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                }),
+                activityDate: dateField, // onDate 또는 activityDate 저장
+                time: post.eventTime || '',
+                location: post.eventLocation || '',
+                author: post.author || '',
+                files: [],
+              };
+            });
 
           const sortedEventData = eventData.sort((a, b) => {
             const dateA = new Date(a.activityDate);
@@ -100,7 +121,7 @@ function EventSchedule() {
     const counts: Record<string, number> = {
       none: 0,
       festival: 0,
-      class: 0,
+      education: 0,
       meeting: 0,
       etc: 0,
     };
@@ -174,17 +195,19 @@ function EventSchedule() {
                 행사 카테고리
               </h3>
               <div className="space-y-4">
-                {Object.entries(CALENDAR_CATEGORY_CONFIG).map(([key, config]) => (
-                  <div key={key} className="flex items-center gap-3">
-                    <div
-                      className="w-1 h-6 rounded-full"
-                      style={{ backgroundColor: config.color }}
-                    />
-                    <span className="text-gray-900 font-medium">
-                      {config.name} ({categoryCounts[key] || 0})
-                    </span>
-                  </div>
-                ))}
+                {Object.entries(CALENDAR_CATEGORY_CONFIG)
+                  .filter(([key]) => key !== 'none')
+                  .map(([key, config]) => (
+                    <div key={key} className="flex items-center gap-3">
+                      <div
+                        className="w-1 h-6 rounded-full"
+                        style={{ backgroundColor: config.color }}
+                      />
+                      <span className="text-gray-900 font-medium">
+                        {config.name} ({categoryCounts[key] || 0})
+                      </span>
+                    </div>
+                  ))}
               </div>
             </div>
 

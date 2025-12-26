@@ -156,7 +156,11 @@ function EventCalendar({
             {calendarDays.map((day, i) => {
               const hasEventOnDate = hasEvent(day);
               const eventsForDate = getEventsForDate(day);
-              const uniqueCategories = [...new Set(eventsForDate.map((e) => e.category))];
+              // 'none' 카테고리는 제외
+              const filteredCategories = eventsForDate
+                .map((e) => e.category)
+                .filter((cat) => cat !== 'none');
+              const uniqueCategories = [...new Set(filteredCategories)];
 
               return (
                 <div
@@ -194,12 +198,17 @@ function EventCalendar({
           <div className="flex-shrink-0">
             <h4 className="text-sm font-semibold text-gray-700 mb-3">행사 카테고리</h4>
             <div className="flex flex-col gap-2">
-              {Object.entries(CALENDAR_CATEGORY_CONFIG).map(([key, config]) => (
-                <div key={key} className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full" style={{ backgroundColor: config.color }} />
-                  <span className="text-sm text-gray-600">{config.name}</span>
-                </div>
-              ))}
+              {Object.entries(CALENDAR_CATEGORY_CONFIG)
+                .filter(([key]) => key !== 'none')
+                .map(([key, config]) => (
+                  <div key={key} className="flex items-center gap-2">
+                    <div
+                      className="w-3 h-3 rounded-full"
+                      style={{ backgroundColor: config.color }}
+                    />
+                    <span className="text-sm text-gray-600">{config.name}</span>
+                  </div>
+                ))}
             </div>
           </div>
         )}

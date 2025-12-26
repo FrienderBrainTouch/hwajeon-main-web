@@ -3,7 +3,7 @@
  * @type {string}
  * @description 캘린더의 활동 분류를 나타내는 타입
  */
-export type ActivityType = 'NONE' | 'FESTIVAL' | 'ONE_DAY_CLASS' | 'CONFERENCE' | 'ETC';
+export type ActivityType = 'NONE' | 'FESTIVAL' | 'EDUCATION' | 'CONFERENCE' | 'ETC';
 
 /**
  * 게시글 카테고리 타입
@@ -61,8 +61,8 @@ export const getActivityTypeLabel = (activityType: ActivityType): string => {
       return '없음';
     case 'FESTIVAL':
       return '행사';
-    case 'ONE_DAY_CLASS':
-      return '원데이클래스';
+    case 'EDUCATION':
+      return '교육';
     case 'CONFERENCE':
       return '회의';
     case 'ETC':

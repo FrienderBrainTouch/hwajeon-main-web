@@ -101,9 +101,8 @@ export const CreatePostForm = ({
                       <SelectValue placeholder="활동 유형을 선택하세요" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="NONE">없음</SelectItem>
                       <SelectItem value="FESTIVAL">행사</SelectItem>
-                      <SelectItem value="ONE_DAY_CLASS">원데이클래스</SelectItem>
+                      <SelectItem value="EDUCATION">교육</SelectItem>
                       <SelectItem value="CONFERENCE">회의</SelectItem>
                       <SelectItem value="ETC">기타</SelectItem>
                     </SelectContent>
