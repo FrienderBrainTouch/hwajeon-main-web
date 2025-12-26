@@ -1,37 +1,57 @@
 export default function Footer() {
   return (
     <footer
-      className="relative bg-[rgba(90,76,147,0.1)] text-[#222222]"
+      className="relative bg-[rgba(90,76,147,0.1)] text-[#222222] overflow-x-hidden"
       style={{ borderRadius: '30px 30px 0px 0px' }}
     >
       <div className="mx-auto w-full max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl px-4 xs:px-5 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 py-10 xs:py-12 sm:py-14 md:py-16 lg:py-18 xl:py-20 2xl:py-22">
         <div className="flex flex-col lg:flex-row justify-between items-start gap-8 lg:gap-12">
           {/* 왼쪽: 정보 영역 */}
-          <div className="flex-1 max-w-md">
+          <div className="flex-1 max-w-md min-w-0">
             {/* 빠른 링크 */}
-            <div className="flex items-center space-x-6 mb-8">
-              <span className="text-lg font-normal">공지사항</span>
-              <span className="text-lg font-normal text-[#222222]">|</span>
-              <span className="text-lg font-normal">행사일정</span>
-              <span className="text-lg font-normal text-[#222222]">|</span>
-              <span className="text-lg font-normal">오시는길</span>
+            <div className="flex items-center space-x-2 xs:space-x-4 sm:space-x-6 mb-8 flex-wrap">
+              <span className="text-xs xs:text-sm sm:text-base md:text-lg font-normal">
+                공지사항
+              </span>
+              <span className="text-xs xs:text-sm sm:text-base md:text-lg font-normal text-[#222222]">
+                |
+              </span>
+              <span className="text-xs xs:text-sm sm:text-base md:text-lg font-normal">
+                행사일정
+              </span>
+              <span className="text-xs xs:text-sm sm:text-base md:text-lg font-normal text-[#222222]">
+                |
+              </span>
+              <span className="text-xs xs:text-sm sm:text-base md:text-lg font-normal">
+                오시는길
+              </span>
             </div>
 
             {/* 연락처 정보 */}
             <div className="space-y-5">
-              <div className="flex">
-                <span className="text-lg font-bold w-20 flex-shrink-0">주소</span>
-                <span className="text-lg font-light">
+              <div className="flex min-w-0">
+                <span className="text-xs xs:text-sm sm:text-base md:text-lg font-bold w-16 xs:w-20 flex-shrink-0">
+                  주소
+                </span>
+                <span className="text-xs xs:text-sm sm:text-base md:text-lg font-light break-words sm:whitespace-nowrap">
                   경기도 고양시 덕양구 화랑로57-27 고양드론앵커센터 1층
                 </span>
               </div>
-              <div className="flex">
-                <span className="text-lg font-bold w-20 flex-shrink-0">대표번호</span>
-                <span className="text-lg font-light">02-3158-3001</span>
+              <div className="flex min-w-0">
+                <span className="text-xs xs:text-sm sm:text-base md:text-lg font-bold w-16 xs:w-20 flex-shrink-0">
+                  대표번호
+                </span>
+                <span className="text-xs xs:text-sm sm:text-base md:text-lg font-light">
+                  02-3158-3001
+                </span>
               </div>
-              <div className="flex">
-                <span className="text-lg font-bold w-20 flex-shrink-0">이메일</span>
-                <span className="text-lg font-light">hwajeoncoop@naver.com</span>
+              <div className="flex min-w-0">
+                <span className="text-xs xs:text-sm sm:text-base md:text-lg font-bold w-16 xs:w-20 flex-shrink-0">
+                  이메일
+                </span>
+                <span className="text-xs xs:text-sm sm:text-base md:text-lg font-light break-all">
+                  hwajeoncoop@naver.com
+                </span>
               </div>
             </div>
           </div>
