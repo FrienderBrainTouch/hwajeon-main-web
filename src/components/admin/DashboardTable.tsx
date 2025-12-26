@@ -60,9 +60,8 @@ export const DashboardTable = ({
             <div className="flex-1">
               <div className="flex items-center space-x-2 mb-2">
                 <Badge variant="outline">{getCategoryLabel(post.category as PostCategory)}</Badge>
-                {getCategoryViewType(post.category as PostCategory) === 'THUMBNAIL' && (
-                  <Badge variant="secondary">썸네일</Badge>
-                )}
+                {getCategoryViewType(post.category as PostCategory) === 'THUMBNAIL' &&
+                  post.thumbnail && <Badge variant="secondary">썸네일</Badge>}
                 {post.eventDate && <Badge variant="default">행사</Badge>}
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">{post.title}</h3>

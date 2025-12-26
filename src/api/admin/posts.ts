@@ -183,6 +183,10 @@ export const postsApi = {
       formData.append('title', request.title);
       formData.append('content', request.content);
 
+      if (request.eventDate) {
+        formData.append('activeDate', request.eventDate);
+      }
+
       if (request.activityType) {
         formData.append('activityType', request.activityType);
       }

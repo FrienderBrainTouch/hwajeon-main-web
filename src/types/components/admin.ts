@@ -103,6 +103,7 @@ export interface EditPostFormProps {
   onTitleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onPostTypeChange: (value: string) => void;
   onEventDateChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onActivityTypeChange?: (value: string) => void;
   onFileUpload: (files: FileList | null, type: 'thumbnail' | 'attachments') => void;
   onExistingFileToggle: (fileId: number) => void;
   onContentChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;

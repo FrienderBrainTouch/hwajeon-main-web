@@ -8,11 +8,25 @@ import type { Post, PostCategory } from '@/types/api/common';
 import { categoryInfo } from '@/types/ui/admin';
 import type { GetPostsParams } from '@/types/api';
 
+const LAST_SELECTED_CATEGORY_KEY = 'admin_last_selected_category';
+
 export default function AdminDashboard() {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
   const [posts, setPosts] = useState<Post[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<PostCategory>('NOTICE');
+  // localStorage와 URL 파라미터에서 마지막 선택한 카테고리 불러오기
+  const [selectedCategory, setSelectedCategory] = useState<PostCategory>(() => {
+    // URL 파라미터 우선 확인
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryParam = urlParams.get('category') as PostCategory | null;
+    if (categoryParam && categoryInfo[categoryParam]) {
+      localStorage.setItem(LAST_SELECTED_CATEGORY_KEY, categoryParam);
+      return categoryParam;
+    }
+    // URL 파라미터가 없으면 localStorage에서 불러오기
+    const saved = localStorage.getItem(LAST_SELECTED_CATEGORY_KEY);
+    return (saved as PostCategory) || 'NOTICE';
+  });
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -109,8 +123,11 @@ export default function AdminDashboard() {
   };
 
   const handleCategoryChange = (category: string) => {
-    setSelectedCategory(category as PostCategory);
+    const newCategory = category as PostCategory;
+    setSelectedCategory(newCategory);
     setCurrentPage(0); // 카테고리 변경 시 첫 페이지로 (0부터 시작)
+    // localStorage에 마지막 선택한 카테고리 저장
+    localStorage.setItem(LAST_SELECTED_CATEGORY_KEY, newCategory);
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
