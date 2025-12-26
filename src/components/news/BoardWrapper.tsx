@@ -48,10 +48,10 @@ const BoardWrapper: React.FC<BoardWrapperProps> = ({
       .slice()
       .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
       .map((post: any, index: number) => {
-        const totalElements = getPostsApi.data?.totalElements || 0;
         const pageNumber = getPostsApi.data?.pageNumber || 0;
-        // 내림차순 번호 계산: totalElements - (pageNumber × itemsPerPage) - index
-        const displayNumber = totalElements - pageNumber * itemsPerPage - index;
+        // 최신순 번호 계산: (페이지 번호 × 페이지당 항목 수) + 인덱스 + 1
+        // 최신 항목이 1번부터 시작
+        const displayNumber = pageNumber * itemsPerPage + index + 1;
 
         return {
           id: post.postId,
