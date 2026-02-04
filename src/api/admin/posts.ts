@@ -36,7 +36,7 @@ export const postsApi = {
         formData.append('activeDate', request.eventDate);
       }
 
-      if (request.postType === 'NEWS' && request.linkUrl) {
+      if ((request.postType === 'NEWS' || request.postType === 'GALLERY') && request.linkUrl) {
         formData.append('linkUrl', request.linkUrl);
       }
 

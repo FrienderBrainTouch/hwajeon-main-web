@@ -34,7 +34,7 @@ export const CreatePostForm = ({
   onSubmit,
   onCancel,
 }: CreatePostFormProps) => {
-  const isNews = postType === 'NEWS';
+  const showLinkUrl = postType === 'NEWS' || postType === 'GALLERY';
 
   return (
     <div className="min-h-screen bg-gray-50 py-6">
@@ -144,8 +144,8 @@ export const CreatePostForm = ({
                 )}
               </div>
 
-              {/* 링크 URL (NEWS 전용) */}
-              {isNews && (
+              {/* 링크 URL (기업소식·언론보도) */}
+              {showLinkUrl && (
                 <div className="space-y-2">
                   <Label htmlFor="linkUrl">링크 URL</Label>
                   <Input
@@ -157,7 +157,7 @@ export const CreatePostForm = ({
                     disabled={isLoading}
                   />
                   <p className="text-xs text-gray-500">
-                    링크는 화전 소식 게시글(NEWS)에만 추가할 수 있습니다.
+                    기업소식·언론보도 게시글에 링크를 추가할 수 있습니다.
                   </p>
                 </div>
               )}

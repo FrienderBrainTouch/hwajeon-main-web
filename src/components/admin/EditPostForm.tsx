@@ -227,8 +227,8 @@ export const EditPostForm = ({
               )}
             </div>
 
-            {/* 링크 URL (NEWS 전용) */}
-            {formData.postType === 'NEWS' && (
+            {/* 링크 URL (기업소식·언론보도) */}
+            {(formData.postType === 'NEWS' || formData.postType === 'GALLERY') && (
               <div>
                 <Label htmlFor="linkUrl">링크 URL</Label>
                 <Input
@@ -240,7 +240,7 @@ export const EditPostForm = ({
                   className="mt-1"
                 />
                 <p className="text-xs text-gray-500 mt-1">
-                  화전 소식 게시글에서만 링크를 추가하거나 변경할 수 있습니다.
+                  기업소식·언론보도 게시글에서 링크를 추가하거나 변경할 수 있습니다.
                 </p>
 
                 {linkMeta?.linkUrl && (
