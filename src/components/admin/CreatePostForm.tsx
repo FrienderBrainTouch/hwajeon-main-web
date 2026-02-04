@@ -71,7 +71,7 @@ export const CreatePostForm = ({
                     <SelectItem value="ARCHIVE">자료실</SelectItem>
                     <SelectItem value="MEETING">정기회의</SelectItem>
                     <SelectItem value="NEWS">기업 소식</SelectItem>
-                    <SelectItem value="GALLERY">활동 갤러리</SelectItem>
+                    <SelectItem value="GALLERY">언론보도</SelectItem>
                     <SelectItem value="CALENDAR">행사 캘린더</SelectItem>
                   </SelectContent>
                 </Select>

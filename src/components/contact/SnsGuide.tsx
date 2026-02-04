@@ -28,7 +28,7 @@ const SnsGuide: React.FC = () => {
 
           {/* 인스타그램 버튼 */}
           <a
-            href="https://www.instagram.com/hwajeon3001"
+            href="https://www.instagram.com/hwajeon.3001"
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-4 bg-pink-600 hover:bg-pink-700 text-white px-8 sm:px-12 py-4 sm:py-6 rounded-lg transition-colors flex-1"

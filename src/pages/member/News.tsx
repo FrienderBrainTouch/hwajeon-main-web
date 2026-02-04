@@ -6,7 +6,7 @@ function News() {
   const tabs: TabItem[] = [
     { id: 'announcements', label: '공지사항', value: 'announcements' },
     { id: 'news', label: '기업 소식', value: 'news' },
-    { id: 'gallery', label: '활동 갤러리', value: 'gallery' },
+    { id: 'gallery', label: '언론보도', value: 'gallery' },
     { id: 'calendar', label: '행사 캘린더', value: 'calendar' },
     { id: 'archive', label: '자료실', value: 'archive' },
   ];
@@ -30,7 +30,7 @@ function News() {
       case 'gallery':
         return (
           <div className="py-8">
-            <GalleryWrapper title="활동 갤러리" boardType="gallery" type="gallery" />
+            <GalleryWrapper title="언론보도" boardType="gallery" type="gallery" />
           </div>
         );
       case 'calendar':

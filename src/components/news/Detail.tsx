@@ -36,13 +36,13 @@ const Detail = <T extends BaseItem>({
         </div>
       </div>
 
-      {/* 중앙 내용 섹션 */}
+      {/* 중앙 내용 섹션 - 줄바꿈(문단) 반영 */}
       <div className="bg-white min-h-[300px] sm:min-h-[400px] py-4 sm:py-8">
         <div className="prose prose-gray max-w-none">
-          <p className="text-sm sm:text-base text-gray-700 leading-relaxed break-words">
+          <div className="text-sm sm:text-base text-gray-700 leading-relaxed break-words whitespace-pre-line">
             {item.content ||
               '게시물 내용이 여기에 표시됩니다. 실제 구현 시에는 content 필드를 추가하여 상세 내용을 저장할 수 있습니다.'}
-          </p>
+          </div>
         </div>
       </div>
 

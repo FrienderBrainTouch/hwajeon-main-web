@@ -310,8 +310,9 @@ const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">{title}</h2>
           <div className="w-16 h-1 bg-black mx-auto mb-6"></div>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            화전마을의 이야기가 다양한 언론과 미디어를 통해 전해지고 있습니다. 아래는 조합의 주요
-            보도자료와 뉴스 기사들을 모은 공간입니다.
+            {type === 'news'
+              ? '화전마을관리사회적협동조합의 사업 추진, 운영 현황, 주요 결정 사항 등 조합의 공식 활동과 내부 소식을 전하는 공간입니다.'
+              : '화전마을관리사회적협동조합의 사업과 지역 활동이 신문, 방송, 온라인 매체 등에 보도된 기사들을 정리한 공간입니다.'}
           </p>
         </div>
       )}

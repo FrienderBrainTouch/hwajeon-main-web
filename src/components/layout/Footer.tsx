@@ -72,7 +72,7 @@ export default function Footer() {
 
             {/* Instagram */}
             <a
-              href="https://www.instagram.com/hwajeon3001"
+              href="https://www.instagram.com/hwajeon.3001"
               target="_blank"
               rel="noopener noreferrer"
               className="w-10 h-10 bg-[#2C2E5A] rounded-lg flex items-center justify-center hover:bg-[#E4405F] transition-colors"
