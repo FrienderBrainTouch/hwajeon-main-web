@@ -50,6 +50,7 @@ const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
       postType,
       page: currentPage - 1, // API는 0부터 시작
       size: itemsPerPage,
+      sort: 'createdAt,desc',
     });
   }, [boardType, currentPage, itemsPerPage, postType]);
 

@@ -32,6 +32,9 @@ export const memberPostsApi = {
       if (params.size !== undefined) {
         queryParams.size = params.size;
       }
+      if (params.sort) {
+        queryParams.sort = params.sort;
+      }
 
       return await apiClient.get<PostSummaryResponse>(POST_ENDPOINTS.POST_LIST, queryParams);
     } catch (error) {
