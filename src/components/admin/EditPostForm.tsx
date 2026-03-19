@@ -192,6 +192,7 @@ export const EditPostForm = ({
                           : undefined;
                       const isSelected =
                         fileId !== undefined && selectedExistingFiles.includes(fileId);
+                      const fileUrl = typeof file === 'string' ? file : '';
                       return (
                         <li
                           key={index}
@@ -210,15 +211,28 @@ export const EditPostForm = ({
                               {typeof file === 'string' ? file.split('/').pop() : String(file)}
                             </span>
                           </div>
-                          <span
-                            className={`text-xs px-2 py-1 rounded ${
-                              isSelected
-                                ? 'bg-green-100 text-green-800'
-                                : 'bg-gray-100 text-gray-500'
-                            }`}
-                          >
-                            {fileId === undefined ? 'ID 없음' : isSelected ? '유지됨' : '제거됨'}
-                          </span>
+                          <div className="flex items-center gap-2">
+                            {fileUrl && (
+                              <a
+                                href={fileUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-xs px-2 py-1 rounded bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                다운로드
+                              </a>
+                            )}
+                            <span
+                              className={`text-xs px-2 py-1 rounded ${
+                                isSelected
+                                  ? 'bg-green-100 text-green-800'
+                                  : 'bg-gray-100 text-gray-500'
+                              }`}
+                            >
+                              {fileId === undefined ? 'ID 없음' : isSelected ? '유지됨' : '제거됨'}
+                            </span>
+                          </div>
                         </li>
                       );
                     })}
