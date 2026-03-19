@@ -133,9 +133,17 @@ export const postsApi = {
       if (isNaN(postId) || postId <= 0) {
         throw new Error(`Invalid post ID: ${params.postId}`);
       }
-      return await apiClient.get<PostDetailResponse>(
+      const response = await apiClient.get<PostDetailResponse>(
         POST_ENDPOINTS.POST_DETAIL.replace(':postId', postId.toString())
       );
+      console.log('[postsApi.getPostDetail] response', {
+        postId,
+        success: response.success,
+        linkUrl: response.data?.linkUrl,
+        linkMeta: response.data?.linkMeta,
+        data: response.data,
+      });
+      return response;
     } catch (error) {
       console.error('getPostDetail error:', error);
       throw error;
@@ -158,9 +166,17 @@ export const postsApi = {
       if (isNaN(postId) || postId <= 0) {
         throw new Error(`Invalid post ID: ${params.postId}`);
       }
-      return await apiClient.get<CalendarPostDetailResponse>(
+      const response = await apiClient.get<CalendarPostDetailResponse>(
         POST_ENDPOINTS.POST_CALENDAR_DETAIL.replace(':postId', postId.toString())
       );
+      console.log('[postsApi.getCalendarPostDetail] response', {
+        postId,
+        success: response.success,
+        linkUrl: response.data?.linkUrl,
+        linkMeta: response.data?.linkMeta,
+        data: response.data,
+      });
+      return response;
     } catch (error) {
       console.error('getCalendarPostDetail error:', error);
       throw error;
@@ -231,10 +247,17 @@ export const postsApi = {
         entries: formDataEntriesForLog,
       });
 
-      return await apiClient.patch<CreatePostResponse>(
+      const response = await apiClient.patch<CreatePostResponse>(
         POST_ENDPOINTS.POST_UPDATE.replace(':postId', id.toString()),
         formData
       );
+      console.log('[postsApi.updatePost] response', {
+        postId: id,
+        success: response.success,
+        message: response.message,
+        data: response.data,
+      });
+      return response;
     } catch (error) {
       throw error;
     }
