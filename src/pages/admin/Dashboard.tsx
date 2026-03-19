@@ -43,7 +43,6 @@ export default function AdminDashboard() {
         postType: category,
         page: page,
         size: postsPerPage,
-        sort: 'createdAt,desc',
       };
 
       const result = await getPostsApi.execute(params);
