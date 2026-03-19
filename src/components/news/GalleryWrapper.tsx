@@ -155,6 +155,7 @@ const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
   useEffect(() => {
     if (getPostDetailApi.data && itemId) {
       const detailData = getPostDetailApi.data;
+      const rawLinkUrl = (detailData as any).linkUrl as string | undefined;
       const item: GalleryItem = {
         id: parseInt(itemId),
         title: detailData.title,
@@ -163,7 +164,8 @@ const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
         date: detailData.createAt.split('T')[0], // 날짜만 추출 (YYYY-MM-DD)
         imageUrl: (detailData as any).thumbnailUrl || '',
         files: detailData.fileUrls || [],
-        linkMeta: detailData.linkMeta, // 링크 메타 정보 추가
+        linkMeta:
+          detailData.linkMeta || (rawLinkUrl ? { linkUrl: rawLinkUrl } : undefined), // 링크 메타 정보 추가(원본 URL fallback)
       };
       setSelectedItem(item);
     }

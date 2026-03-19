@@ -139,6 +139,15 @@ export const EditPostForm = ({
                       alt="썸네일 미리보기"
                       className="w-48 h-48 object-cover rounded border"
                     />
+                    <div className="mt-2">
+                      <a
+                        href={URL.createObjectURL(formData.thumbnail)}
+                        download={formData.thumbnail.name}
+                        className="inline-flex text-xs px-2 py-1 rounded bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors"
+                      >
+                        다운로드
+                      </a>
+                    </div>
                   </div>
                 )}
                 {originalPost?.thumbnail && !formData.thumbnail && (
@@ -149,6 +158,16 @@ export const EditPostForm = ({
                       alt="현재 썸네일"
                       className="w-48 h-48 object-cover rounded border"
                     />
+                    <div className="mt-2">
+                      <a
+                        href={originalPost.thumbnail}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex text-xs px-2 py-1 rounded bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors"
+                      >
+                        다운로드
+                      </a>
+                    </div>
                   </div>
                 )}
               </div>
@@ -186,6 +205,10 @@ export const EditPostForm = ({
                   </p>
                   <ul className="text-sm text-gray-500 space-y-2">
                     {originalPost.attachments.map((file: any, index: number) => {
+                      // 썸네일은 첨부파일 목록에 포함되어 있어도 여기서는 제외(썸네일 섹션에서만 관리)
+                      if (originalPost.thumbnail && typeof file === 'string' && file === originalPost.thumbnail) {
+                        return null;
+                      }
                       const fileId =
                         existingFileIds && existingFileIds.length > index
                           ? existingFileIds[index]

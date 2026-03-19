@@ -191,7 +191,8 @@ export const postsApi = {
         formData.append('activityType', request.activityType);
       }
 
-      if (request.linkUrl) {
+      // 빈 문자열(링크 제거)도 서버에 전달할 수 있도록 undefined만 제외
+      if (request.linkUrl !== undefined) {
         formData.append('linkUrl', request.linkUrl);
       }
 

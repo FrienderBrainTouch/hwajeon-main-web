@@ -150,13 +150,15 @@ const BoardWrapper: React.FC<BoardWrapperProps> = ({
   useEffect(() => {
     if (getPostDetailApi.data && itemId) {
       const detailData = getPostDetailApi.data;
+      const rawLinkUrl = (detailData as any).linkUrl as string | undefined;
       const item: BoardItem = {
         id: parseInt(itemId),
         title: detailData.title,
         content: detailData.content,
         date: detailData.createAt.split('T')[0], // 날짜만 추출 (YYYY-MM-DD)
         files: detailData.fileUrls, // 파일 정보 추가
-        linkMeta: detailData.linkMeta, // 링크 메타 정보 추가
+        linkMeta:
+          detailData.linkMeta || (rawLinkUrl ? { linkUrl: rawLinkUrl } : undefined), // 링크 메타 정보 추가(원본 URL fallback)
       };
       setSelectedItem(item);
     }

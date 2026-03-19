@@ -44,6 +44,7 @@ export type PostSummaryResponse = {
  * @property {string} createAt - 생성일시
  * @property {string} modifiedAt - 수정일시
  * @property {Array<{fileId: number, fileUrl: string}>} fileUrls - 파일 정보 목록
+ * @property {string} [linkUrl] - 원본 링크 URL (선택적)
  * @property {LinkMeta} [linkMeta] - 링크 메타 정보 (OG 태그 파싱 결과)
  */
 export type PostDetailResponse = {
@@ -55,6 +56,7 @@ export type PostDetailResponse = {
     fileId: number;
     fileUrl: string;
   }>;
+  linkUrl?: string;
   linkMeta?: LinkMeta;
 };
 
@@ -68,6 +70,7 @@ export type PostDetailResponse = {
  * @property {Array<{fileId: number, fileUrl: string}>} fileUrls - 파일 정보 목록
  * @property {string} eventDate - 행사 날짜
  * @property {ActivityType} activityType - 활동 타입
+ * @property {string} [linkUrl] - 원본 링크 URL (선택적)
  * @property {LinkMeta} [linkMeta] - 링크 메타 정보 (OG 태그 파싱 결과)
  */
 export type CalendarPostDetailResponse = {
@@ -81,5 +84,6 @@ export type CalendarPostDetailResponse = {
   }>;
   eventDate: string;
   activityType: ActivityType;
+  linkUrl?: string;
   linkMeta?: LinkMeta;
 };

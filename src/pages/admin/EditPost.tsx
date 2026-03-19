@@ -58,6 +58,8 @@ export default function EditPost() {
 
         const supportsLink = postType === 'NEWS' || postType === 'GALLERY';
         const linkMetaData = supportsLink ? resultData.linkMeta : undefined;
+        const rawLinkUrl = supportsLink ? (resultData as any).linkUrl : undefined;
+        const effectiveLinkUrl = rawLinkUrl || linkMetaData?.linkUrl || '';
 
         const post: Post = {
           id: postId,
@@ -82,7 +84,7 @@ export default function EditPost() {
           postType: post.category,
           eventDate: calendarData?.eventDate,
           activityType: calendarData?.activityType || (isCalendar ? 'FESTIVAL' : undefined),
-          linkUrl: supportsLink ? linkMetaData?.linkUrl || '' : '',
+          linkUrl: supportsLink ? effectiveLinkUrl : '',
           linkMeta: linkMetaData,
         });
 
@@ -130,14 +132,20 @@ export default function EditPost() {
 
     try {
       const supportsLink = formData.postType === 'NEWS' || formData.postType === 'GALLERY';
+      const existingThumbnailFileId = existingFileIds.length > 0 ? existingFileIds[0] : undefined;
+      const effectiveExistingFileIds =
+        formData.thumbnail && existingThumbnailFileId !== undefined
+          ? selectedExistingFiles.filter((fid) => fid !== existingThumbnailFileId)
+          : selectedExistingFiles;
       // UpdatePostRequest 형태로 변환
       const updateRequest = {
         title: formData.title,
         content: formData.content,
         eventDate: formData.postType === 'CALENDAR' ? formData.eventDate : undefined,
         activityType: formData.postType === 'CALENDAR' ? formData.activityType : undefined,
-        existingFileIds: selectedExistingFiles, // 선택된 기존 파일들만
+        existingFileIds: effectiveExistingFileIds, // 선택된 기존 파일들만 (새 썸네일 업로드 시 기존 썸네일은 제외)
         newFiles: formData.attachments || [],
+        thumbnail: formData.thumbnail,
         linkUrl: supportsLink ? (formData.linkUrl ?? '') : undefined,
       };
 
