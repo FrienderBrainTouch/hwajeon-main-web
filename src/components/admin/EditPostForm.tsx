@@ -96,9 +96,8 @@ export const EditPostForm = ({
               </div>
             )}
 
-            {/* 활동 유형 (GALLERY 또는 CALENDAR 카테고리일 때만) */}
-            {(formData.postType === 'GALLERY' || formData.postType === 'CALENDAR') &&
-              onActivityTypeChange && (
+            {/* 활동 유형 (CALENDAR 카테고리일 때만) */}
+            {formData.postType === 'CALENDAR' && onActivityTypeChange && (
                 <div>
                   <Label htmlFor="activityType">활동 유형</Label>
                   <Select

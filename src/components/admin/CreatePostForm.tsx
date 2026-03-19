@@ -92,8 +92,8 @@ export const CreatePostForm = ({
                 </div>
               )}
 
-              {/* 활동 유형 (GALLERY 또는 CALENDAR 카테고리일 때만) */}
-              {(postType === 'GALLERY' || postType === 'CALENDAR') && (
+              {/* 활동 유형 (CALENDAR 카테고리일 때만) */}
+              {postType === 'CALENDAR' && (
                 <div className="space-y-2">
                   <Label htmlFor="activityType">활동 유형</Label>
                   <Select value={activityType} onValueChange={onActivityTypeChange}>
