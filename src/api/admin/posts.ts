@@ -112,9 +112,6 @@ export const postsApi = {
       if (params.size !== undefined) {
         queryParams.size = params.size;
       }
-      if (params.sort) {
-        queryParams.sort = params.sort;
-      }
 
       return await apiClient.get<PostSummaryResponse>(POST_ENDPOINTS.POST_LIST, queryParams);
     } catch (error) {
@@ -198,18 +195,10 @@ export const postsApi = {
         formData.append('linkUrl', request.linkUrl);
       }
 
-      // 썸네일(있는 경우)도 함께 전송 (백엔드가 files 기반이면 첫 파일을 썸네일로 쓰는 경우가 많음)
-      if (request.thumbnail) {
-        formData.append('files', request.thumbnail);
-        formData.append('newFiles', request.thumbnail);
-      }
-
       // 기존 파일 IDs 추가
       if (request.existingFileIds && request.existingFileIds.length > 0) {
         request.existingFileIds.forEach((fileId, index) => {
           formData.append(`existingFileIds[${index}]`, fileId.toString());
-          // 백엔드 바인딩 방식에 따라 반복 키(existingFileIds)로 받는 경우도 있어 함께 전송
-          formData.append('existingFileIds', fileId.toString());
         });
       }
 
@@ -217,8 +206,6 @@ export const postsApi = {
       if (request.newFiles && request.newFiles.length > 0) {
         request.newFiles.forEach((file) => {
           formData.append('newFiles', file);
-          // create와 동일하게 files로 받는 서버도 있어 함께 전송
-          formData.append('files', file);
         });
       }
 

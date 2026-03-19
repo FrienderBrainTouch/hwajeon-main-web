@@ -56,8 +56,8 @@ export default function EditPost() {
         const fileIds = resultData.fileUrls.map((file: any) => file.fileId);
         const fileUrls = resultData.fileUrls.map((file: any) => file.fileUrl);
 
-        const supportsLink = postType === 'NEWS' || postType === 'GALLERY';
-        const linkMetaData = supportsLink ? resultData.linkMeta : undefined;
+        const isNews = postType === 'NEWS';
+        const linkMetaData = isNews ? resultData.linkMeta : undefined;
 
         const post: Post = {
           id: postId,
@@ -82,7 +82,7 @@ export default function EditPost() {
           postType: post.category,
           eventDate: calendarData?.eventDate,
           activityType: calendarData?.activityType || (isCalendar ? 'FESTIVAL' : undefined),
-          linkUrl: supportsLink ? linkMetaData?.linkUrl || '' : '',
+          linkUrl: isNews ? linkMetaData?.linkUrl || '' : '',
           linkMeta: linkMetaData,
         });
 
@@ -129,7 +129,6 @@ export default function EditPost() {
     if (!id) return;
 
     try {
-      const supportsLink = formData.postType === 'NEWS' || formData.postType === 'GALLERY';
       // UpdatePostRequest 형태로 변환
       const updateRequest = {
         title: formData.title,
@@ -138,7 +137,7 @@ export default function EditPost() {
         activityType: formData.postType === 'CALENDAR' ? formData.activityType : undefined,
         existingFileIds: selectedExistingFiles, // 선택된 기존 파일들만
         newFiles: formData.attachments || [],
-        linkUrl: supportsLink ? (formData.linkUrl ?? '') : undefined,
+        linkUrl: formData.postType === 'NEWS' ? formData.linkUrl ?? '' : undefined,
       };
 
       const result = await updatePostApi.execute(id, {

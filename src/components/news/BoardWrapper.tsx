@@ -66,7 +66,7 @@ const BoardWrapper: React.FC<BoardWrapperProps> = ({
 
   // boardType이 변경될 때마다 API 호출
   useEffect(() => {
-    getPostsApi.execute({ postType, page: currentPage - 1, size: itemsPerPage, sort: 'createdAt,desc' });
+    getPostsApi.execute({ postType, page: currentPage - 1, size: itemsPerPage });
   }, [boardType, currentPage, itemsPerPage]);
 
   // URL 파라미터에서 아이템 ID와 페이지 확인 (탭별로 독립적)

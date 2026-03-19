@@ -77,7 +77,7 @@ export default function CreatePost() {
         setFormData((prev) => ({
           ...prev,
           postType: newType,
-          linkUrl: newType === 'NEWS' || newType === 'GALLERY' ? prev.linkUrl || '' : '',
+          linkUrl: newType === 'NEWS' ? prev.linkUrl || '' : '',
         }));
       }}
       onEventDateChange={(value) => setFormData({ ...formData, eventDate: value })}
