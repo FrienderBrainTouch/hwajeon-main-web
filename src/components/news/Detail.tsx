@@ -144,12 +144,17 @@ const Detail = <T extends BaseItem>({
                     file.originalFileName ||
                     (() => {
                       try {
-                        const urlObj = new URL(file.fileUrl);
+                        // 상대경로(/attachment/..)도 안전하게 처리하기 위해 base를 준다.
+                        const urlObj = new URL(file.fileUrl, window.location.origin);
                         const pathname = urlObj.pathname;
-                        const fileName = pathname.split('/').pop() || '';
-                        return fileName ? decodeURIComponent(fileName) : `첨부파일_${index + 1}`;
+                        const name = pathname.split('/').pop() || '';
+                        return name ? decodeURIComponent(name) : `첨부파일_${index + 1}`;
                       } catch {
-                        return `첨부파일_${index + 1}`;
+                        // URL 파싱이 실패해도 문자열에서 최대한 파일명을 뽑아낸다(쿼리/해시 제거).
+                        const raw = String(file.fileUrl || '');
+                        const withoutQuery = raw.split('#')[0].split('?')[0];
+                        const name = withoutQuery.split('/').pop() || '';
+                        return name ? decodeURIComponent(name) : `첨부파일_${index + 1}`;
                       }
                     })();
 
