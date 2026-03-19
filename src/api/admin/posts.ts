@@ -220,6 +220,17 @@ export const postsApi = {
         });
       }
 
+      const formDataEntriesForLog = Array.from(formData.entries()).map(([key, value]) => ({
+        key,
+        value: value instanceof File ? `[File:${value.name}]` : String(value),
+      }));
+      console.log('[postsApi.updatePost] request formData entries', {
+        postId: id,
+        postType: request.postType,
+        linkUrl: request.linkUrl,
+        entries: formDataEntriesForLog,
+      });
+
       return await apiClient.patch<CreatePostResponse>(
         POST_ENDPOINTS.POST_UPDATE.replace(':postId', id.toString()),
         formData

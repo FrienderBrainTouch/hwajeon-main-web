@@ -132,6 +132,12 @@ export default function EditPost() {
 
     try {
       const supportsLink = formData.postType === 'NEWS' || formData.postType === 'GALLERY';
+      console.log('[EditPost] submit clicked', {
+        postId: id,
+        postType: formData.postType,
+        supportsLink,
+        linkUrl: formData.linkUrl ?? '',
+      });
       const existingThumbnailFileId = existingFileIds.length > 0 ? existingFileIds[0] : undefined;
       const effectiveExistingFileIds =
         formData.thumbnail && existingThumbnailFileId !== undefined
@@ -148,6 +154,14 @@ export default function EditPost() {
         thumbnail: formData.thumbnail,
         linkUrl: supportsLink ? (formData.linkUrl ?? '') : undefined,
       };
+      console.log('[EditPost] update payload prepared', {
+        postId: id,
+        postType: formData.postType,
+        linkUrl: updateRequest.linkUrl,
+        existingFileIdsCount: updateRequest.existingFileIds.length,
+        newFilesCount: updateRequest.newFiles.length,
+        hasThumbnail: !!updateRequest.thumbnail,
+      });
 
       const result = await updatePostApi.execute(id, {
         ...updateRequest,
@@ -156,15 +170,32 @@ export default function EditPost() {
 
       if (result !== null) {
         alert('게시글이 성공적으로 수정되었습니다.');
+        console.log('[EditPost] update success alert shown', {
+          postId: id,
+          postType: formData.postType,
+          linkUrl: updateRequest.linkUrl,
+          result,
+        });
         // 마지막 선택한 카테고리로 이동
         const lastCategory = localStorage.getItem('admin_last_selected_category') || 'NOTICE';
         navigate(`/admin/dashboard?category=${lastCategory}`);
       } else {
         // API에서 에러가 발생한 경우
+        console.warn('[EditPost] update result null', {
+          postId: id,
+          postType: formData.postType,
+          linkUrl: updateRequest.linkUrl,
+          error: updatePostApi.error,
+        });
         alert(updatePostApi.error || '게시글 수정에 실패했습니다.');
       }
     } catch (error) {
-      console.error('게시글 수정 실패:', error);
+      console.error('[EditPost] update exception', {
+        postId: id,
+        postType: formData.postType,
+        linkUrl: formData.linkUrl ?? '',
+        error,
+      });
       alert('게시글 수정 중 오류가 발생했습니다.');
     }
   };
