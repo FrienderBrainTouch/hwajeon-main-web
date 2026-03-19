@@ -80,7 +80,10 @@ const BoardWrapper: React.FC<BoardWrapperProps> = ({
     if (!getPostsApi.data) return;
     if (resolvedTotalPages === null) {
       const tp = getPostsApi.data.totalPages;
-      setResolvedTotalPages(typeof tp === 'number' && tp > 0 ? tp : 1);
+      const safeTotal = typeof tp === 'number' && tp > 0 ? tp : 1;
+      setResolvedTotalPages(safeTotal);
+      // totalPages 확정 시 currentPage 범위 보정
+      setCurrentPage((prev) => Math.min(Math.max(prev, 1), safeTotal));
     }
   }, [getPostsApi.data, resolvedTotalPages]);
 
@@ -119,12 +122,17 @@ const BoardWrapper: React.FC<BoardWrapperProps> = ({
     if (page) {
       const pageNum = parseInt(page);
       if (pageNum > 0) {
-        setCurrentPage(pageNum);
+        const total = resolvedTotalPages ?? getPostsApi.data?.totalPages;
+        if (typeof total === 'number' && total > 0) {
+          setCurrentPage(Math.min(pageNum, total));
+        } else {
+          setCurrentPage(pageNum);
+        }
       }
     } else {
       setCurrentPage(1); // 페이지 파라미터가 없으면 1페이지로 초기화
     }
-  }, [page]);
+  }, [page, resolvedTotalPages, getPostsApi.data?.totalPages]);
 
   // 로딩 및 에러 상태 처리
   if (getPostsApi.loading) {
