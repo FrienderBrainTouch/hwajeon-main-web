@@ -24,6 +24,7 @@ const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
   const [responsiveItemsPerPage, setResponsiveItemsPerPage] = useState(9);
+  const [resolvedTotalPages, setResolvedTotalPages] = useState<number | null>(null);
 
   // boardType을 postType으로 매핑
   const getPostType = (boardType: string): PostCategory => {
@@ -46,12 +47,27 @@ const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
 
   // 게시글 목록 조회
   useEffect(() => {
+    const totalPages = resolvedTotalPages;
+    const serverPage =
+      totalPages && totalPages > 0
+        ? Math.max(0, Math.min(totalPages - currentPage, totalPages - 1))
+        : 0;
+
     getPostsApi.execute({
       postType,
-      page: currentPage - 1, // API는 0부터 시작
+      page: serverPage, // 서버 기본이 오래된 글부터일 때 최신 글을 1페이지에 보이도록 역방향 매핑
       size: itemsPerPage,
     });
-  }, [boardType, currentPage, itemsPerPage, postType]);
+  }, [boardType, currentPage, itemsPerPage, postType, resolvedTotalPages]);
+
+  // totalPages가 확인되면(초기 1회) 최신 페이지로 다시 조회되도록 유도
+  useEffect(() => {
+    if (!getPostsApi.data) return;
+    if (resolvedTotalPages === null) {
+      const tp = getPostsApi.data.totalPages;
+      setResolvedTotalPages(typeof tp === 'number' && tp > 0 ? tp : 1);
+    }
+  }, [getPostsApi.data, resolvedTotalPages]);
 
   // API 데이터를 GalleryItemType으로 변환 (작성일 기준 최신순 정렬)
   const items: GalleryItemType[] =
@@ -60,10 +76,10 @@ const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
       .slice()
       .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
       .map((post: any, index: number) => {
-        const pageNumber = getPostsApi.data?.pageNumber || 0;
-        // 최신순 번호 계산: (페이지 번호 × 페이지당 항목 수) + 인덱스 + 1
-        // 최신 항목이 1번부터 시작
-        const displayNumber = pageNumber * itemsPerPage + index + 1;
+        const totalElements = getPostsApi.data?.totalElements || 0;
+        const pageNumber = getPostsApi.data?.pageNumber || 0; // 서버 페이지(역방향 매핑 적용됨)
+        // 최신순 번호 계산(전체 기준 내림차순): totalElements - (pageNumber * size) - index
+        const displayNumber = totalElements - pageNumber * itemsPerPage - index;
 
         return {
           id: post.postId,
@@ -184,7 +200,7 @@ const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
   }
 
   // 페이지네이션 계산 (API에서 받은 데이터 사용)
-  const totalPages = getPostsApi.data?.totalPages || 1;
+  const totalPages = resolvedTotalPages ?? getPostsApi.data?.totalPages ?? 1;
   const currentItems = items;
 
   // 페이지 변경 핸들러
