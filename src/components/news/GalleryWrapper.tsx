@@ -24,7 +24,10 @@ const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
   const [responsiveItemsPerPage, setResponsiveItemsPerPage] = useState(9);
-  const [resolvedTotalPages, setResolvedTotalPages] = useState<number | null>(null);
+  const [listLoading, setListLoading] = useState(false);
+  const [listError, setListError] = useState<string | null>(null);
+  const [totalPages, setTotalPages] = useState(1);
+  const [pagePosts, setPagePosts] = useState<any[]>([]);
 
   // boardType을 postType으로 매핑
   const getPostType = (boardType: string): PostCategory => {
@@ -42,47 +45,89 @@ const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
   const itemsPerPage = propItemsPerPage || responsiveItemsPerPage;
 
   // API 호출
-  const getPostsApi = useApi(memberPostsApi.getPosts);
   const getPostDetailApi = useApi(memberPostsApi.getPostDetail);
 
   // 게시글 목록 조회
+  // 서버가 "오래된 글부터" 페이징하는 경우에도 UI는 "최신 글 9개를 1페이지"에 보여주기 위해
+  // 필요한 서버 페이지(1~2개)를 가져와 최신순으로 재청킹한다.
   useEffect(() => {
-    const totalPages = resolvedTotalPages;
-    const serverPage =
-      totalPages && totalPages > 0
-        ? Math.max(0, Math.min(totalPages - currentPage, totalPages - 1))
-        : 0;
+    let cancelled = false;
 
-    getPostsApi.execute({
-      postType,
-      page: serverPage, // 서버 기본이 오래된 글부터일 때 최신 글을 1페이지에 보이도록 역방향 매핑
-      size: itemsPerPage,
-    });
-  }, [boardType, currentPage, itemsPerPage, postType, resolvedTotalPages]);
+    const clamp = (n: number, min: number, max: number) => Math.min(Math.max(n, min), max);
 
-  // totalPages가 확인되면(초기 1회) 최신 페이지로 다시 조회되도록 유도
-  useEffect(() => {
-    if (!getPostsApi.data) return;
-    if (resolvedTotalPages === null) {
-      const tp = getPostsApi.data.totalPages;
-      const safeTotal = typeof tp === 'number' && tp > 0 ? tp : 1;
-      setResolvedTotalPages(safeTotal);
-      // totalPages 확정 시 currentPage 범위 보정
-      setCurrentPage((prev) => Math.min(Math.max(prev, 1), safeTotal));
-    }
-  }, [getPostsApi.data, resolvedTotalPages]);
+    const fetchPage = async (page: number) => {
+      const res = await memberPostsApi.getPosts({ postType, page, size: itemsPerPage });
+      if (!res.success) throw new Error(res.message || 'API 요청에 실패했습니다.');
+      return res.data!;
+    };
+
+    const run = async () => {
+      setListLoading(true);
+      setListError(null);
+      try {
+        // 메타 확보
+        const meta = await fetchPage(0);
+        const te = meta.totalElements || 0;
+        const tp = meta.totalPages || 1;
+        if (cancelled) return;
+        setTotalPages(tp);
+
+        if (te === 0) {
+          setPagePosts([]);
+          return;
+        }
+
+        // 최신순 UI 페이지 범위(최신 기준)
+        const uiStartFromNewest = (currentPage - 1) * itemsPerPage;
+        const uiEndFromNewest = uiStartFromNewest + itemsPerPage - 1;
+        const maxIndex = te - 1; // oldest 기준
+
+        const oldestIndexStart = clamp(maxIndex - uiEndFromNewest, 0, maxIndex);
+        const oldestIndexEnd = clamp(maxIndex - uiStartFromNewest, 0, maxIndex);
+
+        const serverPageStart = Math.floor(oldestIndexStart / itemsPerPage);
+        const serverPageEnd = Math.floor(oldestIndexEnd / itemsPerPage);
+
+        const pagesToFetch: number[] = [];
+        for (let p = serverPageStart; p <= serverPageEnd; p++) pagesToFetch.push(p);
+
+        const pageDatas = await Promise.all(pagesToFetch.map((p) => fetchPage(p)));
+        if (cancelled) return;
+
+        const collected: { globalIndex: number; post: any }[] = [];
+        pageDatas.forEach((pd, i) => {
+          const serverPage = pagesToFetch[i];
+          pd.content.forEach((post: any, idx: number) => {
+            const globalIndex = serverPage * itemsPerPage + idx;
+            if (globalIndex >= oldestIndexStart && globalIndex <= oldestIndexEnd) {
+              collected.push({ globalIndex, post });
+            }
+          });
+        });
+
+        collected.sort((a, b) => a.globalIndex - b.globalIndex);
+        setPagePosts(collected.map((x) => x.post).reverse()); // newest-first
+      } catch (e: any) {
+        if (!cancelled) setListError(e?.message || '서버 오류가 발생했습니다.');
+      } finally {
+        if (!cancelled) setListLoading(false);
+      }
+    };
+
+    run();
+    return () => {
+      cancelled = true;
+    };
+  }, [postType, itemsPerPage, currentPage]);
 
   // API 데이터를 GalleryItemType으로 변환 (작성일 기준 최신순 정렬)
   const items: GalleryItemType[] =
-    getPostsApi.data?.content
-      // 작성일(createdAt) 기준 최신순 정렬
+    pagePosts
       .slice()
       .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
       .map((post: any, index: number) => {
-        const totalElements = getPostsApi.data?.totalElements || 0;
-        const pageNumber = getPostsApi.data?.pageNumber || 0; // 서버 페이지(역방향 매핑 적용됨)
-        // 최신순 번호 계산(전체 기준 내림차순): totalElements - (pageNumber * size) - index
-        const displayNumber = totalElements - pageNumber * itemsPerPage - index;
+        // 최신순 번호(1부터): UI 페이지 기준
+        const displayNumber = (currentPage - 1) * itemsPerPage + index + 1;
 
         return {
           id: post.postId,
@@ -160,20 +205,15 @@ const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
     if (page) {
       const pageNum = parseInt(page);
       if (pageNum > 0) {
-        const total = resolvedTotalPages ?? getPostsApi.data?.totalPages;
-        if (typeof total === 'number' && total > 0) {
-          setCurrentPage(Math.min(pageNum, total));
-        } else {
-          setCurrentPage(pageNum);
-        }
+        setCurrentPage(pageNum);
       }
     } else {
       setCurrentPage(1); // 페이지 파라미터가 없으면 1페이지로 초기화
     }
-  }, [page, resolvedTotalPages, getPostsApi.data?.totalPages]);
+  }, [page]);
 
   // 로딩 및 에러 상태 처리
-  if (getPostsApi.loading) {
+  if (listLoading) {
     return (
       <div className="w-full max-w-5xl mx-auto py-8">
         <div className="text-center">
@@ -189,7 +229,7 @@ const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
     );
   }
 
-  if (getPostsApi.error) {
+  if (listError) {
     return (
       <div className="w-full max-w-5xl mx-auto py-8">
         <div className="text-center">
@@ -200,15 +240,13 @@ const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
             </>
           )}
           <div className="py-8 text-red-500">
-            데이터를 불러오는데 실패했습니다: {getPostsApi.error}
+            데이터를 불러오는데 실패했습니다: {listError}
           </div>
         </div>
       </div>
     );
   }
 
-  // 페이지네이션 계산 (API에서 받은 데이터 사용)
-  const totalPages = resolvedTotalPages ?? getPostsApi.data?.totalPages ?? 1;
   const currentItems = items;
 
   // 페이지 변경 핸들러
