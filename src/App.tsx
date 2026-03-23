@@ -96,7 +96,7 @@ const SEO_BY_ROUTE: Record<string, SeoMeta> = {
   '/': {
     title: '화전마을관리사회적협동조합',
     description:
-      '화전마을관리사회적협동조합 공식 홈페이지입니다. 마을관리사회적협동조합, 마을기업, 도시재생 기반으로 지역과 함께 성장하는 사업, 소식, 참여 안내를 제공합니다.',
+      '화전마을관리사회적협동조합 공식 홈페이지. 마을기업·도시재생 소식과 참여 안내.',
     keywords: DEFAULT_KEYWORDS,
   },
   '/member/combination': {
