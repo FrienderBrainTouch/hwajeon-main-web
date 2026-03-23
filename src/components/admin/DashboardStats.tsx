@@ -67,6 +67,8 @@ export const DashboardStats = ({
                 <SelectItem value="createdDate,asc">작성일 오래된순</SelectItem>
                 <SelectItem value="modifiedDate,desc">수정일 최신순</SelectItem>
                 <SelectItem value="modifiedDate,asc">수정일 오래된순</SelectItem>
+                <SelectItem value="title,asc">제목 오름차순</SelectItem>
+                <SelectItem value="title,desc">제목 내림차순</SelectItem>
               </SelectContent>
             </Select>
           </div>
