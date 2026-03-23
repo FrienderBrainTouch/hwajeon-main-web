@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>화전마을관리사회적협동조합</title>
+    <link>https://hi27b.com/</link>
+    <description>
+      화전마을관리사회적협동조합 공식 RSS 피드입니다. 마을관리사회적협동조합, 마을기업, 도시재생 관련 소식과 공지, 참여 정보를 제공합니다.
+    </description>
+    <language>ko-KR</language>
+    <lastBuildDate>Mon, 23 Mar 2026 00:00:00 +0900</lastBuildDate>
+    <managingEditor>admin@hi27b.com (화전마을관리사회적협동조합)</managingEditor>
+    <webMaster>admin@hi27b.com (화전마을관리사회적협동조합)</webMaster>
+    <item>
+      <title>화전마을관리사회적협동조합 메인</title>
+      <link>https://hi27b.com/</link>
+      <guid isPermaLink="true">https://hi27b.com/</guid>
+      <description>
+        화전마을관리사회적협동조합 공식 홈페이지 메인 페이지입니다. 조합 소개와 주요 안내를 확인할 수 있습니다.
+      </description>
+      <pubDate>Mon, 23 Mar 2026 00:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>기업 소개</title>
+      <link>https://hi27b.com/member/combination</link>
+      <guid isPermaLink="true">https://hi27b.com/member/combination</guid>
+      <description>조합의 비전, 미션, 연혁, 조직 정보를 제공합니다.</description>
+      <pubDate>Mon, 23 Mar 2026 00:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>사업 안내</title>
+      <link>https://hi27b.com/member/business</link>
+      <guid isPermaLink="true">https://hi27b.com/member/business</guid>
+      <description>마을기업 및 도시재생 기반의 주요 사업 정보를 제공합니다.</description>
+      <pubDate>Mon, 23 Mar 2026 00:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>카페 27b</title>
+      <link>https://hi27b.com/member/cafe27b</link>
+      <guid isPermaLink="true">https://hi27b.com/member/cafe27b</guid>
+      <description>화전마을 복합문화 거점공간 카페 27b를 소개합니다.</description>
+      <pubDate>Mon, 23 Mar 2026 00:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>소식과 자료</title>
+      <link>https://hi27b.com/member/news</link>
+      <guid isPermaLink="true">https://hi27b.com/member/news</guid>
+      <description>공지사항, 행사, 자료 등 최신 소식을 확인할 수 있습니다.</description>
+      <pubDate>Mon, 23 Mar 2026 00:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>참여하기</title>
+      <link>https://hi27b.com/member/participate</link>
+      <guid isPermaLink="true">https://hi27b.com/member/participate</guid>
+      <description>후원, 봉사, 조합 참여 방법을 안내합니다.</description>
+      <pubDate>Mon, 23 Mar 2026 00:00:00 +0900</pubDate>
+    </item>
+    <item>
+      <title>문의하기</title>
+      <link>https://hi27b.com/member/contact</link>
+      <guid isPermaLink="true">https://hi27b.com/member/contact</guid>
+      <description>협력 및 일반 문의를 접수할 수 있는 페이지입니다.</description>
+      <pubDate>Mon, 23 Mar 2026 00:00:00 +0900</pubDate>
+    </item>
+  </channel>
+</rss>

@@ -4,3 +4,4 @@ Disallow: /admin
 Disallow: /admin/
 
 Sitemap: https://hi27b.com/sitemap.xml
+Sitemap: https://hi27b.com/rss.xml
