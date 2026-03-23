@@ -112,6 +112,9 @@ export const postsApi = {
       if (params.size !== undefined) {
         queryParams.size = params.size;
       }
+      if (params.sort !== undefined) {
+        queryParams.sort = params.sort;
+      }
 
       return await apiClient.get<PostSummaryResponse>(POST_ENDPOINTS.POST_LIST, queryParams);
     } catch (error) {

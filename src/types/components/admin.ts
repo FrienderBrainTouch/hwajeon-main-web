@@ -15,8 +15,10 @@ export interface DashboardHeaderProps {
 export interface DashboardStatsProps {
   selectedCategory: string;
   searchTerm: string;
+  selectedSort: string;
   categoryInfo: Record<string, { name: string; viewType: string; hasThumbnail: boolean }>;
   onCategoryChange: (value: string) => void;
+  onSortChange: (value: string) => void;
   onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onCreatePost: () => void;
 }

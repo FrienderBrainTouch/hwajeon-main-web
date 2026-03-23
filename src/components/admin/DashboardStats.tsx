@@ -12,8 +12,10 @@ import type { DashboardStatsProps } from '@/types/components/admin';
 export const DashboardStats = ({
   selectedCategory,
   searchTerm,
+  selectedSort,
   categoryInfo,
   onCategoryChange,
+  onSortChange,
   onSearchChange,
   onCreatePost,
 }: DashboardStatsProps) => {
@@ -50,6 +52,21 @@ export const DashboardStats = ({
                     {info.name}
                   </SelectItem>
                 ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* 정렬 */}
+          <div className="sm:w-56">
+            <Select value={selectedSort} onValueChange={onSortChange}>
+              <SelectTrigger>
+                <SelectValue placeholder="정렬 선택" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="createdDate,desc">작성일 최신순</SelectItem>
+                <SelectItem value="createdDate,asc">작성일 오래된순</SelectItem>
+                <SelectItem value="modifiedDate,desc">수정일 최신순</SelectItem>
+                <SelectItem value="modifiedDate,asc">수정일 오래된순</SelectItem>
               </SelectContent>
             </Select>
           </div>

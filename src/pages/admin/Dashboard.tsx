@@ -9,6 +9,8 @@ import { categoryInfo } from '@/types/ui/admin';
 import type { GetPostsParams } from '@/types/api';
 
 const LAST_SELECTED_CATEGORY_KEY = 'admin_last_selected_category';
+const LAST_SELECTED_SORT_KEY = 'admin_last_selected_sort';
+const DEFAULT_SORT = 'createdDate,desc';
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -28,6 +30,15 @@ export default function AdminDashboard() {
     return (saved as PostCategory) || 'NOTICE';
   });
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedSort, setSelectedSort] = useState<string>(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const sortParam = urlParams.get('sort');
+    if (sortParam) {
+      localStorage.setItem(LAST_SELECTED_SORT_KEY, sortParam);
+      return sortParam;
+    }
+    return localStorage.getItem(LAST_SELECTED_SORT_KEY) || DEFAULT_SORT;
+  });
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const postsPerPage = 10;
@@ -43,6 +54,7 @@ export default function AdminDashboard() {
         postType: category,
         page: page,
         size: postsPerPage,
+        sort: selectedSort,
       };
 
       const result = await getPostsApi.execute(params);
@@ -82,7 +94,7 @@ export default function AdminDashboard() {
   // 초기 로드 및 카테고리 변경 시 게시글 조회
   useEffect(() => {
     fetchPosts(selectedCategory, currentPage);
-  }, [selectedCategory, currentPage]);
+  }, [selectedCategory, currentPage, selectedSort]);
 
   // 검색 필터링된 게시글 계산
   const filteredPosts = useMemo(() => {
@@ -135,6 +147,12 @@ export default function AdminDashboard() {
     // 검색은 클라이언트 사이드에서 필터링하므로 페이지 변경 불필요
   };
 
+  const handleSortChange = (sortValue: string) => {
+    setSelectedSort(sortValue);
+    setCurrentPage(0);
+    localStorage.setItem(LAST_SELECTED_SORT_KEY, sortValue);
+  };
+
   const getCategoryLabel = (category: PostCategory) => {
     return categoryInfo[category]?.name || category;
   };
@@ -152,8 +170,10 @@ export default function AdminDashboard() {
           <DashboardStats
             selectedCategory={selectedCategory}
             searchTerm={searchTerm}
+            selectedSort={selectedSort}
             categoryInfo={categoryInfo}
             onCategoryChange={handleCategoryChange}
+            onSortChange={handleSortChange}
             onSearchChange={handleSearchChange}
             onCreatePost={handleCreatePost}
           />

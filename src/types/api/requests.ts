@@ -13,6 +13,7 @@ export type GetPostsParams = {
   postType?: PostCategory;
   page?: number;
   size?: number;
+  sort?: string | string[];
 };
 
 /**
