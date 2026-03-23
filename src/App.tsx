@@ -1,5 +1,6 @@
 import { useMemo, useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 // Layout
 import MemberLayout from '@/routes/MemberLayout';
 import AdminLayout from '@/routes/AdminLayout';
@@ -81,9 +82,86 @@ const HERO_BY_ROUTE: Record<
   },
 };
 
+type SeoMeta = {
+  title: string;
+  description: string;
+  keywords: string;
+};
+
+const BASE_URL = 'https://hi27b.com';
+const DEFAULT_KEYWORDS =
+  '화전마을관리사회적협동조합, 마을관리사회적협동조합, 마을기업, 도시재생, 지역활성화, 도시재생사업, 사회적협동조합, 주민참여, 화전, 화전마을';
+
+const SEO_BY_ROUTE: Record<string, SeoMeta> = {
+  '/': {
+    title: '화전마을관리사회적협동조합',
+    description:
+      '화전마을관리사회적협동조합 공식 홈페이지입니다. 마을관리사회적협동조합, 마을기업, 도시재생 기반으로 지역과 함께 성장하는 사업, 소식, 참여 안내를 제공합니다.',
+    keywords: DEFAULT_KEYWORDS,
+  },
+  '/member/combination': {
+    title: '기업 소개 | 화전마을관리사회적협동조합',
+    description:
+      '화전마을관리사회적협동조합의 비전, 미션, 조직 소개를 확인하세요. 마을기업과 도시재생의 가치를 바탕으로 지역과 함께 성장합니다.',
+    keywords: `${DEFAULT_KEYWORDS}, 기업소개, 조합소개, 미션비전`,
+  },
+  '/member/business': {
+    title: '사업 안내 | 화전마을관리사회적협동조합',
+    description:
+      '마을관리사회적협동조합의 주요 사업 안내. 도시재생, 지역활성화, 주민참여 기반의 다양한 사업을 운영합니다.',
+    keywords: `${DEFAULT_KEYWORDS}, 사업안내, 지역사업, 공익사업`,
+  },
+  '/member/cafe27b': {
+    title: '카페 27b | 화전마을관리사회적협동조합',
+    description:
+      '카페 27b는 화전마을의 복합문화 거점공간입니다. 도시재생과 마을기업 운영 사례를 통해 지역과 연결됩니다.',
+    keywords: `${DEFAULT_KEYWORDS}, 카페27b, 복합문화공간, 마을거점`,
+  },
+  '/member/news': {
+    title: '소식과 자료 | 화전마을관리사회적협동조합',
+    description:
+      '화전마을관리사회적협동조합의 공지, 행사, 보도자료 등 최신 소식과 자료를 확인하세요.',
+    keywords: `${DEFAULT_KEYWORDS}, 공지사항, 행사소식, 마을소식`,
+  },
+  '/member/participate': {
+    title: '참여하기 | 화전마을관리사회적협동조합',
+    description:
+      '후원, 봉사, 프로그램 참여 등 화전마을관리사회적협동조합과 함께하는 다양한 방법을 안내합니다.',
+    keywords: `${DEFAULT_KEYWORDS}, 참여하기, 후원, 자원봉사, 조합원`,
+  },
+  '/member/contact': {
+    title: '문의하기 | 화전마을관리사회적협동조합',
+    description:
+      '화전마을관리사회적협동조합 문의 페이지입니다. 사업 협력, 시설 이용, 일반 문의를 남겨주세요.',
+    keywords: `${DEFAULT_KEYWORDS}, 문의하기, 연락처, 협력문의`,
+  },
+};
+
+const JOURNEY_SEO: SeoMeta = {
+  title: '화전 이야기 | 화전마을관리사회적협동조합',
+  description:
+    '화전의 역사와 변화, 그리고 도시재생의 발자취를 확인하세요. 마을관리사회적협동조합이 만들어가는 지역 이야기입니다.',
+  keywords: `${DEFAULT_KEYWORDS}, 화전이야기, 지역역사, 도시재생사례`,
+};
+
+function getSeoMeta(route: string): SeoMeta {
+  if (route.startsWith('/admin')) {
+    return {
+      title: '관리자 페이지 | 화전마을관리사회적협동조합',
+      description: '관리자 전용 페이지입니다.',
+      keywords: 'admin',
+    };
+  }
+
+  if (route.startsWith('/member/journey/')) return JOURNEY_SEO;
+  return SEO_BY_ROUTE[route] ?? SEO_BY_ROUTE['/'];
+}
+
 function AppContent() {
   const location = useLocation();
   const route = location.pathname;
+  const canonicalUrl = `${BASE_URL}${route}`;
+  const seo = getSeoMeta(route);
 
   // 페이지 이동 시 스크롤을 헤더 아래로 이동
   useEffect(() => {
@@ -129,6 +207,22 @@ function AppContent() {
 
   return (
     <div>
+      <Helmet>
+        <title>{seo.title}</title>
+        <meta name="description" content={seo.description} />
+        <meta name="keywords" content={seo.keywords} />
+        <meta property="og:title" content={seo.title} />
+        <meta property="og:description" content={seo.description} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta name="twitter:title" content={seo.title} />
+        <meta name="twitter:description" content={seo.description} />
+        <link rel="canonical" href={canonicalUrl} />
+        {isAdminPage ? (
+          <meta name="robots" content="noindex, nofollow, noarchive" />
+        ) : (
+          <meta name="robots" content="index, follow" />
+        )}
+      </Helmet>
       {!isAdminPage && (
         <>
           {/* 고정 헤더 */}
