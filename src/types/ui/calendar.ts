@@ -47,15 +47,13 @@ export const LIST_CATEGORY_CONFIG: Record<CategoryFilter, CategoryConfig> = {
 export const mapActivityTypeToEventCategory = (activityType: string): EventCategory => {
   switch (activityType) {
     case 'NONE':
-      return 'festival'; // NONE은 행사로 기본 처리
+      return 'etc'; // 서버의 NONE을 UI에선 "기타"로 표시
     case 'FESTIVAL':
       return 'festival';
-    case 'EDUCATION':
+    case 'ONE_DAY_CLASS':
       return 'education';
     case 'CONFERENCE':
       return 'meeting';
-    case 'ETC':
-      return 'etc';
     default:
       return 'festival'; // 기본값을 행사로 변경
   }

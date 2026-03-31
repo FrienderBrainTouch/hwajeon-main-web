@@ -37,7 +37,8 @@ export function useApi<T, TArgs extends unknown[] = unknown[]>(
           loading: false,
           error: errorMessage,
         });
-        return null;
+        // 호출부에서 try/catch로 처리할 수 있도록 다시 throw
+        throw new Error(errorMessage);
       }
     },
     [apiFunction]

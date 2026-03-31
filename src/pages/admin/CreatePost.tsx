@@ -78,6 +78,9 @@ export default function CreatePost() {
           ...prev,
           postType: newType,
           linkUrl: newType === 'NEWS' || newType === 'GALLERY' ? prev.linkUrl || '' : '',
+          // 화면에만 기본값이 보이고 상태는 비어있던 문제 방지
+          activityType:
+            newType === 'CALENDAR' ? (prev.activityType ?? 'FESTIVAL') : prev.activityType,
         }));
       }}
       onEventDateChange={(value) => setFormData({ ...formData, eventDate: value })}

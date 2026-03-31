@@ -3,7 +3,8 @@
  * @type {string}
  * @description 캘린더의 활동 분류를 나타내는 타입
  */
-export type ActivityType = 'NONE' | 'FESTIVAL' | 'EDUCATION' | 'CONFERENCE' | 'ETC';
+// 백엔드(ActivityType enum)와 반드시 일치해야 함
+export type ActivityType = 'NONE' | 'FESTIVAL' | 'ONE_DAY_CLASS' | 'CONFERENCE';
 
 /**
  * 게시글 카테고리 타입
@@ -58,17 +59,15 @@ export type Post = {
 export const getActivityTypeLabel = (activityType: ActivityType): string => {
   switch (activityType) {
     case 'NONE':
-      return '없음';
+      return '기타';
     case 'FESTIVAL':
       return '행사';
-    case 'EDUCATION':
+    case 'ONE_DAY_CLASS':
       return '교육';
     case 'CONFERENCE':
       return '회의';
-    case 'ETC':
-      return '기타';
     default:
-      return '없음';
+      return '기타';
   }
 };
 
