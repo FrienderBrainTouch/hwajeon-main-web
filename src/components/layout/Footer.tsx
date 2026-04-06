@@ -1,3 +1,8 @@
+import { Link } from 'react-router-dom';
+
+const footerQuickLinkClass =
+  'text-xs xs:text-sm sm:text-base md:text-lg font-normal hover:underline underline-offset-2 decoration-[#222222]/40';
+
 export default function Footer() {
   return (
     <footer
@@ -10,21 +15,21 @@ export default function Footer() {
           <div className="flex-1 max-w-md min-w-0">
             {/* 빠른 링크 */}
             <div className="flex items-center space-x-2 xs:space-x-4 sm:space-x-6 mb-8 flex-wrap">
-              <span className="text-xs xs:text-sm sm:text-base md:text-lg font-normal">
+              <Link to="/member/news?tab=notice" className={footerQuickLinkClass}>
                 공지사항
-              </span>
+              </Link>
               <span className="text-xs xs:text-sm sm:text-base md:text-lg font-normal text-[#222222]">
                 |
               </span>
-              <span className="text-xs xs:text-sm sm:text-base md:text-lg font-normal">
+              <Link to="/member/news?tab=calendar" className={footerQuickLinkClass}>
                 행사일정
-              </span>
+              </Link>
               <span className="text-xs xs:text-sm sm:text-base md:text-lg font-normal text-[#222222]">
                 |
               </span>
-              <span className="text-xs xs:text-sm sm:text-base md:text-lg font-normal">
+              <Link to="/member/contact?tab=location" className={footerQuickLinkClass}>
                 오시는길
-              </span>
+              </Link>
             </div>
 
             {/* 연락처 정보 */}
