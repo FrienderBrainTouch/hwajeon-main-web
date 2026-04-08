@@ -102,6 +102,21 @@ public/           # 정적 파일 (빌드 시 그대로 dist 루트로 복사)
 
 Secrets 예: `VITE_*`, `SERVER_IP`, `SERVER_USERNAME`, `SSH_PRIVATE_KEY` 등
 
+### 7.1 API 서버: Docker로 백엔드 컨테이너 교체할 때 (순서)
+
+프론트 정적 파일은 위 **GitHub Actions + SCP**로 배포합니다. 아래는 **백엔드 Spring 앱**이 Docker(ECR)로 올라가 있는 **운영 서버**에 SSH 했을 때, API 컨테이너만 새 이미지로 바꿀 때의 순서입니다. **상세·주의사항은 백엔드 저장소 `hawjeon`의 README §5.1**을 기준으로 합니다.
+
+| 순서 | 내용 |
+|------|------|
+| 1 | `docker ps` — 현재 앱·DB 컨테이너 상태 확인 |
+| 2 | 기존 앱 컨테이너 설정 백업 (`docker inspect hwajeon-app-container` 등) |
+| 3 | ECR 로그인 → `docker pull` (배포할 **Git 커밋 SHA** = ECR 이미지 태그; GitHub 커밋 페이지·`git rev-parse HEAD`·ECR 콘솔로 확인) |
+| 4 | `docker stop` / `docker rm` (앱 컨테이너만; DB는 유지) |
+| 5 | `docker compose up -d` 또는 기존과 동일한 `docker run`으로 기동 |
+| 6 | `docker ps` — IMAGE 태그가 새 SHA인지 확인, 필요 시 `docker logs` |
+
+**프론트만 다시 배포했는데 CORS·503·로그인 오류가 그대로인 경우**, 원인이 백엔드/게이트웨이 쪽일 수 있습니다. `SecurityConfig` 변경·버그 수정은 **새 백엔드 이미지가 서버에 실제로 올라왔는지**(`docker ps`의 IMAGE 태그), **ECR에 해당 커밋 태그가 있는지**, **앱 로그에 DB·기동 오류가 없는지**를 위 순서로 확인하세요.
+
 ---
 
 ## 8. 운영 시 참고
