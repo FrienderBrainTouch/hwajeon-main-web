@@ -35,7 +35,7 @@ const Cafe27b = () => {
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">카페 27b</h2>
         <div className="w-16 h-1 bg-black mx-auto mb-6"></div>
         <p className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-4xl mx-auto px-4">
-          카페 27b는 화전마음의 도시재생 거점공간이자, 우주·드론·항공대 콘셉트가 어우러진 특별한
+          카페 27b는 화전마을의 도시재생 거점공간이자, 우주·드론·항공대 콘셉트가 어우러진 특별한
           마을 카페입니다. 누구에게나 열린 이곳은 커피 한 잔 너머로 주민의 대화가 시작되고, 다양한
           실험과 협업이 이뤄지는 복합문화 공간이기도 합니다.
         </p>
