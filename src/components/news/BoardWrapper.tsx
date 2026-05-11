@@ -44,62 +44,43 @@ const BoardWrapper: React.FC<BoardWrapperProps> = ({
   const getPostDetailApi = useApi(memberPostsApi.getPostDetail);
   const postType = getPostType(boardType);
 
-  // 게시글 목록 조회(최신순 UI 재청킹)
+  // 게시글 목록 조회 — 백엔드 createdDate DESC 페이징과 동일한 page 인덱스 사용
   useEffect(() => {
     let cancelled = false;
-
-    const clamp = (n: number, min: number, max: number) => Math.min(Math.max(n, min), max);
-
-    const fetchPage = async (page: number) => {
-      const res = await memberPostsApi.getPosts({ postType, page, size: itemsPerPage });
-      if (!res.success) throw new Error(res.message || 'API 요청에 실패했습니다.');
-      return res.data!;
-    };
 
     const run = async () => {
       setListLoading(true);
       setListError(null);
       try {
-        const meta = await fetchPage(0);
-        const te = meta.totalElements || 0;
-        const tp = meta.totalPages || 1;
+        const res = await memberPostsApi.getPosts({
+          postType,
+          page: currentPage - 1,
+          size: itemsPerPage,
+        });
+        if (!res.success) throw new Error(res.message || 'API 요청에 실패했습니다.');
         if (cancelled) return;
-        setTotalPages(tp);
 
-        if (te === 0) {
-          setPagePosts([]);
+        const data = res.data!;
+        const te = data.totalElements ?? 0;
+        const tpRaw = data.totalPages ?? 0;
+        const tp = te === 0 ? 1 : Math.max(1, tpRaw);
+
+        if (currentPage > tp) {
+          setCurrentPage(tp);
+          setSearchParams(
+            (prev) => {
+              const next = new URLSearchParams(prev);
+              if (tp <= 1) next.delete(`${boardType}_page`);
+              else next.set(`${boardType}_page`, String(tp));
+              return next;
+            },
+            { replace: true }
+          );
           return;
         }
 
-        const uiStartFromNewest = (currentPage - 1) * itemsPerPage;
-        const uiEndFromNewest = uiStartFromNewest + itemsPerPage - 1;
-        const maxIndex = te - 1;
-
-        const oldestIndexStart = clamp(maxIndex - uiEndFromNewest, 0, maxIndex);
-        const oldestIndexEnd = clamp(maxIndex - uiStartFromNewest, 0, maxIndex);
-
-        const serverPageStart = Math.floor(oldestIndexStart / itemsPerPage);
-        const serverPageEnd = Math.floor(oldestIndexEnd / itemsPerPage);
-
-        const pagesToFetch: number[] = [];
-        for (let p = serverPageStart; p <= serverPageEnd; p++) pagesToFetch.push(p);
-
-        const pageDatas = await Promise.all(pagesToFetch.map((p) => fetchPage(p)));
-        if (cancelled) return;
-
-        const collected: { globalIndex: number; post: any }[] = [];
-        pageDatas.forEach((pd, i) => {
-          const serverPage = pagesToFetch[i];
-          pd.content.forEach((post: any, idx: number) => {
-            const globalIndex = serverPage * itemsPerPage + idx;
-            if (globalIndex >= oldestIndexStart && globalIndex <= oldestIndexEnd) {
-              collected.push({ globalIndex, post });
-            }
-          });
-        });
-
-        collected.sort((a, b) => a.globalIndex - b.globalIndex);
-        setPagePosts(collected.map((x) => x.post).reverse());
+        setTotalPages(tp);
+        setPagePosts(te === 0 ? [] : (data.content ?? []));
       } catch (e: any) {
         if (!cancelled) setListError(e?.message || '서버 오류가 발생했습니다.');
       } finally {
@@ -111,13 +92,12 @@ const BoardWrapper: React.FC<BoardWrapperProps> = ({
     return () => {
       cancelled = true;
     };
-  }, [postType, itemsPerPage, currentPage]);
+  }, [postType, itemsPerPage, currentPage, boardType, setSearchParams]);
 
-  // API 데이터를 BoardItem 형태로 변환 (작성일 기준 최신순 정렬)
+  // API 데이터를 BoardItem 형태로 변환 (서버가 최신순으로 내려줌)
   const items: BoardItem[] =
     pagePosts
       .slice()
-      .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
       .map((post: any, index: number) => {
         const displayNumber = (currentPage - 1) * itemsPerPage + index + 1;
 

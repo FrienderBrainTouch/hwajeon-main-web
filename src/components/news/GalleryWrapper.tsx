@@ -47,66 +47,43 @@ const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
   // API 호출
   const getPostDetailApi = useApi(memberPostsApi.getPostDetail);
 
-  // 게시글 목록 조회
-  // 서버가 "오래된 글부터" 페이징하는 경우에도 UI는 "최신 글 9개를 1페이지"에 보여주기 위해
-  // 필요한 서버 페이지(1~2개)를 가져와 최신순으로 재청킹한다.
+  // 게시글 목록 조회 — 백엔드가 createdDate DESC로 page를 주므로 Spring page 인덱스와 동일하게 요청
   useEffect(() => {
     let cancelled = false;
-
-    const clamp = (n: number, min: number, max: number) => Math.min(Math.max(n, min), max);
-
-    const fetchPage = async (page: number) => {
-      const res = await memberPostsApi.getPosts({ postType, page, size: itemsPerPage });
-      if (!res.success) throw new Error(res.message || 'API 요청에 실패했습니다.');
-      return res.data!;
-    };
 
     const run = async () => {
       setListLoading(true);
       setListError(null);
       try {
-        // 메타 확보
-        const meta = await fetchPage(0);
-        const te = meta.totalElements || 0;
-        const tp = meta.totalPages || 1;
+        const res = await memberPostsApi.getPosts({
+          postType,
+          page: currentPage - 1,
+          size: itemsPerPage,
+        });
+        if (!res.success) throw new Error(res.message || 'API 요청에 실패했습니다.');
         if (cancelled) return;
-        setTotalPages(tp);
 
-        if (te === 0) {
-          setPagePosts([]);
+        const data = res.data!;
+        const te = data.totalElements ?? 0;
+        const tpRaw = data.totalPages ?? 0;
+        const tp = te === 0 ? 1 : Math.max(1, tpRaw);
+
+        if (currentPage > tp) {
+          setCurrentPage(tp);
+          setSearchParams(
+            (prev) => {
+              const next = new URLSearchParams(prev);
+              if (tp <= 1) next.delete(`${boardType}_page`);
+              else next.set(`${boardType}_page`, String(tp));
+              return next;
+            },
+            { replace: true }
+          );
           return;
         }
 
-        // 최신순 UI 페이지 범위(최신 기준)
-        const uiStartFromNewest = (currentPage - 1) * itemsPerPage;
-        const uiEndFromNewest = uiStartFromNewest + itemsPerPage - 1;
-        const maxIndex = te - 1; // oldest 기준
-
-        const oldestIndexStart = clamp(maxIndex - uiEndFromNewest, 0, maxIndex);
-        const oldestIndexEnd = clamp(maxIndex - uiStartFromNewest, 0, maxIndex);
-
-        const serverPageStart = Math.floor(oldestIndexStart / itemsPerPage);
-        const serverPageEnd = Math.floor(oldestIndexEnd / itemsPerPage);
-
-        const pagesToFetch: number[] = [];
-        for (let p = serverPageStart; p <= serverPageEnd; p++) pagesToFetch.push(p);
-
-        const pageDatas = await Promise.all(pagesToFetch.map((p) => fetchPage(p)));
-        if (cancelled) return;
-
-        const collected: { globalIndex: number; post: any }[] = [];
-        pageDatas.forEach((pd, i) => {
-          const serverPage = pagesToFetch[i];
-          pd.content.forEach((post: any, idx: number) => {
-            const globalIndex = serverPage * itemsPerPage + idx;
-            if (globalIndex >= oldestIndexStart && globalIndex <= oldestIndexEnd) {
-              collected.push({ globalIndex, post });
-            }
-          });
-        });
-
-        collected.sort((a, b) => a.globalIndex - b.globalIndex);
-        setPagePosts(collected.map((x) => x.post).reverse()); // newest-first
+        setTotalPages(tp);
+        setPagePosts(te === 0 ? [] : (data.content ?? []));
       } catch (e: any) {
         if (!cancelled) setListError(e?.message || '서버 오류가 발생했습니다.');
       } finally {
@@ -118,13 +95,12 @@ const GalleryWrapper: React.FC<GalleryWrapperProps> = ({
     return () => {
       cancelled = true;
     };
-  }, [postType, itemsPerPage, currentPage]);
+  }, [postType, itemsPerPage, currentPage, boardType, setSearchParams]);
 
-  // API 데이터를 GalleryItemType으로 변환 (작성일 기준 최신순 정렬)
+  // API 데이터를 GalleryItemType으로 변환 (서버가 최신순으로 내려줌)
   const items: GalleryItemType[] =
     pagePosts
       .slice()
-      .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
       .map((post: any, index: number) => {
         // 최신순 번호(1부터): UI 페이지 기준
         const displayNumber = (currentPage - 1) * itemsPerPage + index + 1;
