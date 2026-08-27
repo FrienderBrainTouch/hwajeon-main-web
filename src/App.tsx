@@ -26,6 +26,7 @@ const AdminLogin = lazy(() => import('@/pages/admin/Login'));
 const AdminDashboard = lazy(() => import('@/pages/admin/Dashboard'));
 const CreatePost = lazy(() => import('@/pages/admin/CreatePost'));
 const EditPost = lazy(() => import('@/pages/admin/EditPost'));
+const AdminHistory = lazy(() => import('@/pages/admin/AdminHistory'));
 
 // Loading component
 const LoadingSpinner = () => (
@@ -254,6 +255,7 @@ function AppContent() {
               <Route path="dashboard" element={<AdminDashboard />} />
               <Route path="create" element={<CreatePost />} />
               <Route path="edit/:id" element={<EditPost />} />
+              <Route path="history" element={<AdminHistory />} />
               <Route index element={<AdminDashboard />} />
             </Route>
           </Routes>

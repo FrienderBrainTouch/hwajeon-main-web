@@ -8,7 +8,7 @@ import {
   OrganizationDetails,
   HwajeonStory,
 } from '@/components/combination';
-import { historyData, teams, missionVisionData, greetingData } from '@/components/combination/data';
+import { teams, missionVisionData, greetingData } from '@/components/combination/data';
 
 function Combination() {
   const tabs: TabItem[] = [
@@ -32,7 +32,7 @@ function Combination() {
       case 'mission':
         return <MissionVision data={missionVisionData} />;
       case 'history':
-        return <History historyData={historyData} />;
+        return <History />;
       case 'organization':
         return (
           <div className="max-w-5xl mx-auto space-y-8">
