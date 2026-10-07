@@ -19,6 +19,7 @@ const Business = lazy(() => import('@/pages/member/Business'));
 const Cafe27b = lazy(() => import('@/pages/member/Cafe27b'));
 const News = lazy(() => import('@/pages/member/News'));
 const Participate = lazy(() => import('@/pages/member/Participate'));
+const Donate = lazy(() => import('@/pages/member/Donate'));
 const Contact = lazy(() => import('@/pages/member/Contact'));
 
 // Lazy load admin pages
@@ -75,6 +76,12 @@ const HERO_BY_ROUTE: Record<
     subtitle: '작은 참여가 큰 변화를 만듭니다',
     heightVh: 56,
   },
+  '/member/donate': {
+    src: HeaderImg,
+    title: '후원&기부',
+    subtitle: '오늘의 후원이 내일의 마을을 만듭니다',
+    heightVh: 56,
+  },
   '/member/contact': {
     src: HeaderImg,
     title: '문의하기',
@@ -127,8 +134,14 @@ const SEO_BY_ROUTE: Record<string, SeoMeta> = {
   '/member/participate': {
     title: '참여하기 | 화전마을관리사회적협동조합',
     description:
-      '후원, 봉사, 프로그램 참여 등 화전마을관리사회적협동조합과 함께하는 다양한 방법을 안내합니다.',
-    keywords: `${DEFAULT_KEYWORDS}, 참여하기, 후원, 자원봉사, 조합원`,
+      '조합원 가입, 정기회의 자료 등 화전마을관리사회적협동조합과 함께하는 참여 방법을 안내합니다.',
+    keywords: `${DEFAULT_KEYWORDS}, 참여하기, 조합원, 정기회의`,
+  },
+  '/member/donate': {
+    title: '후원&기부 | 화전마을관리사회적협동조합',
+    description:
+      '화전마을관리사회적협동조합은 지정기부금단체입니다. 후원·기부 안내와 경영공시, 감독기관 정보를 확인하세요.',
+    keywords: `${DEFAULT_KEYWORDS}, 후원, 기부, 지정기부금단체`,
   },
   '/member/contact': {
     title: '문의하기 | 화전마을관리사회적협동조합',
@@ -246,6 +259,7 @@ function AppContent() {
               <Route path="cafe27b" element={<Cafe27b />} />
               <Route path="news" element={<News />} />
               <Route path="participate" element={<Participate />} />
+              <Route path="donate" element={<Donate />} />
               <Route path="contact" element={<Contact />} />
             </Route>
 

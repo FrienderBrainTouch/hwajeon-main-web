@@ -1,22 +1,26 @@
+import { Navigate, useSearchParams } from 'react-router-dom';
 import { TabNavigation, type TabItem } from '@/components/ui/TabNavigation';
 import { useTabState } from '@/hooks/useTabState';
 import {
   // VolunteerApplication,
   MembershipGuide,
   MeetingMaterials,
-  SponsorshipGuide,
-  SponsorshipInquiry,
 } from '@/components/participate';
 
 function Participate() {
+  const [searchParams] = useSearchParams();
   const tabs: TabItem[] = [
     { id: 'membership', label: '조합원 가입 안내', value: 'membership' },
     // { id: 'volunteer', label: '자원봉사 신청', value: 'volunteer' },
     { id: 'meeting', label: '정기회의 자료', value: 'meeting' },
-    { id: 'donation', label: '후원 & 기부 안내', value: 'donation' },
   ];
 
   const { activeTab, handleTabChange } = useTabState(tabs, 'membership');
+
+  // 기존 후원 탭 URL → 독립 메뉴로 이동
+  if (searchParams.get('tab') === 'donation') {
+    return <Navigate to="/member/donate" replace />;
+  }
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -26,13 +30,6 @@ function Participate() {
       //   return <VolunteerApplication />;
       case 'meeting':
         return <MeetingMaterials />;
-      case 'donation':
-        return (
-          <>
-            <SponsorshipGuide />
-            <SponsorshipInquiry />
-          </>
-        );
       default:
         return null;
     }

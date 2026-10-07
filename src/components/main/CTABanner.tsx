@@ -40,7 +40,7 @@ export default function CTABanner() {
 
               {/* 후원/기부 버튼 */}
               <Button
-                onClick={() => navigate('/member/participate?tab=donation')}
+                onClick={() => navigate('/member/donate')}
                 size="sm"
                 className="w-full sm:w-[100px] md:w-[120px] h-[36px] sm:h-[40px] bg-[#2C2E5A] text-white hover:bg-[#262544] rounded-[150px] text-sm font-medium border-2 border-transparent hover:border-white/20 transition-all duration-300"
               >

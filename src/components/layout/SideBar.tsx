@@ -85,8 +85,14 @@ const menuData = [
       { label: '조합원 가입 안내', path: '/member/participate?tab=membership' },
       // { label: '자원봉사 신청', path: '/member/participate?tab=volunteer' },
       { label: '정기회의 자료', path: '/member/participate?tab=meeting' },
-      { label: '후원 & 기부 안내', path: '/member/participate?tab=donation' },
     ],
+  },
+  {
+    title: '후원&기부',
+    path: '/member/donate',
+    width: 'w-[100px] lg:w-[110px] xl:w-[140px]',
+    hasBorder: true,
+    items: [],
   },
   {
     title: '문의하기',

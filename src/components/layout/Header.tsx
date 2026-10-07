@@ -15,6 +15,7 @@ const navigationItems = [
   { label: '카페 27b', path: '/member/cafe27b' },
   { label: '소식과 자료', path: '/member/news?tab=news' },
   { label: '참여하기', path: '/member/participate?tab=membership' },
+  { label: '후원&기부', path: '/member/donate' },
   { label: '문의하기', path: '/member/contact' },
 ];
 
