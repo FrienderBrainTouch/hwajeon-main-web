@@ -8,12 +8,10 @@ const SponsorshipGuide: React.FC = () => {
       <div className="mb-12 sm:mb-16 text-center">
         <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4">후원 & 기부 안내</h2>
         <div className="w-16 h-1 bg-black mx-auto mb-6"></div>
-        <p className="text-sm sm:text-base text-gray-600 leading-relaxed max-w-3xl mx-auto break-keep">
+        <p className="text-sm sm:text-base text-gray-600 leading-relaxed max-w-4xl mx-auto break-keep">
           화전마을의 변화는 탄탄한 일상의 기반 위에서 일어납니다. 즉각적인 이익보다는 지속가능한
-          공동체를 만드는 것에{' '}
-          <span className="whitespace-nowrap">집중하며,</span>
-          <br />
-          후원은 그 일상을 지속적으로 돌볼 수 있게 해주는 소중한 힘이 됩니다.
+          공동체를 만드는 것에 집중하며, 후원은 그 일상을 지속적으로 돌볼 수 있게 해주는 소중한 힘이
+          됩니다.
         </p>
       </div>
 
