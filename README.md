@@ -136,3 +136,7 @@ Secrets 예: `VITE_*`, `SERVER_IP`, `SERVER_USERNAME`, `SSH_PRIVATE_KEY` 등
 ## 10. 연관 저장소
 
 - **백엔드**: `hawjeon` (Spring Boot, `/homepage/**`, `/api/**`)
+- **음악 웹(청춘백년)**: `hwajeon-front` — `https://music.100youth.kr`
+- **안드로이드 앱(청춘백년, TWA)**: `bublle-wrap-build`
+
+전체 구성·계정·배포·관리 방법은 **[통합_운영_문서.md](./통합_운영_문서.md)** 참고.
